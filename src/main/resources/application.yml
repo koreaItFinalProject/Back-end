@@ -1,1 +1,33 @@
-spring.application.name=Back
+spring:
+  config:
+    import: application-secret.yml
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+mybatis:
+  mapper-locations:
+    - /mappers/*.xml
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: icbku1357@gmail.com
+    password: ndyaqafuhyztvtiq
+    properties:
+      mail:
+        smtp:
+          auth: true  #SMTP 서버 사용자 인증 할건지 여부
+          timeout: 5000 #SMTP 5초 동안 응답 없으면 오류
+          starttls:
+            enable: true  #TLS(Transport Layer Security) 암호화 사용 여부
+
+user:
+  profile:
+    img:
+      default: https://firebasestorage.googleapis.com/v0/b/userprofile-68a7b.appspot.com/o/user%2Fdefault.png?alt=media&token=578876bc-2714-42b9-ad1a-1c1542eb63d7
+
+
+
+
