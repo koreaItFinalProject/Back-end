@@ -1,12 +1,15 @@
 package com.finalProject.Back.aspect;
 
-import org.apache.tomcat.jni.Proc;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 
+@Aspect
+@Component
 public class ValidAspect {
 
     @Pointcut("@annotation(com.finalProject.Back.aspect.annotation.ValidAop)")
