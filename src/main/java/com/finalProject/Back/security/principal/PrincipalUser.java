@@ -1,6 +1,5 @@
 package com.finalProject.Back.security.principal;
 
-import com.finalProject.Back.entity.UserRoles;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,16 +17,16 @@ public class PrincipalUser implements UserDetails {
     private Long id;
     private String username;
     private String password;
-    private Set<UserRoles> roles;
+    //private Set<UserRoles> roles;
 
-
+    /*
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream().map(
                 ur -> new SimpleGrantedAuthority(ur.getRole().getName())
         ).collect(Collectors.toSet());
     }
-
+    */
 
     @Override
     public boolean isAccountNonExpired() {
