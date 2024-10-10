@@ -14,8 +14,6 @@ public class Cafe {
     private int ownerId;
     private String cafeName;
     private String address;
-    private int likeCount;
-    private int viewCount;
     private String lat;
     private String lng;
     private String category;
