@@ -18,6 +18,16 @@
             id = #{boardId}
     </insert>
 
+    <update id="modify">
+        update
+            board
+        set
+            title = #{title},
+            content = #{content}
+        where
+            id = #{id}
+    </update>
+
     <delete id="delete">
         delete
         from
