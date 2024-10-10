@@ -9,8 +9,3 @@ spring:
 mybatis:
   mapper-locations:
     - /mappers/*.xml
-
-user:
-  profile:
-    img:
-      default: "https://firebasestorage.googleapis.com/v0/b/userprofile-68a7b.appspot.com/o/user%2Fdefault.png?alt=media&token=578876bc-2714-42b9-ad1a-1c1542eb63d7"
