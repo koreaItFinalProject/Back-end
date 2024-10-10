@@ -8,6 +8,11 @@
 
     <insert id="save">
         insert into cafe
-        values (default, 0, #{cafeName} , #{address} , 0, 0, #{lat} , #{lng} , #{category})
+        values (default, 0, #{cafeName} , #{address}, #{lat} , #{lng} , #{category})
     </insert>
+    <select id="findByCategory" resultType="com.finalProject.Back.entity.Cafe">
+        SELECT *
+        FROM cafe
+        WHERE category = #{category} OR #{category} = '전체'
+    </select>
 </mapper>
