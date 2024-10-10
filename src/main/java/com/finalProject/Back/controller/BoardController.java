@@ -4,10 +4,7 @@ import com.finalProject.Back.dto.request.ReqBoardDto;
 import com.finalProject.Back.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class BoardController {
@@ -26,5 +23,10 @@ public class BoardController {
         return ResponseEntity.ok().body(boardService.getBoardList(dto));
     }
 
+    @GetMapping("/board/{boardId}")
+    public ResponseEntity<?> getDetail(@PathVariable Long boardId) {
+        System.out.println(boardId);
+        return ResponseEntity.ok().body(null);
+    }
 
 }

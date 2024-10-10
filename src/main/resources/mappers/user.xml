@@ -8,6 +8,6 @@
 
     <insert id="save">
         insert into user
-        values (default, #{username} , #{password} , #{name} , #{email} , "user" , #{nickname} , "")
+        values (default, #{username} , #{password} , #{name} , #{email} , "user" , #{nickname} , default)
     </insert>
 </mapper>
