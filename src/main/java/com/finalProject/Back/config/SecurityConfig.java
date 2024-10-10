@@ -20,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.cors();
         http.authorizeRequests()
-                .antMatchers("/board/**")
+                .antMatchers("/board/**" , "/user/**" , "/owner/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated();

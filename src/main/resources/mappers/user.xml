@@ -7,7 +7,7 @@
 <mapper namespace="com.finalProject.Back.repository.UserMapper">
 
     <insert id="save">
-        insert into user (id , username , password , name , email )
-        values (default, #{username} , #{password} , #{name} , #{email})
+        insert into user
+        values (default, #{username} , #{password} , #{name} , #{email} , "user" , #{nickname} , "")
     </insert>
 </mapper>
