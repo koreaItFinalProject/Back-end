@@ -23,6 +23,11 @@ public class BoardService {
         return board.getId();
     }
 
+    public Long modify(ReqBoardDto.ModifyBoardDto dto) {
+        boardMapper.modify(dto.toEntity());
+        return dto.getBoardId();
+    }
+
     public RespBoardDto.RespBoardListDto getAllList(ReqBoardDto.BoardListDto dto) {
         Long startIndex = (dto.getPage() - 1) * dto.getLimit();
         List<BoardList> boardLists = boardMapper.findAllByStartIndexAndLimit(startIndex, dto.getLimit());

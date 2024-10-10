@@ -10,6 +10,7 @@ import java.util.List;
 @Mapper
 public interface BoardMapper {
     int save(Board board);
+    int modify(Board board);
     int delete(Long boardId);
     List<BoardList> findAllByStartIndexAndLimit(
             @Param("startIndex") Long startIndex,

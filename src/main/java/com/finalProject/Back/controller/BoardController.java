@@ -33,4 +33,9 @@ public class BoardController {
         return ResponseEntity.ok().body(true);
     }
 
+    @PutMapping("/board/{boardId}")
+    public ResponseEntity<?> modify(@RequestBody ReqBoardDto.ModifyBoardDto dto) {
+        return ResponseEntity.ok().body(boardService.modify(dto));
+    }
+
 }
