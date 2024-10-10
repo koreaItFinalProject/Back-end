@@ -13,20 +13,24 @@ public class BoardController {
     private BoardService boardService;
 
     @PostMapping("/board")
-    public ResponseEntity<?> writeBoard(@RequestBody ReqBoardDto.WriteBoardDto dto) {
-        System.out.println(dto);
-        return ResponseEntity.ok().body(boardService.writeBoard(dto));
+    public ResponseEntity<?> write(@RequestBody ReqBoardDto.WriteBoardDto dto) {
+        return ResponseEntity.ok().body(boardService.write(dto));
     }
 
     @GetMapping("/board/list")
-    public ResponseEntity<?> getAllBoards(ReqBoardDto.BoardListDto dto) {
-        return ResponseEntity.ok().body(boardService.getBoardList(dto));
+    public ResponseEntity<?> getAll(ReqBoardDto.BoardListDto dto) {
+        return ResponseEntity.ok().body(boardService.getAllList(dto));
     }
 
     @GetMapping("/board/{boardId}")
     public ResponseEntity<?> getDetail(@PathVariable Long boardId) {
-        System.out.println(boardId);
-        return ResponseEntity.ok().body(null);
+        return ResponseEntity.ok().body(boardService.getDetail(boardId));
+    }
+
+    @DeleteMapping("/board/{boardId}")
+    public ResponseEntity<?> delete(@PathVariable Long boardId) {
+        boardService.delete(boardId);
+        return ResponseEntity.ok().body(true);
     }
 
 }

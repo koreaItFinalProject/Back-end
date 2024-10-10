@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Builder
 @AllArgsConstructor
@@ -15,5 +15,6 @@ public class Board {
     private Long id;
     private String title;
     private String content;
-    private LocalDateTime writeDate;
+    private int viewCount;
+    private LocalDate writeDate;
 }

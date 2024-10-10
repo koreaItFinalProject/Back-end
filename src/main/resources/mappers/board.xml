@@ -9,6 +9,23 @@
         values(default, #{title}, #{content}, default, now())
     </insert>
 
+    <insert id="addViewCountById">
+        update
+            board
+        set
+            view_count = view_count + 1
+        where
+            id = #{boardId}
+    </insert>
+
+    <delete id="delete">
+        delete
+        from
+            board
+        where
+            id = #{boardId}
+    </delete>
+
     <select id="findAllByStartIndexAndLimit" resultType="com.finalProject.Back.entity.board.BoardList">
         with like_count as (
             select
@@ -40,6 +57,19 @@
             count(*)
         from
             board
+    </select>
+
+    <select id="getDetail" resultType="com.finalProject.Back.entity.board.Board">
+        select
+            id,
+            title,
+            content,
+            view_count as viewCount,
+            write_date as writeDate
+        from
+            board
+        where
+            id = #{boardId}
     </select>
 
 </mapper>
