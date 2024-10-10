@@ -1,6 +1,6 @@
 package com.finalProject.Back.dto.request;
 
-import com.finalProject.Back.entity.Board;
+import com.finalProject.Back.entity.board.Board;
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,5 +18,11 @@ public class ReqBoardDto {
                     .content(content)
                     .build();
         }
+    }
+
+    @Data
+    public static class BoardListDto {
+        private Long page;
+        private Long limit;
     }
 }
