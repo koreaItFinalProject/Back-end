@@ -8,6 +8,25 @@
 
     <insert id="save">
         insert into user
-        values (default, #{username} , #{password} , #{name} , #{email} , "user" , #{nickname} , default)
+        values (default, #{username} , #{password} , #{name} , #{email} , "USER" , #{nickname} , default)
     </insert>
+    <select id="findByUsername" resultType="com.finalProject.Back.entity.User">
+        select
+            *
+        from
+            user
+        where
+            username = #{username}
+    </select>
+    <select id="findById" resultType="com.finalProject.Back.entity.User">
+        select
+            *
+        from
+            user
+        where
+            username = #{username}
+    </select>
+    <select id="findByOAuth2Name" resultType="com.finalProject.Back.entity.User">
+
+    </select>
 </mapper>
