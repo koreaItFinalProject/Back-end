@@ -4,6 +4,7 @@ import com.finalProject.Back.entity.board.BoardList;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class RespBoardDto {
@@ -13,5 +14,15 @@ public class RespBoardDto {
     public static class RespBoardListDto {
         private List<BoardList> boards;
         private Integer totalCount;
+    }
+
+    @Data
+    @Builder
+    public static class RespBoardDetailDto {
+        private Long id;
+        private String title;
+        private String content;
+        private int viewCount;
+        private LocalDate writeDate;
     }
 }
