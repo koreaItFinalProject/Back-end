@@ -36,7 +36,7 @@
             id = #{boardId}
     </delete>
 
-    <select id="findAllByStartIndexAndLimit" resultType="com.finalProject.Back.entity.board.BoardList">
+    <select id="getList" resultType="com.finalProject.Back.entity.board.BoardList">
         with like_count as (
             select
             board_id,
@@ -57,6 +57,19 @@
         from
             board b
             left outer join like_count lc on(lc.board_id = b.id)
+        where
+            1 = 1
+        <if test='searchFilter.equals("all")'>
+            and(
+                b.title like concat('%', trim(ifnull(#{searchValue}, '')), '%')
+            )
+        </if>
+        <if test='searchFilter.equals("title")'>
+            and b.title like concat('%', trim(ifnull(#{searchValue}, '')), '%')
+        </if>
+        <if test='searchFilter.equals("writer")'>
+            and u.username like concat('%', trim(ifnull(#{searchValue}, '')), '%')
+        </if>
         order by
             b.id desc
             limit #{startIndex}, #{limit}

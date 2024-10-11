@@ -18,8 +18,9 @@ public class BoardController {
     }
 
     @GetMapping("/board/list")
-    public ResponseEntity<?> getAll(ReqBoardDto.BoardListDto dto) {
-        return ResponseEntity.ok().body(boardService.getAllList(dto));
+    public ResponseEntity<?> getList(ReqBoardDto.BoardListDto dto) {
+        System.out.println(dto);
+        return ResponseEntity.ok().body(boardService.getList(dto));
     }
 
     @GetMapping("/board/{boardId}")
