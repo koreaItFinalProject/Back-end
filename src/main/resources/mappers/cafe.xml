@@ -7,12 +7,18 @@
 <mapper namespace="com.finalProject.Back.repository.CafeMapper">
 
     <insert id="save">
-        insert into cafe
-        values (default, 0, #{cafeName} , #{address}, #{lat} , #{lng} , #{category})
+        insert into cafe (id , ownerId, cafeName, address, lat, lng, category)
+        values (default, #{ownerId}, #{cafeName} , #{address}, #{lat} , #{lng} , " ")
     </insert>
     <select id="findByCategory" resultType="com.finalProject.Back.entity.Cafe">
         SELECT *
         FROM cafe
         WHERE category = #{category} OR #{category} = '전체'
+    </select>
+    <select id="findBySearchAndCategory" resultType="com.finalProject.Back.entity.Cafe">
+        SELECT *
+        FROM cafe
+        WHERE (category = #{category} OR #{category} = '전체')
+        AND cafeName LIKE CONCAT('%', #{search}, '%')
     </select>
 </mapper>

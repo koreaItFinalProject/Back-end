@@ -1,9 +1,7 @@
 package com.finalProject.Back.security.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.finalProject.Back.entity.User;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,15 +22,19 @@ public class JwtProvider {
     public Date getExpireDate() {
         return new Date(new Date().getTime() + (1000l * 60 * 60 * 24 * 30));
     }
-    /*
-    public String generateAccessToken(User user) { // User Entity에서 user객체 받아오기
+
+    public String generateAccessToken(User user) {
+        try {
         return Jwts.builder()
                 .claim("userId", user.getId())
                 .expiration(getExpireDate())
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
+        } catch (JwtException e){
+            e.printStackTrace();
+            return null;
+        }
     }
-    */
 
     public String generateEmailValidToken(String username) {
         Date expireDate= new Date(new Date().getTime() + (1000l * 60 * 5));

@@ -26,9 +26,11 @@ public class CafeController {
 
     @GetMapping("/cafe/get/{category}")
     public ResponseEntity<?> get(@PathVariable String category){
-        log.info(category);
-        System.out.println(category);
-        List<Cafe> cafes = cafeService.get(category);
-        return ResponseEntity.ok().body(cafes);
+        return ResponseEntity.ok().body(cafeService.get(category));
+    }
+
+    @GetMapping("/cafe/get/{category}/{search}")
+    public ResponseEntity<?> get(@PathVariable String category, @PathVariable String search){
+        return ResponseEntity.ok().body(cafeService.getList(category, search));
     }
 }
