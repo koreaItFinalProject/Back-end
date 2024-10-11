@@ -2,7 +2,7 @@ package com.finalProject.Back.entity.board;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 public class BoardList {
@@ -11,5 +11,5 @@ public class BoardList {
     private String content;
     private Integer likeCount;
     private Integer viewCount;
-    private LocalDateTime writeDate;
+    private LocalDate writeDate;
 }

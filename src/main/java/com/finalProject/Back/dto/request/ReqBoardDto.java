@@ -40,5 +40,8 @@ public class ReqBoardDto {
     public static class BoardListDto {
         private Long page;
         private Long limit;
+        private String searchFilter;
+        private String searchValue;
     }
+
 }
