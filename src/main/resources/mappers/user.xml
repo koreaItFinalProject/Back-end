@@ -6,7 +6,9 @@
 
 <mapper namespace="com.finalProject.Back.repository.UserMapper">
 
-    <insert id="save">
+    <insert id="save"
+            useGeneratedKeys="true"
+            keyProperty="id">
         insert into user
         values (default, #{username} , #{password} , #{name} , #{email} , "USER" , #{nickname} , default)
     </insert>

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @Slf4j
 @RestController
 public class UserController {
@@ -27,7 +29,7 @@ public class UserController {
 
     @ValidAop
     @PostMapping("/user/signup")
-    public ResponseEntity<?> addSignup(@RequestBody ReqSignupDto dto , BindingResult bindingResult) {
+    public ResponseEntity<?> addSignup(@RequestBody @Valid ReqSignupDto dto , BindingResult bindingResult) {
         log.info("{}", dto + "ok");
         userService.userSignup(dto);
         return ResponseEntity.ok().body(true);
@@ -35,7 +37,7 @@ public class UserController {
 
     @ValidAop
     @PostMapping("/user/signin")
-    public ResponseEntity<?> userSignIn(@RequestBody ReqSigninDto dto , BindingResult bindingResult){
+    public ResponseEntity<?> userSignIn(@RequestBody @Valid ReqSigninDto dto , BindingResult bindingResult){
         log.info("{}", dto);
         System.out.println("ok");
         return ResponseEntity.ok().body(userService.generaterAccessToken(dto));
