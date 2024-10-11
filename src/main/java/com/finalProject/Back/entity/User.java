@@ -1,5 +1,6 @@
 package com.finalProject.Back.entity;
 
+import com.finalProject.Back.security.principal.PrincipalUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,4 +19,12 @@ public class User {
     private String role;
     private String nickname;
     private String img;
+
+    public PrincipalUser toPrincipal() {
+        return PrincipalUser.builder()
+                .id(id)
+                .username(username)
+                .password(password)
+                .build();
+    }
 }

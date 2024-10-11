@@ -1,6 +1,9 @@
 package com.finalProject.Back.security.filter;
 
+import com.finalProject.Back.entity.User;
+import com.finalProject.Back.repository.UserMapper;
 import com.finalProject.Back.security.jwt.JwtProvider;
+import com.finalProject.Back.security.principal.PrincipalUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +21,8 @@ public class JwtAccessTokenFilter extends GenericFilter {
     @Autowired
     private JwtProvider jwtProvider;
 
-//    @Autowired
-//    private UserMapper userMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -37,13 +40,13 @@ public class JwtAccessTokenFilter extends GenericFilter {
         try {
             claims = jwtProvider.getClaims(accessToken);
             Long userId = ((Integer) claims.get("userId")).longValue();
-//            User user = userMapper.findById(userId);
-//            if(user == null) {
-//                throw new JwtException("해당 ID(" + userId + ")의 사용자 정보를 찾지 못했습니다.");
-//            }
-//            PrincipalUser principalUser = user.toPrincipal();
-//            Authentication authentication = new UsernamePasswordAuthenticationToken(principalUser, null, principalUser.getAuthorities());
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
+            User user = userMapper.findById(userId);
+            if(user == null) {
+                throw new JwtException("해당 ID(" + userId + ")의 사용자 정보를 찾지 못했습니다.");
+            }
+            PrincipalUser principalUser = user.toPrincipal();
+            Authentication authentication = new UsernamePasswordAuthenticationToken(principalUser, null, principalUser.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
         } catch (JwtException e) {
             e.printStackTrace();
