@@ -12,10 +12,11 @@ public class ReqBoardDto {
         private String title;
         private String content;
 
-        public Board toEntity() {
+        public Board toEntity(Long userId) {
             return Board.builder()
                     .title(title)
                     .content(content)
+                    .writerId(userId)
                     .build();
         }
     }

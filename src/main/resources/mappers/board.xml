@@ -6,7 +6,7 @@
 
     <insert id="save" useGeneratedKeys="true" keyProperty="id">
         insert into board
-        values(default, #{title}, #{content}, default, now())
+        values(default, #{title}, #{content}, #{writerId}, default, now())
     </insert>
 
     <insert id="addViewCountById">

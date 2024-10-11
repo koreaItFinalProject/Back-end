@@ -15,6 +15,7 @@ public class Board {
     private Long id;
     private String title;
     private String content;
+    private Long writerId;
     private int viewCount;
     private LocalDate writeDate;
 }
