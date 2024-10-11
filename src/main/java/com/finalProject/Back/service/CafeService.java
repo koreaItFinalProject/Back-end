@@ -23,8 +23,10 @@ public class CafeService {
     }
 
     public List<Cafe> get(String category){
-        log.info(category);
-        System.out.println(category);
         return cafeMapper.findByCategory(category);
+    }
+
+    public List<Cafe> getList(String category, String search){
+        return cafeMapper.findBySearchAndCategory(category, search);
     }
 }
