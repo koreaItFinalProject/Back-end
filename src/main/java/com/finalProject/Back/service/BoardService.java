@@ -6,7 +6,9 @@ import com.finalProject.Back.entity.board.Board;
 import com.finalProject.Back.entity.board.BoardList;
 import com.finalProject.Back.exception.NotFoundBoardException;
 import com.finalProject.Back.repository.BoardMapper;
+import com.finalProject.Back.security.principal.PrincipalUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +21,12 @@ public class BoardService {
     private BoardMapper boardMapper;
 
     public Long write(ReqBoardDto.WriteBoardDto dto) {
-        Board board = dto.toEntity();
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        System.out.println(principalUser.getId());
+        Board board = dto.toEntity(principalUser.getId());
         boardMapper.save(board);
         return board.getId();
     }
@@ -55,6 +62,7 @@ public class BoardService {
                 .id(board.getId())
                 .title(board.getTitle())
                 .content(board.getContent())
+                .nickname(board.getNickname())
                 .viewCount(board.getViewCount() + 1)
                 .writeDate(board.getWriteDate())
                 .build();

@@ -20,13 +20,14 @@
         where
             username = #{username}
     </select>
+
     <select id="findById" resultType="com.finalProject.Back.entity.User">
         select
             *
         from
             user
         where
-            username = #{username}
+            id = #{id}
     </select>
     <select id="findByOAuth2Name" resultType="com.finalProject.Back.entity.User">
 
