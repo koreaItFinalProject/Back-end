@@ -8,7 +8,7 @@ public class ReqCommentDto {
 
     @Data
     @Builder
-    public static class ReqWriteCommentDto {
+    public static class WriteDto {
         private Long boardId;
         private Long parentId;
         private String content;
@@ -19,6 +19,20 @@ public class ReqCommentDto {
                     .parentId(parentId)
                     .content(content)
                     .writerId(userId)
+                    .build();
+        }
+    }
+
+    @Data
+    @Builder
+    public static class ModifyDto {
+        private Long commentId;
+        private String content;
+
+        public Comment toEntity() {
+            return Comment.builder()
+                    .id(commentId)
+                    .content(content)
                     .build();
         }
     }

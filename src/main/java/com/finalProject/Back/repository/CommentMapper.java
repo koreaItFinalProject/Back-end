@@ -10,4 +10,6 @@ public interface CommentMapper {
     int save(Comment comment);
     List<Comment> findAllByBoardId(Long boardId);
     int getCountByBoardId(Long boardId);
+    int modifyById(Comment comment);
+    Comment findById(Long commentId);
 }
