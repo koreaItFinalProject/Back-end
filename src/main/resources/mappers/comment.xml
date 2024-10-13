@@ -9,6 +9,16 @@
         value(default, #{boardId}, #{parentId}, #{content}, #{writerId}, now())
     </insert>
 
+    <update id="modifyById">
+        update
+            comment
+        set
+            content = #{content},
+            write_date = now()
+        where
+            id = #{id}
+    </update>
+
     <select id="findAllByBoardId" resultType="com.finalProject.Back.entity.Comment">
         WITH RECURSIVE comment_tree(id, board_id, parent_id, content, writer_id, write_date, level, path) AS (
         SELECT
@@ -70,6 +80,15 @@
             comment
         where
             board_id = #{boardId}
+    </select>
+
+    <select id="findById" resultType="com.finalProject.Back.entity.Comment">
+        select
+            writer_id as writerId
+        from
+            comment
+        where
+            id = #{commentId}
     </select>
 
 </mapper>

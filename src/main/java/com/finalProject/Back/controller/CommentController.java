@@ -13,7 +13,7 @@ public class CommentController {
     private CommentService commentService;
 
     @PostMapping("/comment")
-    public ResponseEntity<?> write(@RequestBody ReqCommentDto.ReqWriteCommentDto dto) {
+    public ResponseEntity<?> write(@RequestBody ReqCommentDto.WriteDto dto) {
         commentService.write(dto);
         return ResponseEntity.ok().body(true);
     }
@@ -21,5 +21,11 @@ public class CommentController {
     @GetMapping("/comment/{boardId}")
     public ResponseEntity<?> getAll(@PathVariable Long boardId) {
         return ResponseEntity.ok().body(commentService.getAll(boardId));
+    }
+
+    @PutMapping("/comment/{commentId}")
+    public ResponseEntity<?> modify(@RequestBody ReqCommentDto.ModifyDto dto) {
+        commentService.modify(dto);
+        return ResponseEntity.ok().body(true);
     }
 }
