@@ -36,6 +36,11 @@ public class CommentService {
         commentMapper.modifyById(dto.toEntity());
     }
 
+    public void delete(Long commentId) {
+        authorityCheck(commentId);
+        commentMapper.deleteById(commentId);
+    }
+
     private void authorityCheck(Long commentId) {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
                 .getContext()

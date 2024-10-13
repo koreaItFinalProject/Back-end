@@ -8,8 +8,9 @@ import java.util.List;
 @Mapper
 public interface CommentMapper {
     int save(Comment comment);
-    List<Comment> findAllByBoardId(Long boardId);
     int getCountByBoardId(Long boardId);
     int modifyById(Comment comment);
+    int deleteById(Long commentId);
+    List<Comment> findAllByBoardId(Long boardId);
     Comment findById(Long commentId);
 }
