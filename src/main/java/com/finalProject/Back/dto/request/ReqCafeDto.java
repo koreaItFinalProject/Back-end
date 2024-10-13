@@ -13,7 +13,7 @@ public class ReqCafeDto {
 
     public Cafe toEntity() {
         return Cafe.builder()
-                .ownerId(ownerId)
+                .owner_id(ownerId)
                 .cafeName(cafename)
                 .address(address)
                 .lat(lat)

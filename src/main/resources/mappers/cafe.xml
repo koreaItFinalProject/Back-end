@@ -7,8 +7,8 @@
 <mapper namespace="com.finalProject.Back.repository.CafeMapper">
 
     <insert id="save">
-        insert into cafe (id , ownerId, cafeName, address, lat, lng, category)
-        values (default, #{ownerId}, #{cafeName} , #{address}, #{lat} , #{lng} , " ")
+        insert into cafe (id , owner_id, cafeName, address, lat, lng, category)
+        values (default, #{owner_id}, #{cafeName} , #{address}, #{lat} , #{lng} , " ")
     </insert>
     <select id="findByCategory" resultType="com.finalProject.Back.entity.Cafe">
         SELECT *
