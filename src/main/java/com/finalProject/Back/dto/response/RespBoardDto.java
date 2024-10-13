@@ -22,6 +22,7 @@ public class RespBoardDto {
         private Long id;
         private String title;
         private String content;
+        private String nickname;
         private int viewCount;
         private LocalDate writeDate;
     }

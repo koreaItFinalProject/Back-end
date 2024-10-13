@@ -6,7 +6,7 @@
 
     <insert id="save" useGeneratedKeys="true" keyProperty="id">
         insert into board
-        values(default, #{title}, #{content}, default, now())
+        values(default, #{title}, #{content}, #{writerId}, default, now())
     </insert>
 
     <insert id="addViewCountById">
@@ -36,7 +36,7 @@
             id = #{boardId}
     </delete>
 
-    <select id="findAllByStartIndexAndLimit" resultType="com.finalProject.Back.entity.board.BoardList">
+    <select id="getList" resultType="com.finalProject.Back.entity.board.BoardList">
         with like_count as (
             select
             board_id,
@@ -51,12 +51,27 @@
             b.id,
             b.title,
             b.content,
+            u.nickname,
             ifnull(lc.like_cnt, 0) as likeCount,
             b.view_count as viewCount,
             b.write_date as writeDate
         from
             board b
+            left outer join user u on(u.id = b.writer_id)
             left outer join like_count lc on(lc.board_id = b.id)
+        where
+            1 = 1
+        <if test='searchFilter.equals("all")'>
+            and(
+                b.title like concat('%', trim(ifnull(#{searchValue}, '')), '%')
+            )
+        </if>
+        <if test='searchFilter.equals("title")'>
+            and b.title like concat('%', trim(ifnull(#{searchValue}, '')), '%')
+        </if>
+        <if test='searchFilter.equals("writer")'>
+            and u.nickname like concat('%', trim(ifnull(#{searchValue}, '')), '%')
+        </if>
         order by
             b.id desc
             limit #{startIndex}, #{limit}
@@ -71,15 +86,17 @@
 
     <select id="getDetail" resultType="com.finalProject.Back.entity.board.Board">
         select
-            id,
-            title,
-            content,
-            view_count as viewCount,
-            write_date as writeDate
+            b.id,
+            b.title,
+            b.content,
+            u.nickname,
+            b.view_count as viewCount,
+            b.write_date as writeDate
         from
-            board
+            board b
+            left outer join user u on(u.id = b.writer_id)
         where
-            id = #{boardId}
+            b.id = #{boardId}
     </select>
 
 </mapper>

@@ -15,4 +15,10 @@
         FROM cafe
         WHERE category = #{category} OR #{category} = '전체'
     </select>
+    <select id="findBySearchAndCategory" resultType="com.finalProject.Back.entity.Cafe">
+        SELECT *
+        FROM cafe
+        WHERE (category = #{category} OR #{category} = '전체')
+        AND cafeName LIKE CONCAT('%', #{search}, '%')
+    </select>
 </mapper>

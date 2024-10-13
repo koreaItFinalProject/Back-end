@@ -12,8 +12,9 @@ public class ReqBoardDto {
         private String title;
         private String content;
 
-        public Board toEntity() {
+        public Board toEntity(Long userId) {
             return Board.builder()
+                    .writerId(userId)
                     .title(title)
                     .content(content)
                     .build();
@@ -40,5 +41,8 @@ public class ReqBoardDto {
     public static class BoardListDto {
         private Long page;
         private Long limit;
+        private String searchFilter;
+        private String searchValue;
     }
+
 }

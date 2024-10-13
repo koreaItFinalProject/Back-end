@@ -6,10 +6,13 @@ import com.finalProject.Back.entity.board.Board;
 import com.finalProject.Back.entity.board.BoardList;
 import com.finalProject.Back.exception.NotFoundBoardException;
 import com.finalProject.Back.repository.BoardMapper;
+import com.finalProject.Back.security.principal.PrincipalUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BoardService {
@@ -18,7 +21,12 @@ public class BoardService {
     private BoardMapper boardMapper;
 
     public Long write(ReqBoardDto.WriteBoardDto dto) {
-        Board board = dto.toEntity();
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        System.out.println(principalUser.getId());
+        Board board = dto.toEntity(principalUser.getId());
         boardMapper.save(board);
         return board.getId();
     }
@@ -28,9 +36,15 @@ public class BoardService {
         return dto.getBoardId();
     }
 
-    public RespBoardDto.RespBoardListDto getAllList(ReqBoardDto.BoardListDto dto) {
+    public RespBoardDto.RespBoardListDto getList(ReqBoardDto.BoardListDto dto) {
         Long startIndex = (dto.getPage() - 1) * dto.getLimit();
-        List<BoardList> boardLists = boardMapper.findAllByStartIndexAndLimit(startIndex, dto.getLimit());
+        Map<String, Object> params = Map.of(
+                "startIndex", startIndex,
+                "limit", dto.getLimit(),
+                "searchFilter", dto.getSearchFilter() == null || dto.getSearchFilter().isBlank() ? "all" : dto.getSearchFilter(),
+                "searchValue", dto.getSearchValue() == null ? "" : dto.getSearchValue()
+        );
+        List<BoardList> boardLists = boardMapper.getList(params);
         Integer boardTotalCount = boardMapper.getTotalCount();
         return RespBoardDto.RespBoardListDto.builder()
                 .boards(boardLists)
@@ -48,6 +62,7 @@ public class BoardService {
                 .id(board.getId())
                 .title(board.getTitle())
                 .content(board.getContent())
+                .nickname(board.getNickname())
                 .viewCount(board.getViewCount() + 1)
                 .writeDate(board.getWriteDate())
                 .build();
