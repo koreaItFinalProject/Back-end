@@ -2,9 +2,10 @@ package com.finalProject.Back.controller;
 
 import com.finalProject.Back.aspect.annotation.ValidAop;
 import com.finalProject.Back.dto.request.Owner.ReqOwnerSignupDto;
-import com.finalProject.Back.dto.request.ReqCafeDto;
+import com.finalProject.Back.dto.request.User.ReqSigninDto;
 import com.finalProject.Back.service.CafeService;
 import com.finalProject.Back.service.OwnerService;
+import com.finalProject.Back.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,8 @@ public class OwnerController {
     @Autowired
     private CafeService cafeService;
 
+    @Autowired
+    private UserService userService;
     @ValidAop
     @PostMapping("/owner/signup")
     public ResponseEntity<?> ownerSignup (@RequestBody ReqOwnerSignupDto dto , BindingResult bindingResult) {
@@ -31,8 +34,8 @@ public class OwnerController {
     };
 
     @PostMapping("/owner/signin")
-    public ResponseEntity<?> ownerSignin () {
-        return ResponseEntity.ok().body(null);
+    public ResponseEntity<?> ownerSignin (@RequestBody ReqSigninDto dto , BindingResult bindingResult) {
+        return ResponseEntity.ok().body(userService.generaterAccessToken(dto));
     }
 
 }
