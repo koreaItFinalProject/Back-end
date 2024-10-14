@@ -11,11 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OAuth2User {
     private Long id;
-    private String username;
-    private String password;
-    private String name;
-    private String email;
-    private String role;
-    private String nickname;
-    private String img;
+    private Long userId;
+    private String oAuth2Name;
+    private String provider;
 }

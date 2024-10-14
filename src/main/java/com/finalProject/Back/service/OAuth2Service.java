@@ -1,6 +1,8 @@
 package com.finalProject.Back.service;
 
 import com.finalProject.Back.dto.request.User.ReqOAuth2SignupDto;
+
+
 import com.finalProject.Back.entity.User;
 import com.finalProject.Back.repository.OAuth2UserMapper;
 import com.finalProject.Back.repository.UserMapper;
@@ -63,7 +65,7 @@ public class OAuth2Service implements OAuth2UserService {
         return new DefaultOAuth2User(new HashSet<>() , oAuth2Attributes , "id");
     }
 
-    public void merge(OAuth2User oAuth2User){
+    public void merge(com.finalProject.Back.entity.OAuth2User oAuth2User){
         oAuth2UserMapper.save(oAuth2User);
     }
 
@@ -71,7 +73,17 @@ public class OAuth2Service implements OAuth2UserService {
     public void signup(ReqOAuth2SignupDto dto){
         User user = dto.toEntity(passwordEncoder);
         userMapper.save(user);
+
+        oAuth2UserMapper.save(com.finalProject.Back.entity.OAuth2User.builder()
+                .userId(user.getId())
+                .oAuth2Name(dto.getOauth2Name())
+                .provider(dto.getProvider())
+                .build());
     }
+
+
+
+
 
 
 }

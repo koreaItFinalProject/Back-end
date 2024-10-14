@@ -2,8 +2,11 @@ package com.finalProject.Back.controller;
 
 import com.finalProject.Back.aspect.annotation.ValidAop;
 import com.finalProject.Back.dto.request.Token.ReqAccessDto;
+import com.finalProject.Back.dto.request.User.ReqOAuth2MergeDto;
 import com.finalProject.Back.dto.request.User.ReqSigninDto;
 import com.finalProject.Back.dto.request.User.ReqSignupDto;
+import com.finalProject.Back.entity.OAuth2User;
+import com.finalProject.Back.service.OAuth2Service;
 import com.finalProject.Back.service.TokenService;
 import com.finalProject.Back.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +30,9 @@ public class UserController {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private OAuth2Service oAuth2Service;
+
     @ValidAop
     @PostMapping("/user/signup")
     public ResponseEntity<?> addSignup(@RequestBody @Valid ReqSignupDto dto , BindingResult bindingResult) {
@@ -46,5 +52,13 @@ public class UserController {
     @GetMapping("/auth/access")
     public ResponseEntity<?> access(ReqAccessDto dto) {
         return ResponseEntity.ok().body(tokenService.isValidAccessToken(dto.getAccessToken()));
+    }
+
+    @ValidAop
+    @PostMapping("/user/oauth2/merge")
+    public ResponseEntity<?> oAuth2Merge(@Valid @RequestBody ReqOAuth2MergeDto dto, BindingResult bindingResult) {
+        OAuth2User oAuth2User = userService.mergeSignin(dto);
+        oAuth2Service.merge(oAuth2User);
+        return ResponseEntity.ok().body(true);
     }
 }
