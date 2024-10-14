@@ -19,19 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OwnerController {
 
     @Autowired
-    private OwnerService ownerService;
-
-    @Autowired
-    private CafeService cafeService;
-
-    @Autowired
     private UserService userService;
-    @ValidAop
-    @PostMapping("/owner/signup")
-    public ResponseEntity<?> ownerSignup (@RequestBody ReqOwnerSignupDto dto , BindingResult bindingResult) {
-        log.info("{}",dto);
-        return ResponseEntity.ok().body(ownerService.ownerSignup(dto));
-    };
 
     @PostMapping("/owner/signin")
     public ResponseEntity<?> ownerSignin (@RequestBody ReqSigninDto dto , BindingResult bindingResult) {
