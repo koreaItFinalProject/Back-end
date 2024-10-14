@@ -25,7 +25,6 @@ public class BoardService {
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
-        System.out.println(principalUser.getId());
         Board board = dto.toEntity(principalUser.getId());
         boardMapper.save(board);
         return board.getId();
