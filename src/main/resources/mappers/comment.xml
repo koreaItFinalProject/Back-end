@@ -64,7 +64,7 @@
             writer_id,
             write_date,
             0 AS level,
-            LPAD(CAST(id AS CHAR(255)), 5, 0) AS path
+            LPAD(CAST(id AS CHAR(255)), 5, '0') AS path
         FROM
             comment
         WHERE
@@ -81,7 +81,7 @@
             c.writer_id,
             c.write_date,
             ct.level + 1,
-            CONCAT(ct.path, ',', LPAD(c.id, 5, 0)) AS path
+            CONCAT(ct.path, ',', LPAD(c.id, 5, '0')) AS path
         FROM
             comment c
             JOIN comment_tree ct ON (c.parent_id = ct.id)
