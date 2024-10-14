@@ -6,10 +6,12 @@ import com.finalProject.Back.entity.Comment;
 import com.finalProject.Back.exception.AccessDeniedException;
 import com.finalProject.Back.repository.CommentMapper;
 import com.finalProject.Back.security.principal.PrincipalUser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class CommentService {
 
