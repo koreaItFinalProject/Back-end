@@ -41,7 +41,6 @@ public class UserService {
     }
 
     public RespSigninDto generaterAccessToken (ReqSigninDto dto){
-
         User user = checkUsernameAndPassword(dto.getUsername(), dto.getPassword());
 
         return RespSigninDto.builder()

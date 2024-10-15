@@ -1,10 +1,8 @@
 package com.finalProject.Back.aspect;
 
-import com.finalProject.Back.dto.request.Owner.ReqOwnerSignupDto;
 import com.finalProject.Back.dto.request.User.ReqOAuth2SignupDto;
 import com.finalProject.Back.dto.request.User.ReqSignupDto;
 import com.finalProject.Back.exception.ValidException;
-import com.finalProject.Back.service.OwnerService;
 import com.finalProject.Back.service.UserService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -12,7 +10,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 @Aspect
@@ -60,23 +57,6 @@ public class ValidAspect {
         for(Object arg : args){
             if(arg.getClass() == ReqSignupDto.class){
                 ReqSignupDto dto = (ReqSignupDto) arg;
-
-                if(!dto.getPassword().equals(dto.getCheckPassword())){
-                    FieldError fieldError = new FieldError("checkPassword" , "checkPassword" , "유효하지 않은 비밀번호 입니다");
-                    bindingResult.addError(fieldError);
-                }
-                if(userService.isDuplicateUsername(dto.getUsername())){
-                    FieldError fieldError = new FieldError("username" , "username" , "이미 존재하는 아이디 입니다.");
-                    bindingResult.addError(fieldError);
-                }
-            }
-        }
-    }
-
-    public void ValidSignupDto2(Object[] args , BeanPropertyBindingResult bindingResult){
-        for(Object arg : args){
-            if(arg.getClass() == ReqOwnerSignupDto.class){
-                ReqOwnerSignupDto dto = (ReqOwnerSignupDto) arg;
 
                 if(!dto.getPassword().equals(dto.getCheckPassword())){
                     FieldError fieldError = new FieldError("checkPassword" , "checkPassword" , "유효하지 않은 비밀번호 입니다");
