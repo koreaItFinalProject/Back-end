@@ -6,18 +6,6 @@
 
 <mapper namespace="com.finalProject.Back.repository.CommentMapper">
 
-<!--    <resultMap id="commentResultMap" type="com.finalProject.Back.entity.Comment">-->
-<!--        <id property="id" column="id"/>-->
-<!--        <result property="boardId" column="boardId"/>-->
-<!--        <result property="parentId" column="parentId"/>-->
-<!--        <result property="content" column="content"/>-->
-<!--        <result property="writerId" column="writerId"/>-->
-<!--        <result property="writeDate" column="writeDate"/>-->
-<!--        <result property="level" column="level"/>-->
-<!--        <result property="username" column="username"/>-->
-<!--        <result property="img" column="img"/>-->
-<!--    </resultMap>-->
-
     <insert id="save">
         insert into comment
         value(default, #{boardId}, #{parentId}, #{content}, #{writerId}, now())
@@ -71,14 +59,14 @@
     <select id="findAllByBoardId" resultType="com.finalProject.Back.entity.Comment">
         WITH RECURSIVE comment_tree(id, board_id, parent_id, content, writer_id, write_date, level, path) AS (
         SELECT
-        id,
-        board_id,
-        parent_id,
-        content,
-        writer_id,
-        write_date,
-        0 AS level,
-        LPAD(CAST(id AS TEXT), 5, 0) AS path
+            id,
+            board_id,
+            parent_id,
+            content,
+            writer_id,
+            write_date,
+            0 AS level,
+            cast(lpad(id, 5, 0)  as char(255)) AS path
         FROM
         comment
         WHERE
@@ -88,14 +76,14 @@
         UNION ALL
 
         SELECT
-        c.id,
-        c.board_id,
-        c.parent_id,
-        c.content,
-        c.writer_id,
-        c.write_date,
-        ct.level + 1,
-        CONCAT(ct.path, ',', LPAD(c.id, 5, 0)) AS path
+            c.id,
+            c.board_id,
+            c.parent_id,
+            c.content,
+            c.writer_id,
+            c.write_date,
+            ct.level + 1,
+            concat(ct.path, ',', lpad(c.id, 5, 0)) as path
         FROM
         comment c
         JOIN comment_tree ct ON (c.parent_id = ct.id)
@@ -104,15 +92,16 @@
         )
 
         SELECT
-        ct.id,
-        ct.board_id as boardId,
-        ct.parent_id as parentId,
-        ct.content,
-        ct.writer_id as writerId,
-        ct.write_date as writeDate,
-        ct.level,
-        u.username,
-        u.img
+            ct.id,
+            ct.board_id as boardId,
+            ct.parent_id as parentId,
+            ct.content,
+            ct.writer_id as writerId,
+            ct.write_date as writeDate,
+            ct.level,
+            u.username,
+            u.img,
+            ct.path
         FROM
         comment_tree ct
         left outer join user u on(u.id = ct.writer_id)

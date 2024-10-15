@@ -1,9 +1,11 @@
 package com.finalProject.Back.service;
 
+import com.finalProject.Back.dto.request.User.ReqOAuth2MergeDto;
 import com.finalProject.Back.dto.request.User.ReqSigninDto;
 import com.finalProject.Back.dto.request.User.ReqSignupDto;
 import com.finalProject.Back.dto.response.User.RespSigninDto;
 import com.finalProject.Back.dto.response.User.RespSignupDto;
+import com.finalProject.Back.entity.OAuth2User;
 import com.finalProject.Back.entity.User;
 import com.finalProject.Back.repository.UserMapper;
 import com.finalProject.Back.security.jwt.JwtProvider;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -38,7 +41,6 @@ public class UserService {
     }
 
     public RespSigninDto generaterAccessToken (ReqSigninDto dto){
-
         User user = checkUsernameAndPassword(dto.getUsername(), dto.getPassword());
 
         return RespSigninDto.builder()
@@ -64,5 +66,14 @@ public class UserService {
 
     public Boolean isDuplicateUsername(String username) {
         return Optional.ofNullable(userMapper.findByUsername(username)).isPresent();
+    }
+
+    public OAuth2User mergeSignin(ReqOAuth2MergeDto dto) {
+    User user = checkUsernameAndPassword(dto.getUsername(), dto.getPassword());
+    return OAuth2User.builder()
+            .userId(user.getId())
+            .oAuth2Name(dto.getOauth2Name())
+            .provider(dto.getProvider())
+            .build();
     }
 }
