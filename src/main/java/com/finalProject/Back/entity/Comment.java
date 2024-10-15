@@ -21,4 +21,5 @@ public class Comment {
     private int level;
     private String username;
     private String img;
+    private String path;
 }
