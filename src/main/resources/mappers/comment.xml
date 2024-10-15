@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.finalProject.Back.repository.CommentMapper">
 
     <insert id="save">
@@ -66,10 +68,10 @@
             0 AS level,
             cast(lpad(id, 5, 0)  as char(255)) AS path
         FROM
-            comment
+        comment
         WHERE
-            parent_id IS NULL
-            and board_id = #{boardId}
+        parent_id IS NULL
+        and board_id = #{boardId}
 
         UNION ALL
 
@@ -83,10 +85,10 @@
             ct.level + 1,
             concat(ct.path, ',', lpad(c.id, 5, 0)) as path
         FROM
-            comment c
-            JOIN comment_tree ct ON (c.parent_id = ct.id)
+        comment c
+        JOIN comment_tree ct ON (c.parent_id = ct.id)
         WHERE
-            c.board_id = #{boardId}
+        c.board_id = #{boardId}
         )
 
         SELECT
@@ -101,12 +103,12 @@
             u.img,
             ct.path
         FROM
-            comment_tree ct
-            left outer join user u on(u.id = ct.writer_id)
+        comment_tree ct
+        left outer join user u on(u.id = ct.writer_id)
         WHERE
-            ct.board_id = #{boardId}
+        ct.board_id = #{boardId}
         ORDER BY
-            ct.path
+        ct.path
     </select>
 
     <select id="getCountByBoardId" resultType="java.lang.Integer">

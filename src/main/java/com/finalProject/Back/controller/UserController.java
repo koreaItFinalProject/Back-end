@@ -36,7 +36,6 @@ public class UserController {
     @ValidAop
     @PostMapping("/user/signup")
     public ResponseEntity<?> addSignup(@RequestBody @Valid ReqSignupDto dto , BindingResult bindingResult) {
-        log.info("{}", dto + "ok");
         return ResponseEntity.ok().body(userService.userSignup(dto));
     }
 
