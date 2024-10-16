@@ -73,17 +73,11 @@ public class OAuth2Service implements OAuth2UserService {
     public void signup(ReqOAuth2SignupDto dto){
         User user = dto.toEntity(passwordEncoder);
         userMapper.save(user);
-
+//        System.out.println(.);
         oAuth2UserMapper.save(com.finalProject.Back.entity.OAuth2User.builder()
                 .userId(user.getId())
                 .oAuth2Name(dto.getOauth2Name())
                 .provider(dto.getProvider())
                 .build());
     }
-
-
-
-
-
-
 }
