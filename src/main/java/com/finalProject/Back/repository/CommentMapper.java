@@ -11,6 +11,7 @@ public interface CommentMapper {
     int getCountByBoardId(Long boardId);
     int modifyById(Comment comment);
     int deleteById(Long commentId);
+    int deleteByBoardId(Long boardId);
     List<Comment> findAllByBoardId(Long boardId);
     Comment findById(Long commentId);
 }
