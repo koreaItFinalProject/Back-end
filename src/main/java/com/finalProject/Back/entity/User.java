@@ -18,6 +18,7 @@ public class User {
     private String email;
     private String role;
     private String nickname;
+    private String phoneNumber;
     private String img;
 
     public PrincipalUser toPrincipal() {

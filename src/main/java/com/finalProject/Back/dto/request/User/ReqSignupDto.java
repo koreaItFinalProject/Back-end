@@ -28,6 +28,8 @@ public class ReqSignupDto {
     @NotBlank
     @Pattern(regexp = "^.{1,10}$", message = "닉네임은 10글자 이내여야 하고 공백일 수 없습니다.")
     private String nickname;
+    @NotBlank(message = "휴대전화 인증을 받아야 합니다.")
+    private String phoneNumber;
     private String role;
 
     public User toEntity(BCryptPasswordEncoder passwordEncoder) {
@@ -37,6 +39,7 @@ public class ReqSignupDto {
                 .name(name)
                 .nickname(nickname)
                 .email(email)
+                .phoneNumber(phoneNumber)
                 .role(role)
                 .build();
     }

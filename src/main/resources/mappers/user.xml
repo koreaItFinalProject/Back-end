@@ -10,7 +10,7 @@
             useGeneratedKeys="true"
             keyProperty="id">
         insert into user
-        values (default, #{username} , #{password} , #{name} , #{email} , #{role} , #{nickname} , default)
+        values (default, #{username} , #{password} , #{name} , #{email} , #{role} , #{nickname} ,#{phoneNumber} , default)
     </insert>
     <select id="findByUsername" resultType="com.finalProject.Back.entity.User">
         select
