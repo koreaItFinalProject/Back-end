@@ -26,4 +26,11 @@ public class RespBoardDto {
         private int viewCount;
         private LocalDate writeDate;
     }
+
+    @Data
+    @Builder
+    public static class RespBoardLikeDto {
+        private Long boardLikeId;
+        private int likeCount;
+    }
 }

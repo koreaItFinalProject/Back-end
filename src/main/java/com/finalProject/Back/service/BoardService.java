@@ -3,14 +3,20 @@ package com.finalProject.Back.service;
 import com.finalProject.Back.dto.request.ReqBoardDto;
 import com.finalProject.Back.dto.response.RespBoardDto;
 import com.finalProject.Back.entity.board.Board;
+import com.finalProject.Back.entity.board.BoardLike;
 import com.finalProject.Back.entity.board.BoardList;
 import com.finalProject.Back.exception.NotFoundBoardException;
+import com.finalProject.Back.repository.BoardLikeMapper;
 import com.finalProject.Back.repository.BoardMapper;
+import com.finalProject.Back.repository.CommentMapper;
 import com.finalProject.Back.security.principal.PrincipalUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +25,10 @@ public class BoardService {
 
     @Autowired
     private BoardMapper boardMapper;
+    @Autowired
+    private BoardLikeMapper boardLikeMapper;
+    @Autowired
+    private CommentMapper commentMapper;
 
     public Long write(ReqBoardDto.WriteBoardDto dto) {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
@@ -67,7 +77,41 @@ public class BoardService {
                 .build();
     }
 
+    @Transactional(rollbackFor = SQLException.class)
     public void delete(Long boardId) {
         boardMapper.delete(boardId);
+        commentMapper.deleteByBoardId(boardId);
+        boardLikeMapper.deleteByBoardId(boardId);
+    }
+
+    public RespBoardDto.RespBoardLikeDto getLike(Long boardId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = null;
+        if(!authentication.getName().equals("annonymousUser")) {
+            PrincipalUser principalUser = (PrincipalUser) authentication.getPrincipal();
+            userId = principalUser.getId();
+        }
+        BoardLike boardLike = boardLikeMapper.findByBoardIdAndUserId(boardId, userId);
+        int likeCount = boardLikeMapper.getLikeCountByBoardId(boardId);
+        return RespBoardDto.RespBoardLikeDto.builder()
+                .boardLikeId(boardLike == null ? 0 : boardLike.getId())
+                .likeCount(likeCount)
+                .build();
+    }
+
+    public void like(Long boardId){
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        BoardLike boardLike = BoardLike.builder()
+                .boardId(boardId)
+                .userId(principalUser.getId())
+                .build();
+        boardLikeMapper.like(boardLike);
+    }
+
+    public void disLike(Long boardLikeId) {
+        boardLikeMapper.disLike(boardLikeId);
     }
 }
