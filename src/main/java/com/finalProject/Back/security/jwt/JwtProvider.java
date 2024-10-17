@@ -26,7 +26,7 @@ public class JwtProvider {
     public String generateAccessToken(User user) {
         try {
         return Jwts.builder()
-                .claim("userId", user.getId())
+                .claim("userId", user.getUserId())
                 .expiration(getExpireDate())
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();

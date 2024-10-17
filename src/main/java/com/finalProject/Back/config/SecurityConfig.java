@@ -5,6 +5,7 @@ import com.finalProject.Back.security.handler.OAuth2SuccessHandler;
 import com.finalProject.Back.service.OAuth2Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -29,7 +30,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.cors();
         http.authorizeRequests()
-                .antMatchers("/board/**" , "/user/**" , "/owner/**", "/cafe/**", "/comment/**")
+                .antMatchers("/board/**" , "/user/**" , "/owner/**", "/cafe/**", "/comment/**" , "/oauth/**", "/auth/**")
+                .permitAll()
+                .antMatchers(
+                        HttpMethod.GET,
+                        "/board/**"
+                )
                 .permitAll()
                 .anyRequest()
                 .authenticated();
