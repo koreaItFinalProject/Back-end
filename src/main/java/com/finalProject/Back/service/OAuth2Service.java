@@ -6,6 +6,7 @@ import com.finalProject.Back.dto.request.User.ReqOAuth2SignupDto;
 import com.finalProject.Back.entity.User;
 import com.finalProject.Back.repository.OAuth2UserMapper;
 import com.finalProject.Back.repository.UserMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class OAuth2Service implements OAuth2UserService {
 
@@ -71,7 +73,7 @@ public class OAuth2Service implements OAuth2UserService {
         User user = dto.toEntity(passwordEncoder);
         userMapper.save(user);
         oAuth2UserMapper.save(com.finalProject.Back.entity.OAuth2User.builder()
-                .userId(user.getId())
+                .userId(user.getUserId())
                 .oAuth2Name(dto.getOauth2Name())
                 .provider(dto.getProvider())
                 .build());

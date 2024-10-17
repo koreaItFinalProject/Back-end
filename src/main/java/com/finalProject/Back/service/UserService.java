@@ -10,6 +10,7 @@ import com.finalProject.Back.entity.OAuth2User;
 import com.finalProject.Back.entity.User;
 import com.finalProject.Back.repository.UserMapper;
 import com.finalProject.Back.security.jwt.JwtProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class UserService {
 
     @Autowired
@@ -71,17 +73,19 @@ public class UserService {
 
     public OAuth2User mergeSignin(ReqOAuth2MergeDto dto) {
     User user = checkUsernameAndPassword(dto.getUsername(), dto.getPassword());
+        System.out.println(user);
     return OAuth2User.builder()
-            .userId(user.getId())
+            .userId(user.getUserId())
             .oAuth2Name(dto.getOauth2Name())
             .provider(dto.getProvider())
             .build();
     }
 
     public RespUserInfoDto getUserInfo(Long id) {
+        log.info("{}" , id);
         User user = userMapper.findById(id);
         return RespUserInfoDto.builder()
-                .userId(user.getId())
+                .userId(user.getUserId())
                 .username(user.getUsername())
                 .name(user.getName())
                 .email(user.getEmail())

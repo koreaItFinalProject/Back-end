@@ -7,6 +7,7 @@ import com.finalProject.Back.dto.request.User.ReqOAuth2SignupDto;
 import com.finalProject.Back.dto.request.User.ReqSigninDto;
 import com.finalProject.Back.dto.request.User.ReqSignupDto;
 import com.finalProject.Back.entity.OAuth2User;
+import com.finalProject.Back.entity.User;
 import com.finalProject.Back.exception.SignupException;
 import com.finalProject.Back.security.principal.PrincipalUser;
 import com.finalProject.Back.service.OAuth2Service;
@@ -56,28 +57,13 @@ public class UserController {
         return ResponseEntity.ok().body(tokenService.isValidAccessToken(dto.getAccessToken()));
     }
 
-    @ValidAop
-    @PostMapping("/user/oauth2/merge")
-    public ResponseEntity<?> oAuth2Merge(@Valid @RequestBody ReqOAuth2MergeDto dto, BindingResult bindingResult) {
-        OAuth2User oAuth2User = userService.mergeSignin(dto);
-        oAuth2Service.merge(oAuth2User);
-        return ResponseEntity.ok().body(true);
-    }
-
-    @ValidAop
-    @PostMapping("/user/oauth2/signup")
-    public ResponseEntity<?> oAuth2Signup(@Valid @RequestBody ReqOAuth2SignupDto dto , BindingResult bindingResult) throws SignupException {
-        oAuth2Service.signup(dto);
-        return ResponseEntity.ok().body(true);
-    }
-
     @GetMapping("user/me")
     public ResponseEntity<?> getUserMe(){
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
-
+        log.info("{}", principalUser);
         return ResponseEntity.ok().body(userService.getUserInfo(principalUser.getId()));
     }
 }

@@ -12,5 +12,4 @@ public class RespUserInfoDto {
     private String email;
     private String img;
     private String role;
-
 }
