@@ -3,15 +3,19 @@ package com.finalProject.Back.controller;
 import com.finalProject.Back.aspect.annotation.ValidAop;
 import com.finalProject.Back.dto.request.Token.ReqAccessDto;
 import com.finalProject.Back.dto.request.User.ReqOAuth2MergeDto;
+import com.finalProject.Back.dto.request.User.ReqOAuth2SignupDto;
 import com.finalProject.Back.dto.request.User.ReqSigninDto;
 import com.finalProject.Back.dto.request.User.ReqSignupDto;
 import com.finalProject.Back.entity.OAuth2User;
+import com.finalProject.Back.exception.SignupException;
+import com.finalProject.Back.security.principal.PrincipalUser;
 import com.finalProject.Back.service.OAuth2Service;
 import com.finalProject.Back.service.TokenService;
 import com.finalProject.Back.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,5 +62,22 @@ public class UserController {
         OAuth2User oAuth2User = userService.mergeSignin(dto);
         oAuth2Service.merge(oAuth2User);
         return ResponseEntity.ok().body(true);
+    }
+
+    @ValidAop
+    @PostMapping("/user/oauth2/signup")
+    public ResponseEntity<?> oAuth2Signup(@Valid @RequestBody ReqOAuth2SignupDto dto , BindingResult bindingResult) throws SignupException {
+        oAuth2Service.signup(dto);
+        return ResponseEntity.ok().body(true);
+    }
+
+    @GetMapping("user/me")
+    public ResponseEntity<?> getUserMe(){
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        return ResponseEntity.ok().body(userService.getUserInfo(principalUser.getId()));
     }
 }

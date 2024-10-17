@@ -5,6 +5,7 @@ import com.finalProject.Back.dto.request.User.ReqSigninDto;
 import com.finalProject.Back.dto.request.User.ReqSignupDto;
 import com.finalProject.Back.dto.response.User.RespSigninDto;
 import com.finalProject.Back.dto.response.User.RespSignupDto;
+import com.finalProject.Back.dto.response.User.RespUserInfoDto;
 import com.finalProject.Back.entity.OAuth2User;
 import com.finalProject.Back.entity.User;
 import com.finalProject.Back.repository.UserMapper;
@@ -77,5 +78,16 @@ public class UserService {
             .build();
     }
 
+    public RespUserInfoDto getUserInfo(Long id) {
+        User user = userMapper.findById(id);
+        return RespUserInfoDto.builder()
+                .userId(user.getId())
+                .username(user.getUsername())
+                .name(user.getName())
+                .email(user.getEmail())
+                .img(user.getImg())
+                .role(user.getRole())
+                .build();
+    }
 
 }

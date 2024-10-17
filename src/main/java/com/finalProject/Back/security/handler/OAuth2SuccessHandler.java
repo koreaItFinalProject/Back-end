@@ -32,10 +32,10 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         User user = userMapper.findByOAuth2Name(oAuth2Name);
         if(user == null) {
-            response.sendRedirect("http://localhost:3000/user/join/oauth2?oAuth2Name=" + oAuth2Name + "&provider=" + provider);
+            response.sendRedirect("http://localhost:3000/user/oauth/oauth2?oAuth2Name=" + oAuth2Name + "&provider=" + provider);
             return;
         }
         String accessToken = jwtProvider.generateAccessToken(user);
-        response.sendRedirect("http://localhost:3000/user/login/oauth2?accessToken=" + accessToken);
+        response.sendRedirect("http://localhost:3000/user/oauth/oauth2?accessToken=" + accessToken);
     }
 }
