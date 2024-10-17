@@ -46,7 +46,7 @@ public class SampleDataInit implements CommandLineRunner {
         for(int i = 0; i < 436; i++) {
             int randomIndex = random.nextInt(20);
             boardMapper.save(Board.builder()
-                    .writerId(users.get(randomIndex).getId())
+                    .writerId(users.get(randomIndex).getUserId())
                     .title("테스트 게시글 제목 " + i)
                     .content("<p>테스트</p>")
                     .build());
