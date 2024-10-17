@@ -10,7 +10,7 @@
             useGeneratedKeys="true"
             keyProperty="id">
         insert into user
-        values (default, #{username} , #{password} , #{name} , #{email} , #{role} , #{nickname} ,#{phoneNumber} , default)
+        values (default, #{username} , #{password} , #{name} , #{email} , #{role} , #{nickname} , default , default , default , #{phoneNumber}  )
     </insert>
     <select id="findByUsername" resultType="com.finalProject.Back.entity.User">
         select
@@ -22,14 +22,47 @@
     </select>
 
     <select id="findById" resultType="com.finalProject.Back.entity.User">
-        select
-            *
-        from
-            user
-        where
-            id = #{id}
+        SELECT
+            u.id as user_id,
+            u.username,
+            u.password,
+            u.name,
+            u.email,
+            u.email_valid,
+            u.role,
+            u.nickname,
+            u.phoneNumber,
+            u.img,
+            ou.id as oauth2_user_id,
+            ou.user_id as ou_user_id,
+            ou.oauth2_name,
+            ou.provider
+        FROM
+            user u
+        LEFT OUTER JOIN oauth2_user ou ON(ou.user_id = u.id)
+        WHERE
+            u.id = #{id}
     </select>
     <select id="findByOAuth2Name" resultType="com.finalProject.Back.entity.User">
-
+    SELECT
+        u.id as user_id,
+        u.username,
+        u.password,
+        u.name,
+        u.email,
+        u.email_valid,
+        u.role,
+        u.nickname,
+        u.phoneNumber,
+        u.img,
+        ou.id as oauth2_user_id,
+        ou.user_id as ou_user_id,
+        ou.oauth2_name,
+        ou.provider
+    FROM
+        user u
+    LEFT OUTER JOIN oauth2_user ou ON(ou.user_id = u.id)
+    WHERE
+        u.username = #{username}
     </select>
 </mapper>
