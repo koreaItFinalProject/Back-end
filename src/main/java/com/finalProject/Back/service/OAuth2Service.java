@@ -73,7 +73,7 @@ public class OAuth2Service implements OAuth2UserService {
         User user = dto.toEntity(passwordEncoder);
         userMapper.save(user);
         oAuth2UserMapper.save(com.finalProject.Back.entity.OAuth2User.builder()
-                .userId(user.getUserId())
+                .userId(user.getId())
                 .oAuth2Name(dto.getOauth2Name())
                 .provider(dto.getProvider())
                 .build());

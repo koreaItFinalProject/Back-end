@@ -1,12 +1,15 @@
 package com.finalProject.Back.controller;
 
+import com.finalProject.Back.aspect.annotation.ValidAop;
 import com.finalProject.Back.dto.request.ReqBoardDto;
 import com.finalProject.Back.entity.Comment;
 import com.finalProject.Back.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -15,8 +18,9 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
+    @ValidAop
     @PostMapping("/board")
-    public ResponseEntity<?> write(@RequestBody ReqBoardDto.WriteBoardDto dto) {
+    public ResponseEntity<?> write(@Valid @RequestBody ReqBoardDto.WriteBoardDto dto, BindingResult bindingResult) {
         return ResponseEntity.ok().body(boardService.write(dto));
     }
 
