@@ -4,6 +4,7 @@ import com.finalProject.Back.entity.User;
 import lombok.Data;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -28,7 +29,7 @@ public class ReqSignupDto {
     @NotBlank
     @Pattern(regexp = "^.{1,10}$", message = "닉네임은 10글자 이내여야 하고 공백일 수 없습니다.")
     private String nickname;
-    @NotBlank(message = "휴대전화 인증을 받아야 합니다.")
+    @NotBlank(message = "전화번호 인증을 받아야 합니다.")
     private String phoneNumber;
     private String role;
 
@@ -42,5 +43,10 @@ public class ReqSignupDto {
                 .phoneNumber(phoneNumber)
                 .role(role)
                 .build();
+    }
+
+    @AssertTrue(message="비밀번호를 일치해주세요")
+    private boolean isPasswordMatching() {
+        return password != null&& password.equals(checkPassword);
     }
 }

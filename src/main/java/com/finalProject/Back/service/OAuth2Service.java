@@ -70,7 +70,7 @@ public class OAuth2Service implements OAuth2UserService {
 
     @Transactional(rollbackFor = Exception.class)
     public void signup(ReqOAuth2SignupDto dto){
-        User user = dto.toEntity(passwordEncoder);
+        User user = dto.toUser(passwordEncoder);
         userMapper.save(user);
         oAuth2UserMapper.save(com.finalProject.Back.entity.OAuth2User.builder()
                 .userId(user.getId())
