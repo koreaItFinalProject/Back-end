@@ -75,7 +75,7 @@ public class UserService {
     User user = checkUsernameAndPassword(dto.getUsername(), dto.getPassword());
         System.out.println(user);
     return OAuth2User.builder()
-            .userId(user.getUserId())
+            .userId(user.getId())
             .oAuth2Name(dto.getOauth2Name())
             .provider(dto.getProvider())
             .build();
@@ -85,7 +85,7 @@ public class UserService {
         log.info("{}" , id);
         User user = userMapper.findById(id);
         return RespUserInfoDto.builder()
-                .userId(user.getUserId())
+                .userId(user.getId())
                 .username(user.getUsername())
                 .name(user.getName())
                 .email(user.getEmail())

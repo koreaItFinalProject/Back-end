@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    private Long userId;
+    private Long id;
     private String username;
     private String password;
     private String name;
@@ -23,7 +23,7 @@ public class User {
 
     public PrincipalUser toPrincipal() {
         return PrincipalUser.builder()
-                .id(userId)
+                .id(id)
                 .username(username)
                 .password(password)
                 .build();

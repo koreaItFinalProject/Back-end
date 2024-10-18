@@ -24,7 +24,7 @@
     <select id="findById" resultType="com.finalProject.Back.entity.User">
         SELECT
             <!--  as 쓸시 엔티티 id맞춰야댐   -->
-            u.id as userId,
+            u.id,
             u.username,
             u.password,
             u.name,

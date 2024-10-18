@@ -4,12 +4,16 @@ import com.finalProject.Back.entity.board.Board;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+
 public class ReqBoardDto {
 
     @Data
     @Builder
     public static class WriteBoardDto {
+        @NotBlank(message = "제목을 입력하세요.")
         private String title;
+        @NotBlank(message = "게시글 내용을 입력하세요.")
         private String content;
 
         public Board toEntity(Long userId) {
