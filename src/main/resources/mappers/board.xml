@@ -89,6 +89,7 @@
             b.id,
             b.title,
             b.content,
+            b.writer_id as writerId,
             u.nickname,
             b.view_count as viewCount,
             b.write_date as writeDate
