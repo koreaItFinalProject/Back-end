@@ -3,6 +3,8 @@ package com.finalProject.Back.service;
 import com.finalProject.Back.dto.request.User.ReqOAuth2SignupDto;
 
 
+import com.finalProject.Back.dto.request.User.ReqSignupDto;
+import com.finalProject.Back.dto.response.User.RespSignupDto;
 import com.finalProject.Back.entity.User;
 import com.finalProject.Back.repository.OAuth2UserMapper;
 import com.finalProject.Back.repository.UserMapper;
@@ -68,14 +70,8 @@ public class OAuth2Service implements OAuth2UserService {
         oAuth2UserMapper.save(oAuth2User);
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    public void signup(ReqOAuth2SignupDto dto){
-        User user = dto.toUser(passwordEncoder);
-        userMapper.save(user);
-        oAuth2UserMapper.save(com.finalProject.Back.entity.OAuth2User.builder()
-                .userId(user.getId())
-                .oAuth2Name(dto.getOauth2Name())
-                .provider(dto.getProvider())
-                .build());
-    }
+
+
+
+
 }

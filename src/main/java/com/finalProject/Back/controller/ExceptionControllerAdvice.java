@@ -48,4 +48,9 @@ public class ExceptionControllerAdvice {
 //                "email", e.getEmail()
 //        ));
 //    }
+
+    @ExceptionHandler(Oauth2NameException.class)
+        public ResponseEntity<?> Oauth2NameException(Oauth2NameException e){
+        return ResponseEntity.status(403).body(e.getMessage());
+    }
 }

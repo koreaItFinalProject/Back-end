@@ -12,25 +12,22 @@ import javax.validation.constraints.Pattern;
 @Data
 public class ReqSignupDto {
 
-    @NotBlank
     @Pattern(regexp = "^[a-z0-9]{8,}$", message = "사용자이름은 8자이상의 영소문자 , 숫자 조합이여야합니다.")
     private String username;
-    @NotBlank
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[~!@#$%^&*?])[A-Za-z\\d~!@#$%^&*?]{8,16}$", message = "비밀번호는 8자이상 16자 이하의 영대소문, 숫자, 특수문자(~!@#$%^&*?)를 포함해야 합니다.")
     private String password;
-    @NotBlank(message = "비밀번호 공백일 수 없습니다")
+    @NotBlank(message = "확인용 비밀번호를 입력해주세요.")
     private String checkPassword;
-    @NotBlank
     @Pattern(regexp = "^[가-힣]+$", message = "한글로 된 이름을 기입해주세요.")
     private String name;
     @NotBlank(message = "이메일은 공백일 수 없습니다.")
     @Email(message = "이메일 형식이어야 합니다")
     private String email;
-    @NotBlank
-    @Pattern(regexp = "^.{1,10}$", message = "닉네임은 10글자 이내여야 하고 공백일 수 없습니다.")
-    private String nickname;
-    @NotBlank(message = "전화번호 인증을 받아야 합니다.")
+    @Pattern(regexp = "^.{1,8}$", message = "전화번호 형식을 맞춰주세요.")
+    @NotBlank(message = "전화번호 인증이 필요합니다.")
     private String phoneNumber;
+    @NotBlank(message = "닉네임을 입력해주세요.")
+    private String nickname;
     private String role;
 
     public User toEntity(BCryptPasswordEncoder passwordEncoder) {
@@ -47,6 +44,6 @@ public class ReqSignupDto {
 
     @AssertTrue(message="비밀번호를 일치해주세요")
     private boolean isPasswordMatching() {
-        return password != null&& password.equals(checkPassword);
+        return this.password != null&& this.password.equals(this.checkPassword);
     }
 }

@@ -2,7 +2,10 @@ package com.finalProject.Back.aspect;
 
 import com.finalProject.Back.dto.request.User.ReqOAuth2SignupDto;
 import com.finalProject.Back.dto.request.User.ReqSignupDto;
+import com.finalProject.Back.entity.OAuth2User;
+import com.finalProject.Back.entity.User;
 import com.finalProject.Back.exception.ValidException;
+import com.finalProject.Back.repository.OAuth2UserMapper;
 import com.finalProject.Back.service.UserService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -16,9 +19,11 @@ import org.springframework.validation.FieldError;
 @Component
 public class ValidAspect {
     private final UserService userService;
+    private final OAuth2UserMapper oAuth2UserMapper;
 
-    public ValidAspect(UserService userService) {
+    public ValidAspect(UserService userService , OAuth2UserMapper oAuth2UserMapper) {
         this.userService = userService;
+        this.oAuth2UserMapper = oAuth2UserMapper;
     }
 
     @Pointcut("@annotation(com.finalProject.Back.aspect.annotation.ValidAop)")
@@ -42,6 +47,9 @@ public class ValidAspect {
                 break;
             case "oAuth2signup":
                 ValidSignupDto(args , bindingResult);
+                break;
+            case "oAuth2nameDuplicate":
+                oauth2NameDuplicate(args , bindingResult);
                 break;
         }
 
@@ -81,6 +89,20 @@ public class ValidAspect {
                 }
                 if(userService.isDuplicateUsername(dto.getUsername())){
                     FieldError fieldError = new FieldError("username" , "username" , "이미 존재하는 아이디 입니다.");
+                    bindingResult.addError(fieldError);
+                }
+            }
+        }
+    }
+
+    public void oauth2NameDuplicate(Object[] args, BeanPropertyBindingResult bindingResult){
+        for(Object arg : args) {
+            if (arg.getClass() == ReqOAuth2SignupDto.class) {
+
+                ReqOAuth2SignupDto dto = (ReqOAuth2SignupDto) arg;
+
+                if (oAuth2UserMapper.existsByOauth2Name(dto.getOauth2Name())) {
+                    FieldError fieldError = new FieldError("oauth2Name", "oauth2Name", "이미 존재하는 OAuth2 이름입니다.");
                     bindingResult.addError(fieldError);
                 }
             }
