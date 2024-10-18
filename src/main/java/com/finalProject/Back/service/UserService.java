@@ -42,7 +42,14 @@ public class UserService {
         User user = null;
 
         user = dto.toEntity(passwordEncoder);
-        userMapper.save(user);
+        User foundUser = userMapper.findByUsername(user.getUsername());
+        if(foundUser != null){
+            if(dto.getUsername().equals(foundUser.getUsername())){
+                throw new SignupException("중복된 아이디입니다.");
+            }
+        }else {
+            userMapper.save(user);
+        }
 
         return RespSignupDto.builder()
                 .message("가입하신 이메일 주소를 통해 인증 후 사용할 수 있습니다.")
