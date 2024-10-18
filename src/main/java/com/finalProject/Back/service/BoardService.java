@@ -71,6 +71,7 @@ public class BoardService {
                 .id(board.getId())
                 .title(board.getTitle())
                 .content(board.getContent())
+                .writerId(board.getWriterId())
                 .nickname(board.getNickname())
                 .viewCount(board.getViewCount() + 1)
                 .writeDate(board.getWriteDate())
@@ -87,7 +88,7 @@ public class BoardService {
     public RespBoardDto.RespBoardLikeDto getLike(Long boardId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long userId = null;
-        if(!authentication.getName().equals("annonymousUser")) {
+        if(!authentication.getName().equals("anonymousUser")) {
             PrincipalUser principalUser = (PrincipalUser) authentication.getPrincipal();
             userId = principalUser.getId();
         }
