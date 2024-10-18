@@ -45,6 +45,7 @@ public class AuthenticationController {
     @ValidAop
     @PostMapping("/oauth/oauth2/signup")
     public ResponseEntity<?> oAuth2Signup(@Valid @RequestBody ReqOAuth2SignupDto dto , BindingResult bindingResult) throws SignupException {
+        System.out.println(dto);
         oAuth2Service.signup(dto);
         return ResponseEntity.ok().body(true);
     }
