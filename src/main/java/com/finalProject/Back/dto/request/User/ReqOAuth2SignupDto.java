@@ -18,14 +18,13 @@ public class ReqOAuth2SignupDto {
     private String username;
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[~!@#$%^&*?])[A-Za-z\\d~!@#$%^&*?]{8,16}$", message = "비밀번호는 8자이상 16자 이하의 영대소문, 숫자, 특수문자(~!@#$%^&*?)를 포함해야 합니다.")
     private String password;
-    @NotBlank(message = "확인용 비밀번호를 입력해주세요.")
     private String checkPassword;
     @Pattern(regexp = "^[가-힣]+$", message = "한글로 된 이름을 기입해주세요.")
     private String name;
     @NotBlank(message = "이메일은 공백일 수 없습니다.")
     @Email(message = "이메일 형식이어야 합니다")
     private String email;
-    @Pattern(regexp = "^.{1,10}$", message = "닉네임은 10글자 이내여야 하고 공백일 수 없습니다.")
+    @Pattern(regexp = "^.{1,8}$", message = "전화번호 형식을 맞춰주세요.")
     @NotBlank(message = "전화번호 인증이 필요합니다.")
     private String phoneNumber;
     @NotBlank(message = "닉네임을 입력해주세요.")
@@ -37,6 +36,7 @@ public class ReqOAuth2SignupDto {
     private String role;
 
     public User toUser(BCryptPasswordEncoder passwordEncoder){
+        System.out.println("체크체크" + oauth2Name);
         return User.builder()
                 .username(username)
                 .password(passwordEncoder.encode(password))
@@ -44,17 +44,10 @@ public class ReqOAuth2SignupDto {
                 .email(email)
                 .phoneNumber(phoneNumber)
                 .nickname(nickname)
+                .oauth(oauth2Name)
                 .role(role)
                 .build();
     }
-
-    @AssertTrue(message="비밀번호를 일치해주세요")
-    private boolean isPasswordMatching() {
-        return password != null&& password.equals(checkPassword);
-    }
-
-
-
 
 
 

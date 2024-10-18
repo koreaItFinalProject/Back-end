@@ -11,6 +11,7 @@ import com.finalProject.Back.service.TokenService;
 import com.finalProject.Back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,11 +30,13 @@ public class AuthenticationController {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @ValidAop
     @PostMapping("/oauth/oauth2/merge")
     public ResponseEntity<?> oAuth2Merge(@Valid @RequestBody ReqOAuth2MergeDto dto, BindingResult bindingResult) {
-        OAuth2User oAuth2User = userService.mergeSignin(dto);
-        oAuth2Service.merge(oAuth2User);
+        userService.mergeSignin(dto);
         if (bindingResult.hasErrors()) {
             // 유효성 검증 실패 시 에러 메시지 반환
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
@@ -45,8 +48,8 @@ public class AuthenticationController {
     @ValidAop
     @PostMapping("/oauth/oauth2/signup")
     public ResponseEntity<?> oAuth2Signup(@Valid @RequestBody ReqOAuth2SignupDto dto , BindingResult bindingResult) throws SignupException {
-        System.out.println(dto);
-        oAuth2Service.signup(dto);
+        System.out.println("컨트롤러" + dto);
+        userService.oauthSignup(dto);
         return ResponseEntity.ok().body(true);
     }
 }

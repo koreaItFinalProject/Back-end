@@ -19,6 +19,7 @@ public class User {
     private String role;
     private String nickname;
     private String phoneNumber;
+    private String oauth;
     private String img;
 
     public PrincipalUser toPrincipal() {
