@@ -33,4 +33,5 @@ public class CafeController {
     public ResponseEntity<?> get(@PathVariable String category, @PathVariable String search){
         return ResponseEntity.ok().body(cafeService.getList(category, search));
     }
+
 }
