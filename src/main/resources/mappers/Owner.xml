@@ -5,5 +5,37 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.finalProject.Back.repository.OwnerMapper">
+    <delete id="deleteUser">
+        delete
+        from
+            user
+        where
+        id = #{id}
+    </delete>
+    <delete id="deleteCafe">
+        delete
+        from
+            cafe
+        where
+        id = #{id}
+    </delete>
 
+    <select id="getUsers" resultType="com.finalProject.Back.dto.response.RespGetUserDto">
+        select
+            *
+        from
+            user
+        where
+        role = 'USER'
+    </select>
+    <select id="getOwners" resultType="com.finalProject.Back.dto.response.RespGetOwnerDto">
+        select
+            *
+        from
+            user u,
+            cafe cf
+        where
+            role = 'OWNER' AND
+            cf.owner_id = u.id
+    </select>
 </mapper>
