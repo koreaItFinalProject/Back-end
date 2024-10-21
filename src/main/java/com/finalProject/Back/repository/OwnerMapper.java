@@ -12,4 +12,5 @@ public interface OwnerMapper {
     List<RespGetUserDto> getUsers();
     List<RespGetOwnerDto> getOwners();
     int deleteUser(int id);
+    int deleteCafe(int id);
 }

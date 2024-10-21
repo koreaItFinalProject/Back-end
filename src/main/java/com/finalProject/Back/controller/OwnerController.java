@@ -36,4 +36,10 @@ public class OwnerController {
         System.out.println(id);
         return ResponseEntity.ok().body(ownerService.deleteUser(id));
     }
+
+    @DeleteMapping("/manager/cafe/{id}")
+    public ResponseEntity<?> deleteCafe(@PathVariable int id) {
+        System.out.println(id);
+        return ResponseEntity.ok().body(ownerService.deleteCafe(id));
+    }
 }
