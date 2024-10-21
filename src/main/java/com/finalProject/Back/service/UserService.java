@@ -59,14 +59,14 @@ public class UserService {
 
     @Transactional(rollbackFor = Exception.class)
     public RespSignupDto oauthSignup(ReqOAuth2SignupDto dto) {
-        System.out.println("시발"+dto.getUsername());
+        System.out.println("dto : "+dto.getUsername());
         User user = dto.toUser(passwordEncoder);
         System.out.println(user);
         User foundUser = userMapper.findByUsername(dto.getUsername());
-        System.out.println("비키라" +foundUser);
+        System.out.println("user : " +foundUser);
         if(foundUser != null){
             if(dto.getUsername().equals(foundUser.getUsername())){
-                System.out.println("나와라요"+userMapper.findByUsername(user.getUsername()).getUsername());
+                System.out.println("username : "+userMapper.findByUsername(user.getUsername()).getUsername());
                 throw new SignupException("중복된 아이디입니다.");
             }
         }else{
@@ -96,7 +96,6 @@ public class UserService {
             oAuth2UserMapper.save(toOauth);
         }
         return RespSignupDto.builder()
-                .message("가입하신 이메일 주소를 통해 인증 후 사용할 수 있습니다.")
                 .user(user)
                 .build();
     }
