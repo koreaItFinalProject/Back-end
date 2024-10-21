@@ -12,6 +12,13 @@
         where
         id = #{id}
     </delete>
+    <delete id="deleteCafe">
+        delete
+        from
+            cafe
+        where
+        id = #{id}
+    </delete>
 
     <select id="getUsers" resultType="com.finalProject.Back.dto.response.RespGetUserDto">
         select

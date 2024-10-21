@@ -31,4 +31,8 @@ public class OwnerService {
     public int deleteUser(int id){
         return ownerMapper.deleteUser(id);
     }
+
+    public int deleteCafe(int id){
+        return ownerMapper.deleteCafe(id);
+    }
 }
