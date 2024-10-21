@@ -10,4 +10,5 @@ public interface UserMapper {
     User findByOAuth2Id(Long id);
     User findByOAuth2Name(String username);
     User findById(Long id);
+    boolean existsByUsername(String username);
 }

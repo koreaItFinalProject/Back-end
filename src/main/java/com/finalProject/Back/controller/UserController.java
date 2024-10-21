@@ -2,13 +2,8 @@ package com.finalProject.Back.controller;
 
 import com.finalProject.Back.aspect.annotation.ValidAop;
 import com.finalProject.Back.dto.request.Token.ReqAccessDto;
-import com.finalProject.Back.dto.request.User.ReqOAuth2MergeDto;
-import com.finalProject.Back.dto.request.User.ReqOAuth2SignupDto;
 import com.finalProject.Back.dto.request.User.ReqSigninDto;
 import com.finalProject.Back.dto.request.User.ReqSignupDto;
-import com.finalProject.Back.entity.OAuth2User;
-import com.finalProject.Back.entity.User;
-import com.finalProject.Back.exception.SignupException;
 import com.finalProject.Back.security.principal.PrincipalUser;
 import com.finalProject.Back.service.OAuth2Service;
 import com.finalProject.Back.service.TokenService;
@@ -18,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -66,4 +58,15 @@ public class UserController {
         log.info("{}", principalUser);
         return ResponseEntity.ok().body(userService.getUserInfo(principalUser.getId()));
     }
+
+    @GetMapping("/user/check/username")
+    public ResponseEntity<?> checkUsername(@RequestParam String username){
+        System.out.println("들어오는지 체크" + username);
+        if (userService.checkUsername(username)) {
+            return ResponseEntity.ok("사용 가능한 아이디입니다."); // 중복이 없을 경우
+        } else {
+            return ResponseEntity.badRequest().body("이미 사용중인 아이디입니다."); // 중복일 경우
+        }
+    }
+
 }
