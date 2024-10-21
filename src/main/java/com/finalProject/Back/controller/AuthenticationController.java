@@ -3,8 +3,6 @@ package com.finalProject.Back.controller;
 import com.finalProject.Back.aspect.annotation.ValidAop;
 import com.finalProject.Back.dto.request.User.ReqOAuth2MergeDto;
 import com.finalProject.Back.dto.request.User.ReqOAuth2SignupDto;
-import com.finalProject.Back.dto.request.User.ReqSignupDto;
-import com.finalProject.Back.entity.OAuth2User;
 import com.finalProject.Back.exception.SignupException;
 import com.finalProject.Back.service.OAuth2Service;
 import com.finalProject.Back.service.TokenService;
@@ -13,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -52,4 +48,5 @@ public class AuthenticationController {
         userService.oauthSignup(dto);
         return ResponseEntity.ok().body(true);
     }
+
 }

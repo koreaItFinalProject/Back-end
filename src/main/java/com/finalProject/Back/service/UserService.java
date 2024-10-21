@@ -10,7 +10,7 @@ import com.finalProject.Back.dto.response.User.RespUserInfoDto;
 import com.finalProject.Back.entity.OAuth2User;
 import com.finalProject.Back.entity.User;
 import com.finalProject.Back.exception.Oauth2NameException;
-import com.finalProject.Back.exception.SignupException;
+import com.finalProject.Back.exception.SignupException; 
 import com.finalProject.Back.repository.OAuth2UserMapper;
 import com.finalProject.Back.repository.UserMapper;
 import com.finalProject.Back.security.jwt.JwtProvider;
@@ -102,7 +102,6 @@ public class UserService {
 
     public RespSigninDto generaterAccessToken (ReqSigninDto dto){
         User user = checkUsernameAndPassword(dto.getUsername(), dto.getPassword());
-
         return RespSigninDto.builder()
                 .expireDate(jwtProvider.getExpireDate().toString())
                 .accessToken(jwtProvider.generateAccessToken(user))
@@ -149,6 +148,11 @@ public class UserService {
                 .img(user.getImg())
                 .role(user.getRole())
                 .build();
+    }
+
+    public boolean checkUsername(String username) {
+        // DB에서 username의 존재 여부 확인
+        return !userMapper.existsByUsername(username); // true: 사용 가능, false: 중복
     }
 
 }

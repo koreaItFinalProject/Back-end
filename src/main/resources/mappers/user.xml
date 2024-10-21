@@ -74,4 +74,9 @@
         WHERE
         u.id = #{id}
     </select>
+    <select id="existsByUsername" resultType="java.lang.Boolean">
+        SELECT COUNT(*) > 0
+        FROM user
+        WHERE username = #{username}
+    </select>
 </mapper>
