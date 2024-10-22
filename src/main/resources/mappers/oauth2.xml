@@ -18,4 +18,14 @@
         where
             oauth2_name = #{oAuth2Name}
     </select>
+    <select id="existsByEmail" resultType="java.lang.Boolean">
+        select
+        COUNT(*) > 0
+        from
+            oauth2_user ou
+        join
+            user u on ou.email = u.email
+        where
+            ou.email = #{email}
+    </select>
 </mapper>

@@ -43,6 +43,7 @@
         u.img,
         ou.id as oauth2_user_id,
         ou.user_id as ou_user_id,
+        ou.email as ou_email,
         ou.oauth2_name,
         ou.provider
     FROM
@@ -53,7 +54,6 @@
     </select>
     <select id="findByOAuth2Id" resultType="com.finalProject.Back.entity.User">
         SELECT
-        <!--  as 쓸시 엔티티 id맞춰야댐   -->
         u.id,
         u.username,
         u.password,
@@ -66,6 +66,7 @@
         u.img,
         ou.id as oauth2_user_id,
         ou.user_id as ou_user_id,
+        ou.email as ou_email,
         ou.oauth2_name,
         ou.provider
         FROM
@@ -79,6 +80,10 @@
         FROM user
         WHERE username = #{username}
     </select>
+    <select id="existsByNickname" resultType="java.lang.Boolean">
+        SELECT COUNT(*) > 0
+        FROM user
+        WHERE nickname = #{nickname}
     <select id="findUserInfoById" resultType="com.finalProject.Back.dto.response.RespUserInfoDto">
         SELECT
             *

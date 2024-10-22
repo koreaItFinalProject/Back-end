@@ -14,4 +14,5 @@ public interface UserMapper {
     User findById(Long id);
     RespUserInfoDto findUserInfoById(Long id);
     boolean existsByUsername(String username);
+    boolean existsByNickname(String nickname);
 }
