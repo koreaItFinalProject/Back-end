@@ -1,5 +1,7 @@
 package com.finalProject.Back.repository;
 
+import com.finalProject.Back.dto.response.RespInfoDto;
+import com.finalProject.Back.dto.response.RespUserInfoDto;
 import com.finalProject.Back.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,5 +12,6 @@ public interface UserMapper {
     User findByOAuth2Id(Long id);
     User findByOAuth2Name(String username);
     User findById(Long id);
+    RespUserInfoDto findUserInfoById(Long id);
     boolean existsByUsername(String username);
 }
