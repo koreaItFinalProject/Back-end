@@ -1,5 +1,6 @@
 package com.finalProject.Back.repository;
 
+import com.finalProject.Back.dto.response.RespCommentInfoDto;
 import com.finalProject.Back.entity.Comment;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,4 +16,5 @@ public interface CommentMapper {
     int deleteByBoardId(Long boardId);
     List<Comment> findAllByBoardId(Long boardId);
     Comment findById(Long commentId);
+    List<RespCommentInfoDto> findCommentById(Long id);
 }

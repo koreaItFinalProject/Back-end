@@ -170,5 +170,13 @@
         where
             id = #{commentId}
     </select>
+    <select id="findCommentById" resultType="com.finalProject.Back.dto.response.RespCommentInfoDto">
+        select
+            *
+        from
+            comment
+        where
+            writer_id = #{id}
+    </select>
 
 </mapper>

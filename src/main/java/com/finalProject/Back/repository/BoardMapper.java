@@ -1,5 +1,6 @@
 package com.finalProject.Back.repository;
 
+import com.finalProject.Back.dto.response.RespBoardInfoDto;
 import com.finalProject.Back.entity.board.Board;
 import com.finalProject.Back.entity.board.BoardList;
 import org.apache.ibatis.annotations.Mapper;
@@ -17,5 +18,5 @@ public interface BoardMapper {
     Board getDetail(Long boardId);
     int getTotalCount();
     int addViewCountById(Long boardId);
-
+    List<RespBoardInfoDto> getBoardInfoById(Long id);
 }

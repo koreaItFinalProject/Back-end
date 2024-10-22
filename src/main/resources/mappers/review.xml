@@ -73,5 +73,20 @@
         where
             id = #{reviewId}
     </select>
+    <select id="getReviewInfoById" resultType="com.finalProject.Back.dto.response.RespReviewInfoDto">
+        select
+            cf.id,
+            cf.cafeName,
+            r.rating,
+            r.category,
+            r.review,
+            r.write_date
+        from
+            cafe cf,
+            review r
+        where
+            r.writer_id = #{id} and
+            cf.id = r.cafe_id
+    </select>
 
 </mapper>

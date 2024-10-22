@@ -106,5 +106,13 @@
         where
             b.id = #{boardId}
     </select>
+    <select id="getBoardInfoById" resultType="com.finalProject.Back.dto.response.RespBoardInfoDto">
+        select
+            *
+        from
+            board
+        where
+            writer_id = #{id}
+    </select>
 
 </mapper>
