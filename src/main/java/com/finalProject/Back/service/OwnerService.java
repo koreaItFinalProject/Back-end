@@ -5,11 +5,13 @@ import com.finalProject.Back.dto.response.RespGetOwnerDto;
 import com.finalProject.Back.dto.response.RespGetUserDto;
 import com.finalProject.Back.dto.response.User.RespSigninDto;
 import com.finalProject.Back.entity.User;
-import com.finalProject.Back.repository.OwnerMapper;
+import com.finalProject.Back.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -18,6 +20,15 @@ public class OwnerService {
 
     @Autowired
     private OwnerMapper ownerMapper;
+
+    @Autowired
+    private CommentMapper commentMapper;
+
+    @Autowired
+    private ReviewMapper reviewMapper;
+
+    @Autowired
+    private BoardMapper boardMapper;
 
 
     public List<RespGetUserDto> getUsers(){
@@ -28,7 +39,11 @@ public class OwnerService {
         return ownerMapper.getOwners();
     }
 
-    public int deleteUser(int id){
+    @Transactional(rollbackFor = SQLException.class)
+    public Long deleteUser(Long id){
+        commentMapper.deleteByUserId(id);
+        reviewMapper.deleteByUserId(id);
+        boardMapper.deleteByUserId(id);
         return ownerMapper.deleteUser(id);
     }
 

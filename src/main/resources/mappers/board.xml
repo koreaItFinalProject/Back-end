@@ -35,6 +35,13 @@
         where
             id = #{boardId}
     </delete>
+    <delete id="deleteByUserId">
+        delete
+        from
+            board
+        where
+            writer_id = #{userId}
+    </delete>
 
     <select id="getList" resultType="com.finalProject.Back.entity.board.BoardList">
         with like_count as (

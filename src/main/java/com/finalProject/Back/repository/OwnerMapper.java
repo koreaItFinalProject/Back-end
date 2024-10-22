@@ -11,6 +11,6 @@ import java.util.List;
 public interface OwnerMapper {
     List<RespGetUserDto> getUsers();
     List<RespGetOwnerDto> getOwners();
-    int deleteUser(int id);
+    Long deleteUser(Long id);
     int deleteCafe(int id);
 }
