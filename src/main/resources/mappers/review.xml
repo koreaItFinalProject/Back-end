@@ -10,6 +10,13 @@
         insert into review
         values(default, #{cafeId}, #{writerId}, #{rating}, #{category}, #{review}, now())
     </insert>
+    <delete id="deleteByUserId">
+        delete
+        from
+            review
+        where
+            writer_id = #{userId}
+    </delete>
 
     <select id="findByCafeId" resultType="com.finalProject.Back.entity.Review">
         select

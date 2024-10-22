@@ -63,6 +63,40 @@
         where
             board_id = #{boardId}
     </delete>
+    <delete id="deleteByUserId">
+        WITH RECURSIVE comment_tree(id, board_id, parent_id, content, writer_id, create_date) AS (
+        SELECT
+            id,
+            board_id,
+            parent_id,
+            content,
+            writer_id,
+            write_date
+            FROM
+            comment
+        WHERE
+        writer_id = #{userId}
+
+        UNION ALL
+
+        SELECT
+        c.id,
+        c.board_id,
+        c.parent_id,
+        c.content,
+        c.writer_id,
+        c.write_date
+        FROM
+        comment c
+        JOIN comment_tree ct ON (c.parent_id = ct.id)
+        )
+
+        delete
+        from
+        comment
+        where
+        id in(select id from comment_tree)
+    </delete>
 
     <select id="findAllByBoardId" resultType="com.finalProject.Back.entity.Comment">
         WITH RECURSIVE comment_tree(id, board_id, parent_id, content, writer_id, write_date, level, path) AS (

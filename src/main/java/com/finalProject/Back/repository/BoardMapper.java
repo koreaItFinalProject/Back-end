@@ -12,6 +12,7 @@ public interface BoardMapper {
     int save(Board board);
     int modify(Board board);
     int delete(Long boardId);
+    int deleteByUserId(Long userId);
     List<BoardList> getList(Map<String, Object> params);
     Board getDetail(Long boardId);
     int getTotalCount();
