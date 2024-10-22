@@ -38,21 +38,26 @@ public class UserService {
     @Autowired
     private OAuth2UserMapper oAuth2UserMapper;
 
+    @Transactional(rollbackFor = Exception.class)
     public RespSignupDto userSignup(ReqSignupDto dto) {
         User user = null;
 
         user = dto.toEntity(passwordEncoder);
         User foundUser = userMapper.findByUsername(user.getUsername());
+
         if(foundUser != null){
             if(dto.getUsername().equals(foundUser.getUsername())){
                 throw new SignupException("중복된 아이디입니다.");
+            }
+            if (oAuth2UserMapper.existsByEmail(dto.getEmail())) {
+                System.out.println("중복된 이메일입니다 " + dto.getEmail());
+                throw new Oauth2NameException("중복된 이메일로 가입할 수 없습니다.");
             }
         }else {
             userMapper.save(user);
         }
 
         return RespSignupDto.builder()
-                .message("가입하신 이메일 주소를 통해 인증 후 사용할 수 있습니다.")
                 .user(user)
                 .build();
     }
@@ -64,6 +69,14 @@ public class UserService {
         System.out.println(user);
         User foundUser = userMapper.findByUsername(dto.getUsername());
         System.out.println("user : " +foundUser);
+        User oauth = userMapper.findById(user.getId());
+        System.out.println("oauth : "+oauth);
+        OAuth2User toOauth = OAuth2User.builder()
+                .userId(oauth.getId())
+                .email(oauth.getEmail())
+                .oAuth2Name(dto.getOauth2Name())
+                .provider(dto.getProvider())
+                .build();
         if(foundUser != null){
             if(dto.getUsername().equals(foundUser.getUsername())){
                 System.out.println("username : "+userMapper.findByUsername(user.getUsername()).getUsername());
@@ -73,24 +86,20 @@ public class UserService {
             try {
                 userMapper.save(user);
                 System.out.println("User saved successfully");
-
+                oAuth2UserMapper.save(toOauth);
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new RuntimeException("User save failed");
             }
         }
-        User oauth = userMapper.findById(user.getId());
-        System.out.println("오스" +oauth);
-        System.out.println("id"+oauth.getId());
-        OAuth2User toOauth = OAuth2User.builder()
-                .userId(oauth.getId())
-                .oAuth2Name(dto.getOauth2Name())
-                .provider(dto.getProvider())
-                .build();
         if (dto.getOauth2Name() != null) {
             if (oAuth2UserMapper.existsByOauth2Name(toOauth.getOAuth2Name())) {
                 System.out.println("Oauth2Name exists: " + dto.getOauth2Name());
                 throw new Oauth2NameException("중복된 아이디로 가입할 수 없습니다.");
+            }
+            if (oAuth2UserMapper.existsByEmail(toOauth.getEmail())) {
+                System.out.println("Oauth2email exists: " + dto.getEmail());
+                throw new Oauth2NameException("중복된 이메일로 가입할 수 없습니다.");
             }
         }else {
             oAuth2UserMapper.save(toOauth);

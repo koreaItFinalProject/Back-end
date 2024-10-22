@@ -30,7 +30,7 @@ public class AuthenticationController {
     private BCryptPasswordEncoder passwordEncoder;
 
     @ValidAop
-    @PostMapping("/oauth/oauth2/merge")
+    @PostMapping("/user/oauth2/merge")
     public ResponseEntity<?> oAuth2Merge(@Valid @RequestBody ReqOAuth2MergeDto dto, BindingResult bindingResult) {
         userService.mergeSignin(dto);
         if (bindingResult.hasErrors()) {
@@ -42,7 +42,7 @@ public class AuthenticationController {
     }
 
     @ValidAop
-    @PostMapping("/oauth/oauth2/signup")
+    @PostMapping("/user/oauth2/signup")
     public ResponseEntity<?> oAuth2Signup(@Valid @RequestBody ReqOAuth2SignupDto dto , BindingResult bindingResult) throws SignupException {
         System.out.println("컨트롤러" + dto);
         userService.oauthSignup(dto);

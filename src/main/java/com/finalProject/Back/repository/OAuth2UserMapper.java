@@ -9,4 +9,5 @@ import org.apache.ibatis.annotations.Select;
 public interface OAuth2UserMapper {
     int save(OAuth2User oAuth2User);
     boolean existsByOauth2Name(String oauth2Name);
+    boolean existsByEmail(String email);
 }
