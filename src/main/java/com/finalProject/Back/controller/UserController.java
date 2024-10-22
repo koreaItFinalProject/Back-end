@@ -59,8 +59,8 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUserInfo(principalUser.getId()));
     }
 
-    @GetMapping("/user/check/username")
-    public ResponseEntity<?> checkUsername(@RequestParam String username){
+    @GetMapping("/user/check/{username}")
+    public ResponseEntity<?> checkUsername(@PathVariable String username){
         System.out.println("들어오는지 체크" + username);
         if (userService.checkUsername(username)) {
             return ResponseEntity.ok("사용 가능한 아이디입니다."); // 중복이 없을 경우
