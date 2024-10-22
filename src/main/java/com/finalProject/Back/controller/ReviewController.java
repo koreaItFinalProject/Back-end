@@ -13,7 +13,7 @@ public class ReviewController {
     private ReviewService reviewService;
 
     @PostMapping("/review")
-    public ResponseEntity<?> write(@RequestBody ReqReviewDto.ReqWriteReviewDto dto) {
+    public ResponseEntity<?> write(@RequestBody ReqReviewDto.ReqWriteDto dto) {
         reviewService.write(dto);
         return ResponseEntity.ok().body(true);
     }
@@ -22,4 +22,11 @@ public class ReviewController {
     public ResponseEntity<?> getList(@PathVariable Long cafeId) {
         return ResponseEntity.ok().body(reviewService.getList(cafeId));
     }
+
+    @PutMapping("/review/{reviewId}")
+    public ResponseEntity<?> modify(@RequestBody ReqReviewDto.ReqModifyDto dto) {
+        reviewService.modify(dto);
+        return ResponseEntity.ok().body(true);
+    }
+
 }

@@ -10,5 +10,7 @@ public interface ReviewMapper {
     int save(Review review);
     List<Review> findByCafeId(Long cafeId);
     int getCountByCafeId(Long cafeId);
+    int modify(Review review);
+    Long findById(Long reviewId);
     int deleteByUserId(Long userId);
 }
