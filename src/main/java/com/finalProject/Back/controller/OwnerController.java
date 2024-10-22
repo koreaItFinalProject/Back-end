@@ -32,7 +32,7 @@ public class OwnerController {
     }
 
     @DeleteMapping("/manager/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable int id) {
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         System.out.println(id);
         return ResponseEntity.ok().body(ownerService.deleteUser(id));
     }
