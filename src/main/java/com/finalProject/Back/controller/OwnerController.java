@@ -1,6 +1,7 @@
 package com.finalProject.Back.controller;
 
 import com.finalProject.Back.dto.request.User.ReqSigninDto;
+import com.finalProject.Back.security.principal.PrincipalUser;
 import com.finalProject.Back.service.OwnerService;
 import com.finalProject.Back.service.UserService;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,5 +43,19 @@ public class OwnerController {
     public ResponseEntity<?> deleteCafe(@PathVariable int id) {
         System.out.println(id);
         return ResponseEntity.ok().body(ownerService.deleteCafe(id));
+    }
+
+    @GetMapping("/manager/info/{id}")
+    public ResponseEntity<?> getInfo(@PathVariable Long id) {
+        return ResponseEntity.ok().body(ownerService.getInfo(id));
+    }
+
+    @GetMapping("/manager/info")
+    public ResponseEntity<?> getInfo2() {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        return ResponseEntity.ok().body(ownerService.getInfo(principalUser.getId()));
     }
 }

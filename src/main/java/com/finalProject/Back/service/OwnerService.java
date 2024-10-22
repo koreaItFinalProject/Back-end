@@ -1,8 +1,7 @@
 package com.finalProject.Back.service;
 
 import com.finalProject.Back.dto.request.User.ReqSigninDto;
-import com.finalProject.Back.dto.response.RespGetOwnerDto;
-import com.finalProject.Back.dto.response.RespGetUserDto;
+import com.finalProject.Back.dto.response.*;
 import com.finalProject.Back.dto.response.User.RespSigninDto;
 import com.finalProject.Back.entity.User;
 import com.finalProject.Back.repository.*;
@@ -29,6 +28,8 @@ public class OwnerService {
 
     @Autowired
     private BoardMapper boardMapper;
+    @Autowired
+    private UserMapper userMapper;
 
 
     public List<RespGetUserDto> getUsers(){
@@ -49,5 +50,18 @@ public class OwnerService {
 
     public int deleteCafe(int id){
         return ownerMapper.deleteCafe(id);
+    }
+
+    public RespInfoDto getInfo(Long id){
+        RespUserInfoDto userInfoDto = userMapper.findUserInfoById(id);
+        List<RespBoardInfoDto> boardInfoDto = boardMapper.getBoardInfoById(id);
+        List<RespCommentInfoDto> commentInfoDto = commentMapper.findCommentById(id);
+        List<RespReviewInfoDto> reviewInfoDto = reviewMapper.getReviewInfoById(id);
+        return RespInfoDto.builder()
+                .user(userInfoDto)
+                .board(boardInfoDto)
+                .review(reviewInfoDto)
+                .comment(commentInfoDto)
+                .build();
     }
 }

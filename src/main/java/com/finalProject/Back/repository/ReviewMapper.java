@@ -1,5 +1,6 @@
 package com.finalProject.Back.repository;
 
+import com.finalProject.Back.dto.response.RespReviewInfoDto;
 import com.finalProject.Back.entity.Review;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,4 +15,5 @@ public interface ReviewMapper {
     Long findById(Long reviewId);
     int delete(Long reviewId);
     int deleteByUserId(Long userId);
+    List<RespReviewInfoDto> getReviewInfoById(Long id);
 }

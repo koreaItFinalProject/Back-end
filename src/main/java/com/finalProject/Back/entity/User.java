@@ -1,5 +1,6 @@
 package com.finalProject.Back.entity;
 
+import com.finalProject.Back.dto.response.RespInfoDto;
 import com.finalProject.Back.security.principal.PrincipalUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
