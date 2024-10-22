@@ -2,7 +2,6 @@ package com.finalProject.Back.service;
 
 import com.finalProject.Back.dto.request.ReqReviewDto;
 import com.finalProject.Back.dto.response.RespReviewDto;
-import com.finalProject.Back.entity.Comment;
 import com.finalProject.Back.entity.Review;
 import com.finalProject.Back.exception.AccessDeniedException;
 import com.finalProject.Back.repository.ReviewMapper;
@@ -39,6 +38,11 @@ public class ReviewService {
     public void modify(ReqReviewDto.ReqModifyDto dto) {
         authorityCheck(dto.getReviewId());
         reviewMapper.modify(dto.toEntity());
+    }
+
+    public void delete(Long reviewId) {
+        authorityCheck(reviewId);
+        reviewMapper.delete(reviewId);
     }
 
     private void authorityCheck(Long reviewId) {

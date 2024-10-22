@@ -12,7 +12,6 @@ import java.util.Map;
 public class ExceptionControllerAdvice {
     @ExceptionHandler(ValidException.class)
     public ResponseEntity<?> validException(ValidException e) {
-
         return ResponseEntity.badRequest().body(e.getFieldError());
     }
 
