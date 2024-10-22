@@ -9,6 +9,6 @@ import java.time.LocalDateTime;
 @Builder
 public class RespCommentInfoDto {
     private Long board_id;
-    private String comment;
+    private String content;
     private String write_date;
 }
