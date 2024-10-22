@@ -15,6 +15,7 @@ public class Review {
     private Long id;
     private Long cafeId;
     private Long writerId;
+    private String nickname;
     private int rating;
     private String category;
     private String review;
