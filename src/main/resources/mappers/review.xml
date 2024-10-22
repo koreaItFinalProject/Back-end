@@ -11,4 +11,28 @@
         values(default, #{cafeId}, #{writerId}, #{rating}, #{category}, #{review}, now())
     </insert>
 
+    <select id="findByCafeId" resultType="com.finalProject.Back.entity.Review">
+        select
+            r.id,
+            u.nickname,
+            r.rating,
+            r.category,
+            r.review,
+            r.write_date as writeDate
+        from
+            review r
+            join user u on(r.writer_id = u.id)
+        where
+            r.cafe_id = #{cafeId}
+    </select>
+
+    <select id="getCountByCafeId" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            review
+        where
+            cafe_id = #{cafeId}
+    </select>
+
 </mapper>
