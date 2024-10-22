@@ -4,6 +4,7 @@ import com.finalProject.Back.aspect.annotation.ValidAop;
 import com.finalProject.Back.dto.request.Token.ReqAccessDto;
 import com.finalProject.Back.dto.request.User.ReqSigninDto;
 import com.finalProject.Back.dto.request.User.ReqSignupDto;
+import com.finalProject.Back.entity.User;
 import com.finalProject.Back.security.principal.PrincipalUser;
 import com.finalProject.Back.service.OAuth2Service;
 import com.finalProject.Back.service.TokenService;
@@ -16,6 +17,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 @Slf4j
 @RestController
@@ -59,13 +62,24 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUserInfo(principalUser.getId()));
     }
 
-    @GetMapping("/user/check/{username}")
+    @GetMapping("/user/check/username/{username}")
     public ResponseEntity<?> checkUsername(@PathVariable String username){
         System.out.println("들어오는지 체크" + username);
         if (userService.checkUsername(username)) {
             return ResponseEntity.ok("사용 가능한 아이디입니다."); // 중복이 없을 경우
         } else {
             return ResponseEntity.badRequest().body("이미 사용중인 아이디입니다."); // 중복일 경우
+        }
+    }
+    @GetMapping("/user/check/nickname/{nickname}")
+    public ResponseEntity<?> checkNickname(@PathVariable String nickname) throws UnsupportedEncodingException {
+        String encodedString = nickname;
+        String encodedNickname = URLDecoder.decode(encodedString, "UTF-8");
+        System.out.println("들어오는지 체크" + encodedNickname);
+        if (userService.checkNickname(encodedNickname)) {
+            return ResponseEntity.ok("사용 가능한 닉네임입니다."); // 중복이 없을 경우
+        } else {
+            return ResponseEntity.badRequest().body("이미 사용중인 닉네임입니다."); // 중복일 경우
         }
     }
 
