@@ -11,6 +11,18 @@
         values(default, #{cafeId}, #{writerId}, #{rating}, #{category}, #{review}, now())
     </insert>
 
+    <update id="modify">
+        update
+            review
+        set
+            rating = #{rating},
+            category = #{category},
+            review = #{review},
+            write_date = now()
+        where
+            id = #{id}
+    </update>
+
     <select id="findByCafeId" resultType="com.finalProject.Back.entity.Review">
         select
             r.id,
@@ -33,6 +45,15 @@
             review
         where
             cafe_id = #{cafeId}
+    </select>
+
+    <select id="findById" resultType="java.lang.Long">
+        select
+            writer_id as writerId
+        from
+            review
+        where
+            id = #{reviewId}
     </select>
 
 </mapper>
