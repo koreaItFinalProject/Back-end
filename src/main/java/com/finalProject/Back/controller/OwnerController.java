@@ -50,12 +50,13 @@ public class OwnerController {
         return ResponseEntity.ok().body(ownerService.getInfo(id));
     }
 
-    @GetMapping("/manager/info")
+    @GetMapping("/user/auth/info")
     public ResponseEntity<?> getInfo2() {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
+        System.out.println(principalUser);
         return ResponseEntity.ok().body(ownerService.getInfo(principalUser.getId()));
     }
 }

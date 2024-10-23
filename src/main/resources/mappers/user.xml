@@ -84,6 +84,7 @@
         SELECT COUNT(*) > 0
         FROM user
         WHERE nickname = #{nickname}
+    </select>
     <select id="findUserInfoById" resultType="com.finalProject.Back.dto.response.RespUserInfoDto">
         SELECT
             *
