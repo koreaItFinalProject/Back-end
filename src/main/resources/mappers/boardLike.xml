@@ -6,7 +6,7 @@
 
     <insert id="like" useGeneratedKeys="true" keyProperty="id">
         insert into board_like
-        value(default, #{boardId}, #{userId})
+        value(default, #{cafeId}, #{userId})
     </insert>
 
     <delete id="disLike">

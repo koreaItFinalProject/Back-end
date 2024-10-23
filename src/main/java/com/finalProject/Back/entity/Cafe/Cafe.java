@@ -1,4 +1,4 @@
-package com.finalProject.Back.entity;
+package com.finalProject.Back.entity.Cafe;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,4 +17,6 @@ public class Cafe {
     private String lat;
     private String lng;
     private String category;
+    private int reviewCount;
+    private int likeCount;
 }

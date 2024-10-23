@@ -1,6 +1,6 @@
 package com.finalProject.Back.dto.request;
 
-import com.finalProject.Back.entity.Cafe;
+import com.finalProject.Back.entity.Cafe.Cafe;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;

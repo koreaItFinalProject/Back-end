@@ -1,6 +1,6 @@
 package com.finalProject.Back.dto.response;
 
-import com.finalProject.Back.entity.Cafe;
+import com.finalProject.Back.entity.Cafe.Cafe;
 import lombok.Builder;
 import lombok.Data;
 
