@@ -22,6 +22,7 @@ public class CafeController {
 
     @GetMapping("/cafe/get/{category}")
     public ResponseEntity<?> get(@PathVariable String category){
+        System.out.println(cafeService.get(category));
         return ResponseEntity.ok().body(cafeService.get(category));
     }
 
