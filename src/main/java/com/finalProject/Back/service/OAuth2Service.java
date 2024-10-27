@@ -1,11 +1,5 @@
 package com.finalProject.Back.service;
 
-import com.finalProject.Back.dto.request.User.ReqOAuth2SignupDto;
-
-
-import com.finalProject.Back.dto.request.User.ReqSignupDto;
-import com.finalProject.Back.dto.response.User.RespSignupDto;
-import com.finalProject.Back.entity.User;
 import com.finalProject.Back.repository.OAuth2UserMapper;
 import com.finalProject.Back.repository.UserMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +12,6 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.HashSet;

@@ -1,9 +1,7 @@
 package com.finalProject.Back.service;
 
-import com.finalProject.Back.dto.request.User.ReqOAuth2MergeDto;
-import com.finalProject.Back.dto.request.User.ReqOAuth2SignupDto;
-import com.finalProject.Back.dto.request.User.ReqSigninDto;
-import com.finalProject.Back.dto.request.User.ReqSignupDto;
+import com.finalProject.Back.dto.request.User.*;
+import com.finalProject.Back.dto.response.User.RespModifyProfile;
 import com.finalProject.Back.dto.response.User.RespSigninDto;
 import com.finalProject.Back.dto.response.User.RespSignupDto;
 import com.finalProject.Back.dto.response.User.RespUserInfoDto;
@@ -168,4 +166,20 @@ public class UserService {
         return !userMapper.existsByNickname(nickname); // true: 사용 가능, false: 중복
     }
 
+    public RespModifyProfile modifyProfile(ReqModifyProfile profile) {
+        System.out.println("service : " +profile);
+        User user = profile.toEntity();
+        userMapper.update(user);
+        System.out.println("user: " + user);
+
+        return RespModifyProfile.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .name(user.getName())
+                .nickname(user.getNickname())
+                .email(user.getEmail())
+                .img(user.getImg())
+                .role(user.getRole())
+                .build();
+    }
 }
