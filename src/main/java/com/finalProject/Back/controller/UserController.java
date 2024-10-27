@@ -2,15 +2,17 @@ package com.finalProject.Back.controller;
 
 import com.finalProject.Back.aspect.annotation.ValidAop;
 import com.finalProject.Back.dto.request.Token.ReqAccessDto;
+import com.finalProject.Back.dto.request.User.ReqModifyProfile;
 import com.finalProject.Back.dto.request.User.ReqSigninDto;
 import com.finalProject.Back.dto.request.User.ReqSignupDto;
-import com.finalProject.Back.entity.User;
+import com.finalProject.Back.dto.response.User.RespModifyProfile;
 import com.finalProject.Back.security.principal.PrincipalUser;
 import com.finalProject.Back.service.OAuth2Service;
 import com.finalProject.Back.service.TokenService;
 import com.finalProject.Back.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
@@ -80,6 +82,19 @@ public class UserController {
             return ResponseEntity.ok("사용 가능한 닉네임입니다."); // 중복이 없을 경우
         } else {
             return ResponseEntity.badRequest().body("이미 사용중인 닉네임입니다."); // 중복일 경우
+        }
+    }
+
+    @PutMapping("/mypage/profile/modify")
+    public ResponseEntity<?> modifyProfile(@RequestBody ReqModifyProfile profile) {
+        try {
+            // 요청 객체를 DTO로 받음
+            System.out.println("프로필 : "+profile);
+            RespModifyProfile modifiedProfile = userService.modifyProfile(profile);
+            return ResponseEntity.ok().body(modifiedProfile);
+        } catch (Exception e) {
+            log.error("Error modifying profile", e); // 디버깅을 위한 오류 로그
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("프로필 수정 실패");
         }
     }
 
