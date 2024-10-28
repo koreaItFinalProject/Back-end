@@ -17,7 +17,6 @@ public class CafeController {
 
     @PostMapping("/cafe/add")
     public ResponseEntity<?> add(@RequestBody ReqCafeDto dto){
-        System.out.println(dto);
         return ResponseEntity.ok().body(cafeService.addCafe(dto));
     }
 
@@ -27,9 +26,13 @@ public class CafeController {
         return ResponseEntity.ok().body(cafeService.getList(dto));
     }
 
+    @GetMapping("/cafe/detail/{cafeId}")
+    public ResponseEntity<?> getDetail(@PathVariable Long cafeId) {
+        return ResponseEntity.ok().body(cafeService.getDetail(cafeId));
+    }
+
     @GetMapping("/cafe/{cafeId}")
     public ResponseEntity<?> getLike(@PathVariable Long cafeId) {
-        System.out.println(cafeService.getLike(cafeId));
         return ResponseEntity.ok().body(cafeService.getLike(cafeId));
     }
 

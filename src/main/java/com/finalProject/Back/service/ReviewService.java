@@ -2,8 +2,10 @@ package com.finalProject.Back.service;
 
 import com.finalProject.Back.dto.request.ReqReviewDto;
 import com.finalProject.Back.dto.response.RespReviewDto;
+import com.finalProject.Back.entity.Cafe.CafeDetail;
 import com.finalProject.Back.entity.Review;
 import com.finalProject.Back.exception.AccessDeniedException;
+import com.finalProject.Back.repository.ReviewCategoryMapper;
 import com.finalProject.Back.repository.ReviewMapper;
 import com.finalProject.Back.security.principal.PrincipalUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,28 +13,27 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ReviewService {
 
     @Autowired
     private ReviewMapper reviewMapper;
+    @Autowired
+    private ReviewCategoryMapper reviewCategoryMapper;
 
     public void write(ReqReviewDto.ReqWriteDto dto) {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
+        reviewCategoryMapper.save(dto.getCafeId(), dto.getCategory());
         reviewMapper.save(dto.toEntity(principalUser.getId()));
     }
 
-    public RespReviewDto getList(Long cafeId) {
-        List<Review> reviews = reviewMapper.findByCafeId(cafeId);
-        int reviewCount = reviewMapper.getCountByCafeId(cafeId);
-        return RespReviewDto.builder()
-                .reviews(reviews)
-                .reviewCount(reviewCount)
-                .build();
+    public CafeDetail getDetail(Long cafeId) {
+        return reviewMapper.findByCafeId(cafeId);
     }
 
     public void modify(ReqReviewDto.ReqModifyDto dto) {
