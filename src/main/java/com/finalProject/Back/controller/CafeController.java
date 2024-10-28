@@ -1,6 +1,7 @@
 package com.finalProject.Back.controller;
 
 import com.finalProject.Back.dto.request.ReqCafeDto;
+import com.finalProject.Back.dto.request.ReqGetCafeDto;
 import com.finalProject.Back.service.CafeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,10 @@ public class CafeController {
         return ResponseEntity.ok().body(cafeService.addCafe(dto));
     }
 
-    @GetMapping("/cafe/get/{category}")
-    public ResponseEntity<?> get(@PathVariable String category){
-        return ResponseEntity.ok().body(cafeService.get(category));
-    }
-
-    @GetMapping("/cafe/get/{category}/{search}")
-    public ResponseEntity<?> get(@PathVariable String category, @PathVariable String search){
-        return ResponseEntity.ok().body(cafeService.getList(category, search));
+    @GetMapping("/cafe/get")
+    public ResponseEntity<?> get(ReqGetCafeDto dto){
+        System.out.println(dto);
+        return ResponseEntity.ok().body(cafeService.getList(dto));
     }
 
     @GetMapping("/cafe/{cafeId}")

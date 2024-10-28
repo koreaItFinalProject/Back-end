@@ -1,6 +1,7 @@
 package com.finalProject.Back.service;
 
 import com.finalProject.Back.dto.request.ReqCafeDto;
+import com.finalProject.Back.dto.request.ReqGetCafeDto;
 import com.finalProject.Back.dto.response.RespCafeDto;
 import com.finalProject.Back.entity.Cafe.Cafe;
 import com.finalProject.Back.entity.Cafe.CafeLike;
@@ -28,12 +29,8 @@ public class CafeService {
         return cafeMapper.save(dto.toEntity());
     }
 
-    public List<Cafe> get(String category){
-        return cafeMapper.findByCategory(category);
-    }
-
-    public List<Cafe> getList(String category, String search){
-        return cafeMapper.findBySearchAndCategory(category, search);
+    public List<Cafe> getList(ReqGetCafeDto dto){
+        return cafeMapper.findBySearchAndCategory(dto.getCategory(), dto.getSearch());
     }
 
     public RespCafeDto.RespCafeLikeDto getLike(Long cafeId) {
