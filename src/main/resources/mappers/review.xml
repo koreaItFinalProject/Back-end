@@ -165,7 +165,6 @@
             cf.id,
             cf.cafeName,
             r.rating,
-            r.category,
             r.review,
             r.write_date
         from
