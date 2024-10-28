@@ -85,11 +85,13 @@ public class UserController {
         }
     }
 
+    @ValidAop
     @PutMapping("/mypage/profile/modify")
-    public ResponseEntity<?> modifyProfile(@RequestBody ReqModifyProfile profile) {
+    public ResponseEntity<?> modifyProfile(@RequestBody @Valid ReqModifyProfile profile, BindingResult bindingResult) {
         try {
             // 요청 객체를 DTO로 받음
-            System.out.println("프로필 : "+profile);
+            System.out.println("프로필 : "+profile.getNickname());
+            System.out.println(profile);
             RespModifyProfile modifiedProfile = userService.modifyProfile(profile);
             return ResponseEntity.ok().body(modifiedProfile);
         } catch (Exception e) {
