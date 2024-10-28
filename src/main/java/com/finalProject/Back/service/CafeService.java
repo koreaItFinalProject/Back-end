@@ -36,6 +36,10 @@ public class CafeService {
         return cafeMapper.findBySearchAndCategory(category, search);
     }
 
+    public Cafe getDetail(Long cafeId) {
+        return cafeMapper.findById(cafeId);
+    }
+
     public RespCafeDto.RespCafeLikeDto getLike(Long cafeId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long userId = null;

@@ -46,4 +46,16 @@
         GROUP BY
             c.id
     </select>
+
+    <select id="findById" resultType="com.finalProject.Back.entity.Cafe.Cafe">
+        select
+            id,
+            cafeName,
+            address,
+            category
+        from
+            cafe
+        where
+            id = #{cafeId}
+    </select>
 </mapper>

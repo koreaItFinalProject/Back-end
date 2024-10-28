@@ -1,15 +1,17 @@
 package com.finalProject.Back.entity.Cafe;
 
+import com.finalProject.Back.entity.Review;
+import com.finalProject.Back.entity.ReviewCategoryCount;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
-@AllArgsConstructor
+import java.util.List;
+
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
-public class Cafe {
+public class CafeDetail {
     private Long id;
     private Long owner_id;
     private String cafeName;
@@ -18,5 +20,7 @@ public class Cafe {
     private String lng;
     private String category;
     private int reviewCount;
-    private int likeCount;
+    private Double totalRating;
+    private List<ReviewCategoryCount> reviewCategoryCounts;
+    private List<Review> reviews;
 }
