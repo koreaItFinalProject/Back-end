@@ -63,6 +63,7 @@
         where
             board_id = #{boardId}
     </delete>
+
     <delete id="deleteByUserId">
         WITH RECURSIVE comment_tree(id, board_id, parent_id, content, writer_id, create_date) AS (
         SELECT
@@ -93,9 +94,9 @@
 
         delete
         from
-        comment
+            comment
         where
-        id in(select id from comment_tree)
+            id in(select id from comment_tree)
     </delete>
 
     <select id="findAllByBoardId" resultType="com.finalProject.Back.entity.Comment">
@@ -141,7 +142,7 @@
             ct.writer_id as writerId,
             ct.write_date as writeDate,
             ct.level,
-            u.username,
+            u.nickname,
             u.img,
             ct.path
         FROM

@@ -19,13 +19,13 @@ public class CommentController {
 
     @PostMapping("/comment")
     public ResponseEntity<?> write(@RequestBody ReqCommentDto.WriteDto dto) {
+        System.out.println(dto);
         commentService.write(dto);
         return ResponseEntity.ok().body(true);
     }
 
     @GetMapping("/comment/{boardId}")
     public ResponseEntity<?> getAll(@PathVariable Long boardId) {
-        List<Comment> commentList = commentService.getAll(boardId).getComments();
         return ResponseEntity.ok().body(commentService.getAll(boardId));
     }
 

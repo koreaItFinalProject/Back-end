@@ -19,7 +19,7 @@ public class Comment {
     private Long writerId;
     private LocalDateTime writeDate;
     private int level;
-    private String username;
+    private String nickname;
     private String img;
     private String path;
 }
