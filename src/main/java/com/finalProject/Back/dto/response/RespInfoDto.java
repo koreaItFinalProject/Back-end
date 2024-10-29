@@ -13,4 +13,5 @@ public class RespInfoDto {
     private List<RespBoardInfoDto> board;
     private List<RespReviewInfoDto> review;
     private List<RespCommentInfoDto> comment;
+    private List<RespBoardCommentInfoDto> boardComment;
 }

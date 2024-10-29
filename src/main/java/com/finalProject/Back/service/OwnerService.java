@@ -57,11 +57,14 @@ public class OwnerService {
         List<RespBoardInfoDto> boardInfoDto = boardMapper.getBoardInfoById(id);
         List<RespCommentInfoDto> commentInfoDto = commentMapper.findCommentById(id);
         List<RespReviewInfoDto> reviewInfoDto = reviewMapper.getReviewInfoById(id);
+        List<RespBoardCommentInfoDto> boardCommentInfoDto = commentMapper.findBoardCommentById(id);
+
         return RespInfoDto.builder()
                 .user(userInfoDto)
                 .board(boardInfoDto)
                 .review(reviewInfoDto)
                 .comment(commentInfoDto)
+                .boardComment(boardCommentInfoDto)
                 .build();
     }
 }
