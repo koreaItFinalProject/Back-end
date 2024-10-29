@@ -1,6 +1,6 @@
 package com.finalProject.Back.repository;
 
-import com.finalProject.Back.dto.response.RespBoardInfoDto;
+import com.finalProject.Back.dto.response.Board.RespBoardInfoDto;
 import com.finalProject.Back.entity.board.Board;
 import com.finalProject.Back.entity.board.BoardList;
 import org.apache.ibatis.annotations.Mapper;

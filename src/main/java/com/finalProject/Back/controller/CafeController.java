@@ -1,7 +1,9 @@
 package com.finalProject.Back.controller;
 
-import com.finalProject.Back.dto.request.ReqCafeDto;
-import com.finalProject.Back.dto.request.ReqGetCafeDto;
+import com.finalProject.Back.dto.request.Cafe.ReqCafeBannerDto;
+import com.finalProject.Back.dto.request.Cafe.ReqCafeDto;
+import com.finalProject.Back.dto.request.Cafe.ReqCafeInfoModifyDto;
+import com.finalProject.Back.dto.request.Cafe.ReqGetCafeDto;
 import com.finalProject.Back.service.CafeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +32,21 @@ public class CafeController {
         return ResponseEntity.ok().body(cafeService.getDetail(cafeId));
     }
 
-    @GetMapping("/cafe/user")
-    public ResponseEntity<?> getCafeId() {
-        return ResponseEntity.ok().body(cafeService.getCafeId());
+    @GetMapping("/cafe/owner")
+    public ResponseEntity<?> getCafeInfo() {
+        return ResponseEntity.ok().body(cafeService.getCafeInfo());
+    }
+
+    @PutMapping("/cafe/{cafeId}")
+    public ResponseEntity<?> modifyCafeInfo(@RequestBody ReqCafeInfoModifyDto dto) {
+        cafeService.modifyCafeInfo(dto);
+        return ResponseEntity.ok().body(true);
+    }
+
+    @PutMapping("/cafe/banner/{cafeId}")
+    public ResponseEntity<?> modifyBannerImg(@RequestBody ReqCafeBannerDto dto) {
+        cafeService.modifyBannerImg(dto);
+        return ResponseEntity.ok().body(true);
     }
 
     @GetMapping("/cafe/{cafeId}")

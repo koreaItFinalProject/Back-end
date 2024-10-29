@@ -1,4 +1,4 @@
-package com.finalProject.Back.dto.response;
+package com.finalProject.Back.dto.response.Cafe;
 
 import com.finalProject.Back.entity.Cafe.Cafe;
 import lombok.Builder;

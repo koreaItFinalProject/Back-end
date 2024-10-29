@@ -1,7 +1,7 @@
 package com.finalProject.Back.service;
 
 import com.finalProject.Back.dto.request.ReqBoardDto;
-import com.finalProject.Back.dto.response.RespBoardDto;
+import com.finalProject.Back.dto.response.Board.RespBoardDto;
 import com.finalProject.Back.entity.board.Board;
 import com.finalProject.Back.entity.board.BoardLike;
 import com.finalProject.Back.entity.board.BoardList;

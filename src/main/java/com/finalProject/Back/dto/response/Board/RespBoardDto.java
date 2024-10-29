@@ -1,4 +1,4 @@
-package com.finalProject.Back.dto.response;
+package com.finalProject.Back.dto.response.Board;
 
 import com.finalProject.Back.entity.board.BoardList;
 import lombok.Builder;

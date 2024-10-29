@@ -1,4 +1,4 @@
-package com.finalProject.Back.dto.response;
+package com.finalProject.Back.dto.response.Review;
 
 import com.finalProject.Back.entity.Review.Review;
 import lombok.Builder;

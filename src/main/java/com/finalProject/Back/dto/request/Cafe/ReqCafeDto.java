@@ -1,4 +1,4 @@
-package com.finalProject.Back.dto.request;
+package com.finalProject.Back.dto.request.Cafe;
 
 import com.finalProject.Back.entity.Cafe.Cafe;
 import lombok.Data;

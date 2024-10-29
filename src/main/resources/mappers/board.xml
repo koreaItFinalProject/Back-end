@@ -106,7 +106,7 @@
         where
             b.id = #{boardId}
     </select>
-    <select id="getBoardInfoById" resultType="com.finalProject.Back.dto.response.RespBoardInfoDto">
+    <select id="getBoardInfoById" resultType="com.finalProject.Back.dto.response.Board.RespBoardInfoDto">
         select
             *
         from

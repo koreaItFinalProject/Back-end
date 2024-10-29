@@ -10,6 +10,8 @@ import java.util.List;
 public interface CafeMapper{
     int save(Cafe cafe);
     Cafe findById(Long cafeId);
-    Long findByUserId(Long userId);
+    Cafe findByUserId(Long id);
     List<Cafe> findBySearchAndCategory(@Param("category") String category, @Param("search") String search);
+    int modifyCafeInfo(Cafe cafe);
+    int modifyBannerImg(Cafe cafe);
 }

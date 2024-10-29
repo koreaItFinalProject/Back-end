@@ -17,6 +17,7 @@ public class Cafe {
     private String lat;
     private String lng;
     private String category;
+    private String img;
     private int reviewCount;
     private int likeCount;
 }
