@@ -1,11 +1,9 @@
-package com.finalProject.Back.entity;
+package com.finalProject.Back.entity.Review;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Map;
 
 @Builder
 @AllArgsConstructor

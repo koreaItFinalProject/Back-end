@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.finalProject.Back.repository.ReviewMapper">
 
     <resultMap id="CafeDetailResultMap" type="com.finalProject.Back.entity.Cafe.CafeDetail">
@@ -18,21 +16,27 @@
         <result property="totalRating" column="total_rating" />
         <collection property="reviewCategoryCounts" javaType="java.util.ArrayList" resultMap="ReviewCategoryCountResultMap" />
         <collection property="reviews" javaType="java.util.ArrayList" resultMap="ReviewResultMap" />
+        <collection property="reviewCategories" javaType="java.util.ArrayList" resultMap="ReviewCategoryListResultMap" />
     </resultMap>
 
-    <resultMap id="ReviewCategoryCountResultMap" type="com.finalProject.Back.entity.ReviewCategoryCount">
+    <resultMap id="ReviewCategoryCountResultMap" type="com.finalProject.Back.entity.Review.ReviewCategoryCount">
         <id property="categoryId" column="rcc_category_id" />
         <result property="categoryCount" column="category_count" />
         <association property="category" resultMap="CategoryResultMap" />
     </resultMap>
 
-    <resultMap id="CategoryResultMap" type="com.finalProject.Back.entity.Category">
+    <resultMap id="CategoryResultMap" type="com.finalProject.Back.entity.Review.Category">
         <id property="id" column="category_id" />
         <result property="categoryName" column="category_name" />
         <result property="categoryNameKor" column="category_name_kor" />
     </resultMap>
 
-    <resultMap id="ReviewResultMap" type="com.finalProject.Back.entity.Review">
+    <resultMap id="ReviewCategoryListResultMap" type="com.finalProject.Back.entity.Review.ReviewCategoryList">
+        <id property="reviewId" column="review_id" />
+        <collection property="categoryId" ofType="java.lang.Long" column="review_id" select="selectCategoriesByReviewId"/>
+    </resultMap>
+
+    <resultMap id="ReviewResultMap" type="com.finalProject.Back.entity.Review.Review">
         <id property="id" column="review_id" />
         <result property="cafeId" column="review_cafe_id" />
         <result property="writerId" column="writer_id" />
@@ -48,9 +52,9 @@
         <result property="img" column="img" />
     </resultMap>
 
-    <insert id="save">
+    <insert id="save" keyProperty="id" useGeneratedKeys="true">
         insert into review
-        values(default, #{cafeId}, #{writerId}, #{rating}, #{category}, #{review}, now())
+        values(default, #{cafeId}, #{writerId}, #{rating}, #{review}, now())
     </insert>
 
     <delete id="delete">
@@ -104,6 +108,13 @@
                 review
             group by
                 cafe_id
+        ),
+        cafe_review_categories as (
+            select
+                review_id,
+                category_id
+            from
+                review_category
         )
         select
             c.id as cafe_id,
@@ -129,7 +140,9 @@
             rev.write_date,
             rev.review,
             u.nickname,
-            u.img
+            u.img,
+            crc.review_id,
+            crc.category_id
         from
             cafe c
             left outer join cafe_review_category_count rcc on (rcc.cafe_id = c.id)
@@ -137,9 +150,18 @@
             left outer join category ctg on(ctg.id = rcc.category_id)
             left outer join review rev on(rev.cafe_id = c.id)
             left outer join user u on(u.id = rev.writer_id)
+            left outer join cafe_review_categories crc on (crc.review_id = rev.id)
         where
             c.id = #{cafeId}
+    </select>
 
+    <select id="selectCategoriesByReviewId" resultType="java.lang.Long">
+        select
+            category_id
+        from
+            review_category
+        where
+            review_id = #{reviewId}
     </select>
 
     <select id="getCountByCafeId" resultType="java.lang.Integer">

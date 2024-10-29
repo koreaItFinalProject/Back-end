@@ -1,7 +1,8 @@
 package com.finalProject.Back.entity.Cafe;
 
-import com.finalProject.Back.entity.Review;
-import com.finalProject.Back.entity.ReviewCategoryCount;
+import com.finalProject.Back.entity.Review.Review;
+import com.finalProject.Back.entity.Review.ReviewCategoryCount;
+import com.finalProject.Back.entity.Review.ReviewCategoryList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,4 +24,5 @@ public class CafeDetail {
     private Double totalRating;
     private List<ReviewCategoryCount> reviewCategoryCounts;
     private List<Review> reviews;
+    private List<ReviewCategoryList> reviewCategories;
 }

@@ -6,9 +6,9 @@
 
 <mapper namespace="com.finalProject.Back.repository.ReviewCategoryMapper">
 
-    <insert id="save" >
+    <insert id="save">
         insert into review_category
-        values(default, #{cafeId})
+        values(default, #{reviewId}, #{categoryId})
     </insert>
 
 </mapper>
