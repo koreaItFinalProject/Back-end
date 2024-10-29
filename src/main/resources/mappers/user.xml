@@ -27,6 +27,13 @@
         where
         id = #{id}
     </update>
+    <update id="imgUpdate">
+        update user
+        set
+            img=#{img}
+        where
+            id = #{id}
+    </update>
     <select id="findByUsername" resultType="com.finalProject.Back.entity.User">
         select
             *

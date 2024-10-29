@@ -16,4 +16,5 @@ public interface UserMapper {
     boolean existsByUsername(String username);
     boolean existsByNickname(String nickname);
     int update(User user);
+    int imgUpdate(User user);
 }
