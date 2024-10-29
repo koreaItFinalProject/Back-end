@@ -173,7 +173,10 @@
     </select>
     <select id="findCommentById" resultType="com.finalProject.Back.dto.response.RespCommentInfoDto">
         select
-            *
+            id,
+            board_id,
+            content,
+            write_date
         from
             comment
         where
