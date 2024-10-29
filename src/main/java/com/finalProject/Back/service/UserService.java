@@ -167,10 +167,11 @@ public class UserService {
     }
 
     public RespModifyProfile modifyProfile(ReqModifyProfile profile) {
-        System.out.println("service : " +profile);
+        System.out.println("service : " +profile.getNickname());
         User user = profile.toEntity();
-        userMapper.update(user);
         System.out.println("user: " + user);
+        System.out.println("nickname: " + user.getNickname());
+        userMapper.update(user);
 
         return RespModifyProfile.builder()
                 .id(user.getId())

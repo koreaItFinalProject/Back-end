@@ -57,6 +57,7 @@ public class OwnerService {
         List<RespBoardInfoDto> boardInfoDto = boardMapper.getBoardInfoById(id);
         List<RespCommentInfoDto> commentInfoDto = commentMapper.findCommentById(id);
         List<RespReviewInfoDto> reviewInfoDto = reviewMapper.getReviewInfoById(id);
+        System.out.println("확인" + reviewInfoDto);
         return RespInfoDto.builder()
                 .user(userInfoDto)
                 .board(boardInfoDto)

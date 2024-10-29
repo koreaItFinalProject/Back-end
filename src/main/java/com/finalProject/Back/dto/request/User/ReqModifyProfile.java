@@ -19,6 +19,7 @@ public class ReqModifyProfile {
                 .id(id)
                 .username(username)
                 .name(name)
+                .nickname(nickname)
                 .email(email)
                 .phoneNumber(phoneNumber)
                 .img(img)
