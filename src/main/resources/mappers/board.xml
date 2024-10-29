@@ -108,7 +108,11 @@
     </select>
     <select id="getBoardInfoById" resultType="com.finalProject.Back.dto.response.RespBoardInfoDto">
         select
-            *
+            id,
+            title,
+            content,
+            view_count,
+            write_date
         from
             board
         where
