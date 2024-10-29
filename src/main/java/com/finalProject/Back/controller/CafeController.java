@@ -21,14 +21,18 @@ public class CafeController {
     }
 
     @GetMapping("/cafe/get")
-    public ResponseEntity<?> get(ReqGetCafeDto dto){
-        System.out.println(dto);
+    public ResponseEntity<?> getList(ReqGetCafeDto dto){
         return ResponseEntity.ok().body(cafeService.getList(dto));
     }
 
     @GetMapping("/cafe/detail/{cafeId}")
-    public ResponseEntity<?> getDetail(@PathVariable Long cafeId) {
+    public ResponseEntity<?> getDetails(@PathVariable Long cafeId) {
         return ResponseEntity.ok().body(cafeService.getDetail(cafeId));
+    }
+
+    @GetMapping("/cafe/user")
+    public ResponseEntity<?> getCafeId() {
+        return ResponseEntity.ok().body(cafeService.getCafeId());
     }
 
     @GetMapping("/cafe/{cafeId}")
