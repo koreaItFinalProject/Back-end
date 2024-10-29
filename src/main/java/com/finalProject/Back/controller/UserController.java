@@ -2,6 +2,7 @@ package com.finalProject.Back.controller;
 
 import com.finalProject.Back.aspect.annotation.ValidAop;
 import com.finalProject.Back.dto.request.Token.ReqAccessDto;
+import com.finalProject.Back.dto.request.User.ReqImageDto;
 import com.finalProject.Back.dto.request.User.ReqModifyProfile;
 import com.finalProject.Back.dto.request.User.ReqSigninDto;
 import com.finalProject.Back.dto.request.User.ReqSignupDto;
@@ -90,7 +91,6 @@ public class UserController {
     public ResponseEntity<?> modifyProfile(@RequestBody @Valid ReqModifyProfile profile, BindingResult bindingResult) {
         try {
             // 요청 객체를 DTO로 받음
-            System.out.println("프로필 : "+profile.getNickname());
             System.out.println(profile);
             RespModifyProfile modifiedProfile = userService.modifyProfile(profile);
             return ResponseEntity.ok().body(modifiedProfile);
@@ -100,4 +100,12 @@ public class UserController {
         }
     }
 
+    @PutMapping("/mypage/profile/{id}")
+    public ResponseEntity<?> modifyProfileImg (@RequestBody ReqImageDto dto) {
+        System.out.println("아이디 값 확인" + dto.getId());
+        System.out.println("이미지 값 확인" + dto.getImg());
+        userService.modifyProfileImg(dto);
+
+        return ResponseEntity.ok().body(true);
+    }
 }
