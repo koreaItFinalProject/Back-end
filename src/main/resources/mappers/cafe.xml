@@ -43,4 +43,13 @@
         where
             id = #{cafeId}
     </select>
+
+    <select id="findByUserId" resultType="java.lang.Long">
+        select
+            id
+        from
+            cafe
+        where
+            owner_id = #{userId}
+    </select>
 </mapper>

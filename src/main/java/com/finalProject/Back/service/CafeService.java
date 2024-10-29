@@ -37,6 +37,15 @@ public class CafeService {
         return cafeMapper.findById(cafeId);
     }
 
+    public Long getCafeId() {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        return cafeMapper.findByUserId(principalUser.getId());
+    }
+
     public RespCafeDto.RespCafeLikeDto getLike(Long cafeId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long userId = null;
