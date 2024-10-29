@@ -182,5 +182,21 @@
         where
             writer_id = #{id}
     </select>
+    <select id="findBoardCommentById" resultType="com.finalProject.Back.dto.response.RespBoardCommentInfoDto">
+        select
+            b.id as boardId,
+            b.title as boardTitle,
+            b.content as boardContent,
+            c.id as commentId,
+            c.writer_id as commentWriterId,
+            c.content as commentContent,
+            c.write_date as commentWriteDate
+        from
+            comment c
+        left outer join
+            board b on c.board_id = b.id
+        where
+            c.writer_id = #{id}
+    </select>
 
 </mapper>

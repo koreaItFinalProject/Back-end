@@ -7,6 +7,7 @@ import com.finalProject.Back.dto.request.User.ReqModifyProfile;
 import com.finalProject.Back.dto.request.User.ReqSigninDto;
 import com.finalProject.Back.dto.request.User.ReqSignupDto;
 import com.finalProject.Back.dto.response.User.RespModifyProfile;
+import com.finalProject.Back.entity.User;
 import com.finalProject.Back.security.principal.PrincipalUser;
 import com.finalProject.Back.service.OAuth2Service;
 import com.finalProject.Back.service.TokenService;
@@ -100,12 +101,18 @@ public class UserController {
         }
     }
 
-    @PutMapping("/mypage/profile/{id}")
+    @PutMapping("/mypage/profile/img")
     public ResponseEntity<?> modifyProfileImg (@RequestBody ReqImageDto dto) {
-        System.out.println("아이디 값 확인" + dto.getId());
-        System.out.println("이미지 값 확인" + dto.getImg());
-        userService.modifyProfileImg(dto);
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        User user = User.builder()
+                .id(principalUser.getId())
+                .img(dto.getImg())
+                .build();
 
+        userService.modifyProfileImg(user);
         return ResponseEntity.ok().body(true);
     }
 }
