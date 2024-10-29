@@ -1,7 +1,6 @@
 package com.finalProject.Back.dto.request;
 
-import com.finalProject.Back.entity.Category;
-import com.finalProject.Back.entity.Review;
+import com.finalProject.Back.entity.Review.Review;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,8 +13,8 @@ public class ReqReviewDto {
     public static class ReqWriteDto {
         private Long cafeId;
         private Double rating;
-        private List<Category> category;
         private String review;
+        private List<Long> categoryIds;
 
         public Review toEntity(Long userId) {
             return Review.builder()
@@ -32,8 +31,8 @@ public class ReqReviewDto {
     public static class ReqModifyDto {
         private Long reviewId;
         private Double rating;
-        private List<Category> category;
         private String review;
+        private List<Long> categoryIds;
 
         public Review toEntity() {
             return Review.builder()

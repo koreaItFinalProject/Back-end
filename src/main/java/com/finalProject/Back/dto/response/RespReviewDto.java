@@ -1,6 +1,6 @@
 package com.finalProject.Back.dto.response;
 
-import com.finalProject.Back.entity.Review;
+import com.finalProject.Back.entity.Review.Review;
 import lombok.Builder;
 import lombok.Data;
 

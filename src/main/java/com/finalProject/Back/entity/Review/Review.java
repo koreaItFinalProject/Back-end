@@ -1,13 +1,12 @@
-package com.finalProject.Back.entity;
+package com.finalProject.Back.entity.Review;
 
+import com.finalProject.Back.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
 
 @Builder
 @AllArgsConstructor

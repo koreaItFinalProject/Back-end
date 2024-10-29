@@ -1,4 +1,4 @@
-package com.finalProject.Back.entity;
+package com.finalProject.Back.entity.Review;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -14,7 +14,6 @@ public class ReviewController {
 
     @PostMapping("/review")
     public ResponseEntity<?> write(@RequestBody ReqReviewDto.ReqWriteDto dto) {
-        System.out.println(dto);
         reviewService.write(dto);
         return ResponseEntity.ok().body(true);
     }
