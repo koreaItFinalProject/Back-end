@@ -6,6 +6,48 @@
 
 <mapper namespace="com.finalProject.Back.repository.ReviewMapper">
 
+    <resultMap id="CafeDetailResultMap" type="com.finalProject.Back.entity.Cafe.CafeDetail">
+        <id property="id" column="cafe_id" />
+        <result property="owner_id" column="owner_id" />
+        <result property="cafeName" column="cafeName" />
+        <result property="address" column="address" />
+        <result property="lat" column="lat" />
+        <result property="lng" column="lng" />
+        <result property="category" column="category" />
+        <result property="reviewCount" column="review_count" />
+        <result property="totalRating" column="total_rating" />
+        <collection property="reviewCategoryCounts" javaType="java.util.ArrayList" resultMap="ReviewCategoryCountResultMap" />
+        <collection property="reviews" javaType="java.util.ArrayList" resultMap="ReviewResultMap" />
+    </resultMap>
+
+    <resultMap id="ReviewCategoryCountResultMap" type="com.finalProject.Back.entity.ReviewCategoryCount">
+        <id property="categoryId" column="rcc_category_id" />
+        <result property="categoryCount" column="category_count" />
+        <association property="category" resultMap="CategoryResultMap" />
+    </resultMap>
+
+    <resultMap id="CategoryResultMap" type="com.finalProject.Back.entity.Category">
+        <id property="id" column="category_id" />
+        <result property="categoryName" column="category_name" />
+        <result property="categoryNameKor" column="category_name_kor" />
+    </resultMap>
+
+    <resultMap id="ReviewResultMap" type="com.finalProject.Back.entity.Review">
+        <id property="id" column="review_id" />
+        <result property="cafeId" column="review_cafe_id" />
+        <result property="writerId" column="writer_id" />
+        <result property="rating" column="rating" />
+        <result property="review" column="review" />
+        <result property="writeDate" column="write_date" />
+        <association property="user" resultMap="UserResultMap" />
+    </resultMap>
+
+    <resultMap id="UserResultMap" type="com.finalProject.Back.entity.User">
+        <id property="id" column="user_id" />
+        <result property="nickname" column="nickname" />
+        <result property="img" column="img" />
+    </resultMap>
+
     <insert id="save">
         insert into review
         values(default, #{cafeId}, #{writerId}, #{rating}, #{category}, #{review}, now())
@@ -39,21 +81,65 @@
             id = #{id}
     </update>
 
-    <select id="findByCafeId" resultType="com.finalProject.Back.entity.Review">
+    <select id="findByCafeId" resultMap="CafeDetailResultMap">
+        with cafe_review_category_count as (
+            select
+                r.cafe_id,
+                category_id,
+                count(*) as category_count
+            from
+                review r
+                left outer join review_category rc on(rc.review_id = r.id)
+                left outer join category c on(c.id = rc.category_id)
+            group by
+                r.cafe_id,
+                category_id
+        ),
+        cafe_review_total_rating as (
+            select
+                cafe_id,
+                count(*) as review_count,
+                round(avg(rating), 1) as total_rating
+            from
+                review
+            group by
+                cafe_id
+        )
         select
-            r.id,
-            r.cafe_id as cafeId,
-            r.writer_id as writerId,
+            c.id as cafe_id,
+            c.owner_id,
+            c.cafeName,
+            c.address,
+            c.lat,
+            c.lng,
+            c.category,
+            rtr.cafe_id as rtr_cafe_id,
+            rtr.review_count,
+            rtr.total_rating,
+            rcc.cafe_id as rcc_cafe_id,
+            rcc.category_id as rcc_category_id,
+            rcc.category_count,
+            ctg.id as category_id,
+            ctg.category_name,
+            ctg.category_name_kor,
+            rev.id as review_id,
+            rev.cafe_id as review_cafe_id,
+            rev.writer_id,
+            rev.rating,
+            rev.write_date,
+            rev.review,
             u.nickname,
-            r.rating,
-            r.category,
-            r.review,
-            r.write_date as writeDate
+            u.img
         from
-            review r
-            join user u on(r.writer_id = u.id)
+            cafe c
+            left outer join cafe_review_category_count rcc on (rcc.cafe_id = c.id)
+            left outer join cafe_review_total_rating rtr on (rtr.cafe_id = c.id)
+            left outer join category ctg on(ctg.id = rcc.category_id)
+            left outer join review rev on(rev.cafe_id = c.id)
+            left outer join user u on(u.id = rev.writer_id)
         where
-            r.cafe_id = #{cafeId}
+            c.id = #{cafeId}
+
     </select>
 
     <select id="getCountByCafeId" resultType="java.lang.Integer">
@@ -73,6 +159,7 @@
         where
             id = #{reviewId}
     </select>
+
     <select id="getReviewInfoById" resultType="com.finalProject.Back.dto.response.RespReviewInfoDto">
         select
             cf.id,
