@@ -51,7 +51,8 @@ public class BoardService {
                 "startIndex", startIndex,
                 "limit", dto.getLimit(),
                 "searchFilter", dto.getSearchFilter() == null || dto.getSearchFilter().isBlank() ? "all" : dto.getSearchFilter(),
-                "searchValue", dto.getSearchValue() == null ? "" : dto.getSearchValue()
+                "searchValue", dto.getSearchValue() == null ? "" : dto.getSearchValue(),
+                "category", dto.getCategory()
         );
         List<BoardList> boardLists = boardMapper.getList(params);
         Integer boardTotalCount = boardMapper.getTotalCount();

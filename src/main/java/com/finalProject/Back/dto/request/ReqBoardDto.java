@@ -49,6 +49,7 @@ public class ReqBoardDto {
         private Long limit;
         private String searchFilter;
         private String searchValue;
+        private String category;
     }
 
 }

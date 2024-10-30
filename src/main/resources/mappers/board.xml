@@ -67,7 +67,8 @@
             left outer join user u on(u.id = b.writer_id)
             left outer join like_count lc on(lc.board_id = b.id)
         where
-            1 = 1
+            board_category = #{category}
+            and 1 = 1
         <if test='searchFilter.equals("all")'>
             and(
                 b.title like concat('%', trim(ifnull(#{searchValue}, '')), '%')

@@ -30,7 +30,7 @@ public class SampleDataInit implements CommandLineRunner {
             User user = User.builder()
                     .username("user" + (i + 1))
                     .password(passwordEncoder.encode("1q2w3e4r!!A"))
-                    .name("김동" + (i + 1))
+                    .name("user" + (i + 1))
                     .email("user" + (i + 1) + "@naver.com")
                     .role("USER")
                     .nickname("writer" + i)
@@ -43,12 +43,13 @@ public class SampleDataInit implements CommandLineRunner {
 
         Random random = new Random();
 
-        for(int i = 0; i < 436; i++) {
+        for(int i = 0; i < 100; i++) {
             int randomIndex = random.nextInt(20);
             boardMapper.save(Board.builder()
                     .writerId(users.get(randomIndex).getId())
-                    .title("테스트 게시글 제목 " + i)
+                    .title("테스트 게시글 " + i)
                     .content("<p>테스트</p>")
+                    .category("자유글")
                     .build());
         }
     }
