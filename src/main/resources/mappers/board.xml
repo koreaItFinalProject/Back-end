@@ -6,7 +6,7 @@
 
     <insert id="save" useGeneratedKeys="true" keyProperty="id">
         insert into board
-        values(default, #{title}, #{content}, #{writerId}, default, now())
+        values(default, #{title}, #{content}, #{writerId}, default, now(), #{category})
     </insert>
 
     <insert id="addViewCountById">
@@ -106,7 +106,7 @@
         where
             b.id = #{boardId}
     </select>
-    <select id="getBoardInfoById" resultType="com.finalProject.Back.dto.response.RespBoardInfoDto">
+    <select id="getBoardInfoById" resultType="com.finalProject.Back.dto.response.Board.RespBoardInfoDto">
         select
             id,
             title,

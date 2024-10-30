@@ -1,9 +1,9 @@
 package com.finalProject.Back.service;
 
-import com.finalProject.Back.dto.request.User.ReqSigninDto;
 import com.finalProject.Back.dto.response.*;
-import com.finalProject.Back.dto.response.User.RespSigninDto;
-import com.finalProject.Back.entity.User;
+import com.finalProject.Back.dto.response.Board.RespBoardInfoDto;
+import com.finalProject.Back.dto.response.Comment.RespCommentInfoDto;
+import com.finalProject.Back.dto.response.Review.RespReviewInfoDto;
 import com.finalProject.Back.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

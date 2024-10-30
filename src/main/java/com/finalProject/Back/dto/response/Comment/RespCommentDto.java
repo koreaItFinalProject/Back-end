@@ -1,4 +1,4 @@
-package com.finalProject.Back.dto.response;
+package com.finalProject.Back.dto.response.Comment;
 
 import com.finalProject.Back.entity.Comment;
 import lombok.Builder;

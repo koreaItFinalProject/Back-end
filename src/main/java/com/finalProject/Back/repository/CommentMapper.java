@@ -1,7 +1,7 @@
 package com.finalProject.Back.repository;
 
+import com.finalProject.Back.dto.response.Comment.RespCommentInfoDto;
 import com.finalProject.Back.dto.response.RespBoardCommentInfoDto;
-import com.finalProject.Back.dto.response.RespCommentInfoDto;
 import com.finalProject.Back.entity.Comment;
 import org.apache.ibatis.annotations.Mapper;
 

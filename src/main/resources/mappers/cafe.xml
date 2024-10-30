@@ -11,6 +11,25 @@
         values (default, #{owner_id}, #{cafeName} , #{address}, #{lat} , #{lng} , " ")
     </insert>
 
+    <update id="modifyBannerImg">
+        update
+            cafe
+        set
+            img = #{img}
+        where
+            id = #{id}
+    </update>
+    <update id="modifyCafeInfo">
+        update
+            cafe
+        set
+            cafeName = #{cafeName},
+            address = #{address},
+            category = #{category}
+        where
+            id = #{id}
+    </update>
+
     <select id="findBySearchAndCategory" resultType="com.finalProject.Back.entity.Cafe.Cafe">
         SELECT
             c.id,
@@ -19,6 +38,7 @@
             c.category,
             c.lat,
             c.lng,
+            c.img,
             count(r.cafe_id) as reviewCount,
             count(cl.cafe_id) as likeCount
         FROM
@@ -44,12 +64,13 @@
             id = #{cafeId}
     </select>
 
-    <select id="findByUserId" resultType="java.lang.Long">
+    <select id="findByUserId" resultType="com.finalProject.Back.entity.Cafe.Cafe">
         select
-            id
+            id,
+            cafeName
         from
             cafe
         where
-            owner_id = #{userId}
+            owner_id = #{id}
     </select>
 </mapper>

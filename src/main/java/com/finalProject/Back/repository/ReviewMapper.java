@@ -1,6 +1,6 @@
 package com.finalProject.Back.repository;
 
-import com.finalProject.Back.dto.response.RespReviewInfoDto;
+import com.finalProject.Back.dto.response.Review.RespReviewInfoDto;
 import com.finalProject.Back.entity.Cafe.CafeDetail;
 import com.finalProject.Back.entity.Review.Review;
 import org.apache.ibatis.annotations.Mapper;

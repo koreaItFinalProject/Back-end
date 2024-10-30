@@ -1,9 +1,7 @@
-package com.finalProject.Back.dto.response;
+package com.finalProject.Back.dto.response.Review;
 
 import lombok.Builder;
 import lombok.Data;
-
-import java.time.LocalDate;
 
 @Data
 @Builder
