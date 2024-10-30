@@ -184,11 +184,14 @@
 
     <select id="getReviewInfoById" resultType="com.finalProject.Back.dto.response.RespReviewInfoDto">
         select
-            cf.id,
-            cf.cafeName,
-            r.rating,
-            r.review,
-            r.write_date
+            cf.id as cafeId,
+            cf.img as img,
+            cf.cafeName as cafeName,
+            cf.category as category,
+            r.writer_id as writerId,
+            r.rating as rating,
+            r.review as review,
+            r.write_date as writeDate
         from
             cafe cf,
             review r
