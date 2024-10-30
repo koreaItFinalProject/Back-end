@@ -1,8 +1,10 @@
 package com.finalProject.Back.service;
 
-import com.finalProject.Back.dto.request.ReqCafeDto;
-import com.finalProject.Back.dto.request.ReqGetCafeDto;
-import com.finalProject.Back.dto.response.RespCafeDto;
+import com.finalProject.Back.dto.request.Cafe.ReqCafeBannerDto;
+import com.finalProject.Back.dto.request.Cafe.ReqCafeDto;
+import com.finalProject.Back.dto.request.Cafe.ReqCafeInfoModifyDto;
+import com.finalProject.Back.dto.request.Cafe.ReqGetCafeDto;
+import com.finalProject.Back.dto.response.Cafe.RespCafeDto;
 import com.finalProject.Back.entity.Cafe.Cafe;
 import com.finalProject.Back.entity.Cafe.CafeLike;
 import com.finalProject.Back.repository.CafeLikeMapper;
@@ -37,13 +39,25 @@ public class CafeService {
         return cafeMapper.findById(cafeId);
     }
 
-    public Long getCafeId() {
+    public RespCafeDto.RespCafeInfoDto getCafeInfo() {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
 
-        return cafeMapper.findByUserId(principalUser.getId());
+        Cafe cafe = cafeMapper.findByUserId(principalUser.getId());
+        return RespCafeDto.RespCafeInfoDto.builder()
+                .cafeId(cafe.getId())
+                .cafeName(cafe.getCafeName())
+                .build();
+    }
+
+    public void modifyCafeInfo(ReqCafeInfoModifyDto dto) {
+        cafeMapper.modifyCafeInfo(dto.toEntity());
+    }
+
+    public void modifyBannerImg(ReqCafeBannerDto dto) {
+        cafeMapper.modifyBannerImg(dto.toEntity());
     }
 
     public RespCafeDto.RespCafeLikeDto getLike(Long cafeId) {

@@ -20,6 +20,7 @@ public class CafeDetail {
     private String lat;
     private String lng;
     private String category;
+    private String img;
     private int reviewCount;
     private Double totalRating;
     private List<ReviewCategoryCount> reviewCategoryCounts;

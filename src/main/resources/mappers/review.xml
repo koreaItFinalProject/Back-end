@@ -12,6 +12,7 @@
         <result property="lat" column="lat" />
         <result property="lng" column="lng" />
         <result property="category" column="category" />
+        <result property="img" column="banner_img" />
         <result property="reviewCount" column="review_count" />
         <result property="totalRating" column="total_rating" />
         <collection property="reviewCategoryCounts" javaType="java.util.ArrayList" resultMap="ReviewCategoryCountResultMap" />
@@ -49,7 +50,7 @@
     <resultMap id="UserResultMap" type="com.finalProject.Back.entity.User">
         <id property="id" column="user_id" />
         <result property="nickname" column="nickname" />
-        <result property="img" column="img" />
+        <result property="img" column="user_img" />
     </resultMap>
 
     <insert id="save" keyProperty="id" useGeneratedKeys="true">
@@ -124,6 +125,7 @@
             c.lat,
             c.lng,
             c.category,
+            c.img as banner_img,
             rtr.cafe_id as rtr_cafe_id,
             rtr.review_count,
             rtr.total_rating,
@@ -140,7 +142,7 @@
             rev.write_date,
             rev.review,
             u.nickname,
-            u.img,
+            u.img as user_img,
             crc.review_id,
             crc.category_id
         from
@@ -182,7 +184,7 @@
             id = #{reviewId}
     </select>
 
-    <select id="getReviewInfoById" resultType="com.finalProject.Back.dto.response.RespReviewInfoDto">
+    <select id="getReviewInfoById" resultType="com.finalProject.Back.dto.response.Review.RespReviewInfoDto">
         select
             cf.id,
             cf.cafeName,

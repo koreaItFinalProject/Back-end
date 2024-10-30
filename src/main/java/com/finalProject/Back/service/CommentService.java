@@ -1,7 +1,7 @@
 package com.finalProject.Back.service;
 
 import com.finalProject.Back.dto.request.ReqCommentDto;
-import com.finalProject.Back.dto.response.RespCommentDto;
+import com.finalProject.Back.dto.response.Comment.RespCommentDto;
 import com.finalProject.Back.entity.Comment;
 import com.finalProject.Back.exception.AccessDeniedException;
 import com.finalProject.Back.repository.CommentMapper;

@@ -1,5 +1,8 @@
 package com.finalProject.Back.dto.response;
 
+import com.finalProject.Back.dto.response.Board.RespBoardInfoDto;
+import com.finalProject.Back.dto.response.Comment.RespCommentInfoDto;
+import com.finalProject.Back.dto.response.Review.RespReviewInfoDto;
 import lombok.Builder;
 import lombok.Data;
 
