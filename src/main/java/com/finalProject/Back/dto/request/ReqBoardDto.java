@@ -15,12 +15,14 @@ public class ReqBoardDto {
         private String title;
         @NotBlank(message = "게시글 내용을 입력하세요.")
         private String content;
+        private String category;
 
         public Board toEntity(Long userId) {
             return Board.builder()
                     .writerId(userId)
                     .title(title)
                     .content(content)
+                    .category(category)
                     .build();
         }
     }
