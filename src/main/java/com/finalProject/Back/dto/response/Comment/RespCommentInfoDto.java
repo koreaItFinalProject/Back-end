@@ -6,7 +6,8 @@ import lombok.Data;
 @Data
 @Builder
 public class RespCommentInfoDto {
+    private Long id;
     private Long board_id;
     private String content;
-    private String write_date;
+    private String writeDate;
 }

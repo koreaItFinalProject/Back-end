@@ -184,17 +184,11 @@ public class UserService {
                 .build();
     }
 
-    public RespModifyProfile modifyProfileImg (ReqImageDto dto){
-        System.out.println("서비스이미지"+dto.getImg());
-        System.out.println("서비스아이디"+dto.getId());
-        User profile = User.builder()
-                .id(dto.getId())
-                .img(dto.getImg())
-                .build();
-        userMapper.update(profile);
+    public RespModifyProfile modifyProfileImg (User user) {
+        userMapper.imgUpdate(user);
         return RespModifyProfile.builder()
-                .id(profile.getId())
-                .img(profile.getImg())
+                .id(user.getId())
+                .img(user.getImg())
                 .build();
     }
 }
