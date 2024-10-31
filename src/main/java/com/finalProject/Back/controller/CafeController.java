@@ -18,12 +18,12 @@ public class CafeController {
     private CafeService cafeService;
 
     @PostMapping("/cafe/add")
-    public ResponseEntity<?> add(@RequestBody ReqCafeDto dto){
+    public ResponseEntity<?> add(@RequestBody ReqCafeDto dto) {
         return ResponseEntity.ok().body(cafeService.addCafe(dto));
     }
 
     @GetMapping("/cafe/get")
-    public ResponseEntity<?> getList(ReqGetCafeDto dto){
+    public ResponseEntity<?> getList(ReqGetCafeDto dto) {
         return ResponseEntity.ok().body(cafeService.getList(dto));
     }
 

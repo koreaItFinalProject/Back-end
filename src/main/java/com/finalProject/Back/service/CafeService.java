@@ -31,7 +31,7 @@ public class CafeService {
         return cafeMapper.save(dto.toEntity());
     }
 
-    public List<Cafe> getList(ReqGetCafeDto dto){
+    public List<Cafe> getList(ReqGetCafeDto dto) {
         return cafeMapper.findBySearchAndCategory(dto.getCategory(), dto.getSearch());
     }
 
