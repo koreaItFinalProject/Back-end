@@ -66,6 +66,7 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUserInfo(principalUser.getId()));
     }
 
+    // 수정중
     @GetMapping("/user/check/{username}")
     public ResponseEntity<?> checkUsername(@PathVariable String username){
         System.out.println("들어오는지 체크" + username);
@@ -75,7 +76,7 @@ public class UserController {
             return ResponseEntity.badRequest().body("이미 사용중인 아이디입니다."); // 중복일 경우
         }
     }
-    @GetMapping("/user/check/nickname/{nickname}")
+    @GetMapping("/user/check/check/{nickname}")
     public ResponseEntity<?> checkNickname(@PathVariable String nickname) throws UnsupportedEncodingException {
         String encodedString = nickname;
         String encodedNickname = URLDecoder.decode(encodedString, "UTF-8");
@@ -99,6 +100,20 @@ public class UserController {
             log.error("Error modifying profile", e); // 디버깅을 위한 오류 로그
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("프로필 수정 실패");
         }
+    }
+
+    // 수정중
+    @PutMapping("/user/{check}")
+    public ResponseEntity<?> modifyUser(@PathVariable String check ,@RequestBody ReqModifyProfile request) {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        System.out.println(check);
+        System.out.println(request);
+        System.out.println(principalUser.getId());
+
+        return ResponseEntity.ok().body("수정 성공");
     }
 
     @PutMapping("/mypage/profile/img")
