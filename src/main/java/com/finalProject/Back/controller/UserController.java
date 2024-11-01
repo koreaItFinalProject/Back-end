@@ -2,10 +2,7 @@ package com.finalProject.Back.controller;
 
 import com.finalProject.Back.aspect.annotation.ValidAop;
 import com.finalProject.Back.dto.request.Token.ReqAccessDto;
-import com.finalProject.Back.dto.request.User.ReqImageDto;
-import com.finalProject.Back.dto.request.User.ReqModifyProfile;
-import com.finalProject.Back.dto.request.User.ReqSigninDto;
-import com.finalProject.Back.dto.request.User.ReqSignupDto;
+import com.finalProject.Back.dto.request.User.*;
 import com.finalProject.Back.dto.response.User.RespModifyProfile;
 import com.finalProject.Back.entity.User;
 import com.finalProject.Back.security.principal.PrincipalUser;
@@ -23,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -67,15 +65,30 @@ public class UserController {
     }
 
     // 수정중
-    @GetMapping("/user/check/{username}")
-    public ResponseEntity<?> checkUsername(@PathVariable String username){
-        System.out.println("들어오는지 체크" + username);
-        if (userService.checkUsername(username)) {
-            return ResponseEntity.ok("사용 가능한 아이디입니다."); // 중복이 없을 경우
-        } else {
-            return ResponseEntity.badRequest().body("이미 사용중인 아이디입니다."); // 중복일 경우
+    @GetMapping("/user/duplicated/{fieldName}")
+    public ResponseEntity<?> checkDuplicated(@PathVariable String fieldName, @RequestParam String value){
+        Map<String, String> fieldNameMap = Map.of(
+                "username", "사용자이름",
+                "name", "이름",
+                "nickname", "닉네임"
+        );
+
+        if (userService.isDuplicated(fieldName, value)) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "isError" , true,
+                    "errorField", fieldName,
+                    "errorName", fieldName + " 중복",
+                    "errorMessage", "이미 사용중인 " + fieldNameMap.get(fieldName) + "입니다."
+            )); // 중복일 경우
         }
+        return ResponseEntity.ok(Map.of(
+                "isError" , false,
+                "errorField", "",
+                "errorName", "",
+                "errorMessage", ""
+        )); // 중복일 경우
     }
+
     @GetMapping("/user/check/check/{nickname}")
     public ResponseEntity<?> checkNickname(@PathVariable String nickname) throws UnsupportedEncodingException {
         String encodedString = nickname;
@@ -88,31 +101,26 @@ public class UserController {
         }
     }
 
-    @ValidAop
-    @PutMapping("/mypage/profile/modify")
-    public ResponseEntity<?> modifyProfile(@RequestBody @Valid ReqModifyProfile profile, BindingResult bindingResult) {
-        try {
-            // 요청 객체를 DTO로 받음
-            System.out.println(profile);
-            RespModifyProfile modifiedProfile = userService.modifyProfile(profile);
-            return ResponseEntity.ok().body(modifiedProfile);
-        } catch (Exception e) {
-            log.error("Error modifying profile", e); // 디버깅을 위한 오류 로그
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("프로필 수정 실패");
-        }
-    }
+//    @ValidAop
+//    @PutMapping("/mypage/profile/modify")
+//    public ResponseEntity<?> modifyProfile(@RequestBody @Valid ReqModifyProfile profile, BindingResult bindingResult) {
+//        try {
+//            // 요청 객체를 DTO로 받음
+//            System.out.println(profile);
+//            RespModifyProfile modifiedProfile = userService.modifyEachProfile(profile);
+//            return ResponseEntity.ok().body(modifiedProfile);
+//        } catch (Exception e) {
+//            log.error("Error modifying profile", e); // 디버깅을 위한 오류 로그
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("프로필 수정 실패");
+//        }
+//    }
 
     // 수정중
-    @PutMapping("/user/{check}")
-    public ResponseEntity<?> modifyUser(@PathVariable String check ,@RequestBody ReqModifyProfile request) {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
-        System.out.println(check);
-        System.out.println(request);
-        System.out.println(principalUser.getId());
-
+    @PutMapping("/user/info/{fieldName}")
+    public ResponseEntity<?> modifyUser(@PathVariable String fieldName ,@RequestBody ReqModifyFieldDto dto) {
+        if(!userService.modifyEachProfile(dto)) {
+            return ResponseEntity.badRequest().body("수정 실패");
+        }
         return ResponseEntity.ok().body("수정 성공");
     }
 

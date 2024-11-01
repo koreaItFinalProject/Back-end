@@ -12,9 +12,11 @@ import com.finalProject.Back.exception.SignupException;
 import com.finalProject.Back.repository.OAuth2UserMapper;
 import com.finalProject.Back.repository.UserMapper;
 import com.finalProject.Back.security.jwt.JwtProvider;
+import com.finalProject.Back.security.principal.PrincipalUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -157,31 +159,40 @@ public class UserService {
                 .build();
     }
 
-    public boolean checkUsername(String username) {
+    public boolean isDuplicated(String fieldName, String value) {
         // DB에서 username의 존재 여부 확인
-        return !userMapper.existsByUsername(username); // true: 사용 가능, false: 중복
+        return userMapper.findDuplicatedValue(fieldName, value) > 0; // true: 사용 가능, false: 중복
     }
     public boolean checkNickname(String nickname) {
         // DB에서 username의 존재 여부 확인
         return !userMapper.existsByNickname(nickname); // true: 사용 가능, false: 중복
     }
+//
+//    public RespModifyProfile modifyProfile(ReqModifyProfile profile) {
+//        System.out.println("service : " +profile.getNickname());
+//        User user = profile.toEntity();
+//        System.out.println("user: " + user);
+//        System.out.println("nickname: " + user.getNickname());
+//        userMapper.update(user);
+//
+//        return RespModifyProfile.builder()
+//                .id(user.getId())
+//                .username(user.getUsername())
+//                .name(user.getName())
+//                .nickname(user.getNickname())
+//                .email(user.getEmail())
+//                .img(user.getImg())
+//                .role(user.getRole())
+//                .build();
+//    }
 
-    public RespModifyProfile modifyProfile(ReqModifyProfile profile) {
-        System.out.println("service : " +profile.getNickname());
-        User user = profile.toEntity();
-        System.out.println("user: " + user);
-        System.out.println("nickname: " + user.getNickname());
-        userMapper.update(user);
+    public Boolean modifyEachProfile(ReqModifyFieldDto dto){
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
 
-        return RespModifyProfile.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .name(user.getName())
-                .nickname(user.getNickname())
-                .email(user.getEmail())
-                .img(user.getImg())
-                .role(user.getRole())
-                .build();
+        return userMapper.updateFieldValue(principalUser.getId(), dto.getFieldName(), dto.getValue()) > 0;
     }
 
     public RespModifyProfile modifyProfileImg (User user) {

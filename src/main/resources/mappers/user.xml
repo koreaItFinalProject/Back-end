@@ -34,6 +34,24 @@
         where
             id = #{id}
     </update>
+    <update id="updateFieldValue">
+        update user
+        set
+            <choose>
+                <when test="fieldName.equals('username')">
+                    username = #{value}
+                </when>
+                <when test="fieldName.equals('name')">
+                    name = #{value}
+                </when>
+                <when test="fieldName.equals('nickname')">
+                    nickname = #{value}
+                </when>
+            </choose>
+        where
+            id = #{id}
+
+    </update>
     <select id="findByUsername" resultType="com.finalProject.Back.entity.User">
         select
             *
@@ -114,5 +132,25 @@
             user
         WHERE
             id = #{id}
+    </select>
+    <select id="findDuplicatedValue" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            user
+        where
+            1 = 1
+            <choose>
+                <when test="fieldName.equals('username')">
+                    and username = #{value}
+                </when>
+                <when test="fieldName.equals('name')">
+                    and name = #{value}
+                </when>
+                <when test="fieldName.equals('nickname')">
+                    and nickname = #{value}
+                </when>
+            </choose>
+
     </select>
 </mapper>
