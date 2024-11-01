@@ -47,6 +47,9 @@
                 <when test="fieldName.equals('nickname')">
                     nickname = #{value}
                 </when>
+                <when test="fieldName.equals('email')">
+                    email = #{value}
+                </when>
             </choose>
         where
             id = #{id}
