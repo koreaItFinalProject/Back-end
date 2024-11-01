@@ -167,24 +167,6 @@ public class UserService {
         // DB에서 username의 존재 여부 확인
         return !userMapper.existsByNickname(nickname); // true: 사용 가능, false: 중복
     }
-//
-//    public RespModifyProfile modifyProfile(ReqModifyProfile profile) {
-//        System.out.println("service : " +profile.getNickname());
-//        User user = profile.toEntity();
-//        System.out.println("user: " + user);
-//        System.out.println("nickname: " + user.getNickname());
-//        userMapper.update(user);
-//
-//        return RespModifyProfile.builder()
-//                .id(user.getId())
-//                .username(user.getUsername())
-//                .name(user.getName())
-//                .nickname(user.getNickname())
-//                .email(user.getEmail())
-//                .img(user.getImg())
-//                .role(user.getRole())
-//                .build();
-//    }
 
     public Boolean modifyEachProfile(ReqModifyFieldDto dto){
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder

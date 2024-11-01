@@ -70,7 +70,8 @@ public class UserController {
         Map<String, String> fieldNameMap = Map.of(
                 "username", "사용자이름",
                 "name", "이름",
-                "nickname", "닉네임"
+                "nickname", "닉네임",
+                "email", "이메일"
         );
 
         if (userService.isDuplicated(fieldName, value)) {
@@ -86,7 +87,7 @@ public class UserController {
                 "errorField", "",
                 "errorName", "",
                 "errorMessage", ""
-        )); // 중복일 경우
+        ));
     }
 
     @GetMapping("/user/check/check/{nickname}")
@@ -100,20 +101,6 @@ public class UserController {
             return ResponseEntity.badRequest().body("이미 사용중인 닉네임입니다."); // 중복일 경우
         }
     }
-
-//    @ValidAop
-//    @PutMapping("/mypage/profile/modify")
-//    public ResponseEntity<?> modifyProfile(@RequestBody @Valid ReqModifyProfile profile, BindingResult bindingResult) {
-//        try {
-//            // 요청 객체를 DTO로 받음
-//            System.out.println(profile);
-//            RespModifyProfile modifiedProfile = userService.modifyEachProfile(profile);
-//            return ResponseEntity.ok().body(modifiedProfile);
-//        } catch (Exception e) {
-//            log.error("Error modifying profile", e); // 디버깅을 위한 오류 로그
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("프로필 수정 실패");
-//        }
-//    }
 
     // 수정중
     @PutMapping("/user/info/{fieldName}")
