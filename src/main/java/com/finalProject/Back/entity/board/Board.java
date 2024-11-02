@@ -15,10 +15,11 @@ public class Board {
     private Long id;
     private String title;
     private String content;
+    private String category;
     private Long writerId;
     private String nickname;
     private String category;
-    private Integer viewCount;
     private Integer commentCount;
+    private int viewCount;
     private LocalDate writeDate;
 }
