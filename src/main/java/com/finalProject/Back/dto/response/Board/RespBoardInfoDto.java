@@ -11,4 +11,5 @@ public class RespBoardInfoDto {
     private String content;
     private String view_count;
     private String writeDate;
+    private String category;
 }

@@ -1,5 +1,6 @@
 package com.finalProject.Back.controller;
 
+import com.finalProject.Back.dto.request.ReqBoardDto;
 import com.finalProject.Back.dto.request.User.ReqSigninDto;
 import com.finalProject.Back.security.principal.PrincipalUser;
 import com.finalProject.Back.service.OwnerService;
@@ -58,5 +59,11 @@ public class OwnerController {
                 .getPrincipal();
         System.out.println(principalUser);
         return ResponseEntity.ok().body(ownerService.getInfo(principalUser.getId()));
+    }
+
+    @GetMapping("/owner/notice")
+    public ResponseEntity<?> getNoticeList(ReqBoardDto.BoardListDto dto) {
+        System.out.println(dto);
+        return ResponseEntity.ok().body(ownerService.getNoticeList(dto));
     }
 }

@@ -34,7 +34,6 @@ public class BoardController {
 
     @DeleteMapping("/board/{boardId}")
     public ResponseEntity<?> delete(@PathVariable Long boardId) {
-        System.out.println("id 들어오나 ?? "  +boardId);
         boardService.delete(boardId);
         return ResponseEntity.ok().body(true);
     }
