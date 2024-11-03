@@ -18,7 +18,6 @@ public class Board {
     private String category;
     private Long writerId;
     private String nickname;
-    private String category;
     private Integer commentCount;
     private int viewCount;
     private LocalDate writeDate;

@@ -6,7 +6,6 @@ import com.finalProject.Back.dto.response.Board.RespBoardDto;
 import com.finalProject.Back.dto.response.Board.RespBoardInfoDto;
 import com.finalProject.Back.dto.response.Comment.RespCommentInfoDto;
 import com.finalProject.Back.dto.response.Review.RespReviewInfoDto;
-import com.finalProject.Back.entity.board.Board;
 import com.finalProject.Back.entity.board.BoardList;
 import com.finalProject.Back.repository.*;
 import com.finalProject.Back.security.principal.PrincipalUser;

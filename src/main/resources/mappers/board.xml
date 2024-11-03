@@ -121,7 +121,7 @@
             writer_id = #{id}
     </select>
 
-    <select id="getNoticeListByOwnerId" resultType="com.finalProject.Back.entity.board.Board">
+    <select id="getNoticeListByOwnerId" resultType="com.finalProject.Back.entity.board.BoardList">
         with like_count as (
             select
                 board_id,
@@ -138,7 +138,6 @@
             u.nickname,
             ifnull(lc.like_cnt, 0) as likeCount,
             b.view_count as viewCount,
-            c.board_id as commentCount,
             b.write_date as writeDate
         from
             board b
@@ -163,6 +162,36 @@
             board
         where
             writer_id = #{userId}
+    </select>
+
+    <select id="getNoticeList" resultType="com.finalProject.Back.entity.board.BoardList">
+        with like_count as (
+            select
+            board_id,
+            count(*) as like_cnt
+        from
+            board_like
+        group by
+            board_id
+        )
+        select
+            b.id,
+            b.title,
+            b.content,
+            u.nickname,
+            ifnull(lc.like_cnt, 0) as likeCount,
+            b.view_count as viewCount,
+            b.write_date as writeDate
+        from
+            board b
+            left outer join user u on(u.id = b.writer_id)
+            left outer join like_count lc on(lc.board_id = b.id)
+            left outer join comment c on(c.board_id = b.id)
+        where
+            b.writer_id = #{ownerId}
+            and board_category = "공지사항"
+        order by
+            b.write_date desc
     </select>
 
 </mapper>

@@ -6,7 +6,7 @@
 
     <resultMap id="CafeDetailResultMap" type="com.finalProject.Back.entity.Cafe.CafeDetail">
         <id property="id" column="cafe_id" />
-        <result property="owner_id" column="owner_id" />
+        <result property="ownerId" column="owner_id" />
         <result property="cafeName" column="cafeName" />
         <result property="address" column="address" />
         <result property="lat" column="lat" />
@@ -152,7 +152,8 @@
             left outer join category ctg on(ctg.id = rcc.category_id)
             left outer join review rev on(rev.cafe_id = c.id)
             left outer join user u on(u.id = rev.writer_id)
-            left outer join cafe_review_categories crc on (crc.review_id = rev.id)
+            left outer join cafe_review_categories crc on(crc.review_id = rev.id)
+            left outer join board b on(b.writer_id = c.owner_id)
         where
             c.id = #{cafeId}
     </select>

@@ -62,6 +62,16 @@ public class BoardService {
                 .build();
     }
 
+    public RespBoardDto.RespBoardListDto getNoticeList(Long ownerId) {
+        List<BoardList> boardLists = boardMapper.getNoticeList(ownerId);
+        Integer boardTotalCount = boardMapper.getTotalCountByOwnerId(ownerId);
+        return RespBoardDto.RespBoardListDto.builder()
+                .boards(boardLists)
+                .totalCount(boardTotalCount)
+                .build();
+    }
+
+
     public RespBoardDto.RespBoardDetailDto getDetail(Long boardId) {
         Board board = boardMapper.getDetail(boardId);
         if(board == null) {
