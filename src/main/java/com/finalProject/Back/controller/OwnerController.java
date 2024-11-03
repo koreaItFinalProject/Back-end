@@ -63,7 +63,6 @@ public class OwnerController {
 
     @GetMapping("/owner/notice")
     public ResponseEntity<?> getNoticeList(ReqBoardDto.BoardListDto dto) {
-        System.out.println(dto);
         return ResponseEntity.ok().body(ownerService.getNoticeList(dto));
     }
 }

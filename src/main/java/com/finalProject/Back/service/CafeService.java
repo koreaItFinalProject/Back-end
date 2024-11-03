@@ -7,6 +7,7 @@ import com.finalProject.Back.dto.request.Cafe.ReqGetCafeDto;
 import com.finalProject.Back.dto.response.Cafe.RespCafeDto;
 import com.finalProject.Back.entity.Cafe.Cafe;
 import com.finalProject.Back.entity.Cafe.CafeLike;
+import com.finalProject.Back.entity.board.Board;
 import com.finalProject.Back.repository.CafeLikeMapper;
 import com.finalProject.Back.repository.CafeMapper;
 import com.finalProject.Back.security.principal.PrincipalUser;

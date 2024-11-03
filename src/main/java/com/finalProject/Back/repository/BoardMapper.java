@@ -21,4 +21,5 @@ public interface BoardMapper {
     int addViewCountById(Long boardId);
     List<RespBoardInfoDto> getBoardInfoById(Long id);
     List<BoardList> getNoticeListByOwnerId(Map<String, Object> params);
+    List<BoardList> getNoticeList(Long ownerId);
 }
