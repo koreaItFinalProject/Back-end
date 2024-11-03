@@ -50,6 +50,12 @@
                 <when test="fieldName.equals('email')">
                     email = #{value}
                 </when>
+                <when test="fieldName.equals('phoneNumber')">
+                    phoneNumber = #{value}
+                </when>
+                <when test="fieldName.equals('password')">
+                    password = #{value}
+                </when>
             </choose>
         where
             id = #{id}
@@ -150,8 +156,17 @@
                 <when test="fieldName.equals('name')">
                     and name = #{value}
                 </when>
+                <when test="fieldName.equals('email')">
+                    and email = #{value}
+                </when>
+                <when test="fieldName.equals('password')">
+                    and password = #{value}
+                </when>
                 <when test="fieldName.equals('nickname')">
                     and nickname = #{value}
+                </when>
+                <when test="fieldName.equals('phoneNumber')">
+                    and phoneNumber = #{value}
                 </when>
             </choose>
 

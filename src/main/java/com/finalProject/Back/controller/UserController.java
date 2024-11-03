@@ -66,13 +66,33 @@ public class UserController {
 
     // 수정중
     @GetMapping("/user/duplicated/{fieldName}")
-    public ResponseEntity<?> checkDuplicated(@PathVariable String fieldName, @RequestParam String value){
+    public ResponseEntity<?> checkDuplicated(@PathVariable String fieldName, @RequestParam String value ){
+        // 유효성 검사
+        Map<String, String> regexMap = Map.of(
+                "username", "^[a-z0-9]{8,}$",
+                "password", "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[~!@#$%^&*?])[A-Za-z\\d~!@#$%^&*?]{8,16}$",
+                "name", "^[가-힣]+$",
+                "email", "^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$",
+                "phoneNumber", "^010.{1,11}$"
+        );
+        
         Map<String, String> fieldNameMap = Map.of(
                 "username", "사용자이름",
                 "name", "이름",
                 "nickname", "닉네임",
-                "email", "이메일"
+                "email", "이메일",
+                "password","비밀번호",
+                "phoneNumber", "전화번호"
         );
+        // 정규식 검사
+        if (regexMap.containsKey(fieldName) && !value.matches(regexMap.get(fieldName))) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "isError", true,
+                    "errorField", fieldName,
+                    "errorName", fieldName + " 형식 오류",
+                    "errorMessage", "올바른 " + fieldNameMap.get(fieldName) + " 형식이 아닙니다."
+            ));
+        }
 
         if (userService.isDuplicated(fieldName, value)) {
             return ResponseEntity.badRequest().body(Map.of(
@@ -88,18 +108,6 @@ public class UserController {
                 "errorName", "",
                 "errorMessage", ""
         ));
-    }
-
-    @GetMapping("/user/check/check/{nickname}")
-    public ResponseEntity<?> checkNickname(@PathVariable String nickname) throws UnsupportedEncodingException {
-        String encodedString = nickname;
-        String encodedNickname = URLDecoder.decode(encodedString, "UTF-8");
-        System.out.println("들어오는지 체크" + encodedNickname);
-        if (userService.checkNickname(encodedNickname)) {
-            return ResponseEntity.ok("사용 가능한 닉네임입니다."); // 중복이 없을 경우
-        } else {
-            return ResponseEntity.badRequest().body("이미 사용중인 닉네임입니다."); // 중복일 경우
-        }
     }
 
     // 수정중

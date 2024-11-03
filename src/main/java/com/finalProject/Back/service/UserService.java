@@ -160,12 +160,12 @@ public class UserService {
     }
 
     public boolean isDuplicated(String fieldName, String value) {
-        // DB에서 username의 존재 여부 확인
+        if(fieldName.equals("password")){
+            String secretPassword = passwordEncoder.encode(value);
+            System.out.println(secretPassword + " 1");
+            return userMapper.findDuplicatedValue(fieldName, secretPassword) > 0;
+        }
         return userMapper.findDuplicatedValue(fieldName, value) > 0; // true: 사용 가능, false: 중복
-    }
-    public boolean checkNickname(String nickname) {
-        // DB에서 username의 존재 여부 확인
-        return !userMapper.existsByNickname(nickname); // true: 사용 가능, false: 중복
     }
 
     public Boolean modifyEachProfile(ReqModifyFieldDto dto){
@@ -173,7 +173,11 @@ public class UserService {
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
-
+        if(dto.getFieldName().equals("password")){
+            String passwordValue =passwordEncoder.encode(dto.getValue());
+            System.out.println(passwordValue + " 2");
+            return userMapper.updateFieldValue(principalUser.getId(), dto.getFieldName(), passwordValue) > 0;
+        }
         return userMapper.updateFieldValue(principalUser.getId(), dto.getFieldName(), dto.getValue()) > 0;
     }
 
