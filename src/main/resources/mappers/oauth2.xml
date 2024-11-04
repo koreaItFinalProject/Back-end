@@ -28,4 +28,20 @@
         where
             ou.email = #{email}
     </select>
+    <select id="findByUserIdAndProvider" resultType="com.finalProject.Back.entity.OAuth2User">
+        select
+            *
+        from
+            oauth2_user
+        where
+            user_id = #{userId} and provider = #{provider}
+    </select>
+    <select id="findByOauth2Name" resultType="com.finalProject.Back.entity.User">
+        select
+            *
+        from
+            user
+        where
+            oauth = #{oAuth2Name}
+    </select>
 </mapper>

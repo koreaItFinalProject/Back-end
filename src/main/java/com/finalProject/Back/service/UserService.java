@@ -7,6 +7,8 @@ import com.finalProject.Back.dto.response.User.RespSignupDto;
 import com.finalProject.Back.dto.response.User.RespUserInfoDto;
 import com.finalProject.Back.entity.OAuth2User;
 import com.finalProject.Back.entity.User;
+import com.finalProject.Back.exception.EmailAlreadyExistsException;
+import com.finalProject.Back.exception.Oauth2NameAlreadyExistsException;
 import com.finalProject.Back.exception.Oauth2NameException;
 import com.finalProject.Back.exception.SignupException;
 import com.finalProject.Back.repository.OAuth2UserMapper;
@@ -15,6 +17,7 @@ import com.finalProject.Back.security.jwt.JwtProvider;
 import com.finalProject.Back.security.principal.PrincipalUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -49,7 +52,7 @@ public class UserService {
             if(dto.getUsername().equals(foundUser.getUsername())){
                 throw new SignupException("중복된 아이디입니다.");
             }
-            if (oAuth2UserMapper.existsByEmail(dto.getEmail())) {
+            if (oAuth2UserMapper.existsByEmail(dto.getEmail()) || userMapper.findByEmail(dto.getEmail()) != null) {
                 System.out.println("중복된 이메일입니다 " + dto.getEmail());
                 throw new Oauth2NameException("중복된 이메일로 가입할 수 없습니다.");
             }
@@ -65,9 +68,21 @@ public class UserService {
     @Transactional(rollbackFor = Exception.class)
     public RespSignupDto oauthSignup(ReqOAuth2SignupDto dto) {
         System.out.println(dto);
+
+        // 이메일 중복 체크
+        if (userMapper.findByEmail(dto.getEmail()) != null) {
+            throw new EmailAlreadyExistsException("이미 사용 중인 이메일입니다.");
+        }
+
+        // OAuth2 이름 중복 체크
+        if (oAuth2UserMapper.findByOauth2Name(dto.getOauth2Name()) != null) {
+            throw new Oauth2NameAlreadyExistsException("이미 사용 중인 OAuth2 이름입니다.");
+        }
+
+
         User user = User.builder()
                 .username(dto.getUsername())
-                .password(dto.getPassword())
+                .password(passwordEncoder.encode(dto.getPassword()))
                 .name(dto.getName())
                 .email(dto.getEmail())
                 .role(dto.getRole())
@@ -76,15 +91,20 @@ public class UserService {
                 .oauth(dto.getOauth2Name())
                 .build();
 
-        userMapper.save(user);
+        try {
+            userMapper.oauth2Save(user);
+        } catch (Exception e) {
+            throw new RuntimeException("회원가입 중 예기치 않은 오류가 발생했습니다: " + e.getMessage());
+        }
+
         return RespSignupDto.builder()
                 .user(user)
                 .build();
     }
 
-    public RespSigninDto generaterAccessToken (ReqSigninDto dto){
+    public RespSigninDto generaterAccessToken(ReqSigninDto dto) {
         User user = checkUsernameAndPassword(dto);
-        System.out.println("토큰 생산" + user);
+        System.out.println("토큰 생성: " + user);
         return RespSigninDto.builder()
                 .expireDate(jwtProvider.getExpireDate().toString())
                 .accessToken(jwtProvider.generateAccessToken(user))
@@ -93,43 +113,38 @@ public class UserService {
 
     private User checkUsernameAndPassword(ReqSigninDto dto) {
         User user = userMapper.findByUsername(dto.getUsername());
-        if (user == null) {
+        if (user == null || !passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException("사용자 정보를 다시 확인하세요.");
+        }
+        return user;
+    }
+
+    private User checkOAuth2UsernameAndPassword(ReqOAuth2SigninDto dto) {
+        User user = userMapper.findByUsername(dto.getUsername());
+        if (user == null || !passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
             throw new UsernameNotFoundException("사용자 정보를 다시 확인하세요");
         }
-        if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
-            throw new BadCredentialsException("사용자를 정보를 다시 확인하세요.");
-        }
-        if (dto.getUsername() == user.getUsername()) {
-            System.out.println("dto" + dto.getUsername());
-            System.out.println("user" + user.getUsername());
+        return user;
+    }
+
+    public RespSigninDto  mergeSignin(ReqOAuth2SigninDto dto) {
+        User user = checkOAuth2UsernameAndPassword(dto);
+        System.out.println(user);
+        OAuth2User existingOAuth2User = oAuth2UserMapper.findByUserIdAndProvider(user.getId(), dto.getProvider());
+        if (existingOAuth2User == null) {
+            // OAuth2 정보가 없으면 저장
             OAuth2User oAuth2User = OAuth2User.builder()
                     .userId(user.getId())
                     .email(user.getEmail())
-                    .oAuth2Name(user.getOauth())
+                    .oAuth2Name(dto.getOauth2Name())
                     .provider(dto.getProvider())
                     .build();
-            System.out.println(oAuth2User);
             oAuth2UserMapper.save(oAuth2User);
-
-            return user;
         }
-        return null;
-    }
-
-
-
-
-    public Boolean isDuplicateUsername(String username) {
-        return Optional.ofNullable(userMapper.findByUsername(username)).isPresent();
-    }
-
-    public OAuth2User mergeSignin(ReqSigninDto dto) {
-    User user = checkUsernameAndPassword(dto);
-        System.out.println(user);
-    return OAuth2User.builder()
-            .userId(user.getId())
-            .oAuth2Name(dto.getOauth2Name())
-            .provider(dto.getProvider())
+//        System.out.println("토큰 생성: " + user);
+    return RespSigninDto.builder()
+            .expireDate(jwtProvider.getExpireDate().toString())
+            .accessToken(jwtProvider.generateAccessToken(user))
             .build();
     }
 
@@ -155,6 +170,10 @@ public class UserService {
         return userMapper.findDuplicatedValue(fieldName, value) > 0; // true: 사용 가능, false: 중복
     }
 
+    public Boolean isDuplicateUsername(String username) {
+        return Optional.ofNullable(userMapper.findByUsername(username)).isPresent();
+    }
+
     public Boolean modifyEachProfile(ReqModifyFieldDto dto){
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
                 .getContext()
@@ -174,5 +193,11 @@ public class UserService {
                 .id(user.getId())
                 .img(user.getImg())
                 .build();
+    }
+
+    public void checkEmailExists(String email) {
+        if (userMapper.findByEmail(email) != null) {
+            throw new EmailAlreadyExistsException("이미 사용 중인 이메일입니다.");
+        }
     }
 }

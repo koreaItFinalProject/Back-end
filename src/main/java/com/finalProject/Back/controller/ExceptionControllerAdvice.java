@@ -1,6 +1,7 @@
 package com.finalProject.Back.controller;
 
 import com.finalProject.Back.exception.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -46,6 +47,16 @@ public class ExceptionControllerAdvice {
                 "message", e.getMessage(),
                 "email", e.getEmail()
         ));
+    }
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<String> handleEmailAlreadyExists(EmailAlreadyExistsException ex) {
+        return ResponseEntity.status(500).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(Oauth2NameAlreadyExistsException.class)
+    public ResponseEntity<String> handleOauth2NameAlreadyExists(Oauth2NameAlreadyExistsException ex) {
+        return ResponseEntity.status(500).body(ex.getMessage());
     }
 
     @ExceptionHandler(Oauth2NameException.class)
