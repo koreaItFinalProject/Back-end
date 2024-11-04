@@ -8,7 +8,7 @@
     <insert id="save" useGeneratedKeys="true"
             keyProperty="id">
         insert into oauth2_user
-        values(default , #{userId} , #{oAuth2Name} , #{provider})
+        values(default , #{userId} , #{oAuth2Name} , #{provider} ,#{email} )
     </insert>
     <select id="existsByOauth2Name" resultType="java.lang.Boolean">
         select

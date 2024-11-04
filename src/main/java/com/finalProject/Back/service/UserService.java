@@ -64,80 +64,67 @@ public class UserService {
 
     @Transactional(rollbackFor = Exception.class)
     public RespSignupDto oauthSignup(ReqOAuth2SignupDto dto) {
-        System.out.println("dto : "+dto.getUsername());
-        User user = dto.toUser(passwordEncoder);
-        System.out.println(user);
-        User foundUser = userMapper.findByUsername(dto.getUsername());
-        System.out.println("user : " +foundUser);
-        User oauth = userMapper.findById(user.getId());
-        System.out.println("oauth : "+oauth);
-        OAuth2User toOauth = OAuth2User.builder()
-                .userId(oauth.getId())
-                .email(oauth.getEmail())
-                .oAuth2Name(dto.getOauth2Name())
-                .provider(dto.getProvider())
+        System.out.println(dto);
+        User user = User.builder()
+                .username(dto.getUsername())
+                .password(dto.getPassword())
+                .name(dto.getName())
+                .email(dto.getEmail())
+                .role(dto.getRole())
+                .nickname(dto.getNickname())
+                .phoneNumber(dto.getPhoneNumber())
+                .oauth(dto.getOauth2Name())
                 .build();
-        if(foundUser != null){
-            if(dto.getUsername().equals(foundUser.getUsername())){
-                System.out.println("username : "+userMapper.findByUsername(user.getUsername()).getUsername());
-                throw new SignupException("중복된 아이디입니다.");
-            }
-        }else{
-            try {
-                userMapper.save(user);
-                System.out.println("User saved successfully");
-                oAuth2UserMapper.save(toOauth);
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new RuntimeException("User save failed");
-            }
-        }
-        if (dto.getOauth2Name() != null) {
-            if (oAuth2UserMapper.existsByOauth2Name(toOauth.getOAuth2Name())) {
-                System.out.println("Oauth2Name exists: " + dto.getOauth2Name());
-                throw new Oauth2NameException("중복된 아이디로 가입할 수 없습니다.");
-            }
-            if (oAuth2UserMapper.existsByEmail(toOauth.getEmail())) {
-                System.out.println("Oauth2email exists: " + dto.getEmail());
-                throw new Oauth2NameException("중복된 이메일로 가입할 수 없습니다.");
-            }
-        }else {
-            oAuth2UserMapper.save(toOauth);
-        }
+
+        userMapper.save(user);
         return RespSignupDto.builder()
                 .user(user)
                 .build();
     }
 
     public RespSigninDto generaterAccessToken (ReqSigninDto dto){
-        User user = checkUsernameAndPassword(dto.getUsername(), dto.getPassword());
+        User user = checkUsernameAndPassword(dto);
+        System.out.println("토큰 생산" + user);
         return RespSigninDto.builder()
                 .expireDate(jwtProvider.getExpireDate().toString())
                 .accessToken(jwtProvider.generateAccessToken(user))
                 .build();
     }
 
-    private User checkUsernameAndPassword(String username, String password) {
-        User user = userMapper.findByUsername(username);
-        System.out.println(user);
-
-        if(user == null) {
-            throw new UsernameNotFoundException("사용자 정보를 다시 확인하세요.");
+    private User checkUsernameAndPassword(ReqSigninDto dto) {
+        User user = userMapper.findByUsername(dto.getUsername());
+        if (user == null) {
+            throw new UsernameNotFoundException("사용자 정보를 다시 확인하세요");
         }
-
-        if(!passwordEncoder.matches(password, user.getPassword())) {
-            throw new BadCredentialsException("사용자 정보를 다시 확인하세요.");
+        if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException("사용자를 정보를 다시 확인하세요.");
         }
+        if (dto.getUsername() == user.getUsername()) {
+            System.out.println("dto" + dto.getUsername());
+            System.out.println("user" + user.getUsername());
+            OAuth2User oAuth2User = OAuth2User.builder()
+                    .userId(user.getId())
+                    .email(user.getEmail())
+                    .oAuth2Name(user.getOauth())
+                    .provider(dto.getProvider())
+                    .build();
+            System.out.println(oAuth2User);
+            oAuth2UserMapper.save(oAuth2User);
 
-        return user;
+            return user;
+        }
+        return null;
     }
+
+
+
 
     public Boolean isDuplicateUsername(String username) {
         return Optional.ofNullable(userMapper.findByUsername(username)).isPresent();
     }
 
-    public OAuth2User mergeSignin(ReqOAuth2MergeDto dto) {
-    User user = checkUsernameAndPassword(dto.getUsername(), dto.getPassword());
+    public OAuth2User mergeSignin(ReqSigninDto dto) {
+    User user = checkUsernameAndPassword(dto);
         System.out.println(user);
     return OAuth2User.builder()
             .userId(user.getId())

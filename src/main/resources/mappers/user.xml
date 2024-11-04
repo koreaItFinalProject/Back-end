@@ -124,16 +124,6 @@
         WHERE
         u.id = #{id}
     </select>
-    <select id="existsByUsername" resultType="java.lang.Boolean">
-        SELECT COUNT(*) > 0
-        FROM user
-        WHERE username = #{username}
-    </select>
-    <select id="existsByNickname" resultType="java.lang.Boolean">
-        SELECT COUNT(*) > 0
-        FROM user
-        WHERE nickname = #{nickname}
-    </select>
     <select id="findUserInfoById" resultType="com.finalProject.Back.dto.response.RespUserInfoDto">
         SELECT
             *

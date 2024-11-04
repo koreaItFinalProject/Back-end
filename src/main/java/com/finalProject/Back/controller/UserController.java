@@ -69,13 +69,12 @@ public class UserController {
     public ResponseEntity<?> checkDuplicated(@PathVariable String fieldName, @RequestParam String value ){
         // 유효성 검사
         Map<String, String> regexMap = Map.of(
-                "username", "^[a-z0-9]{8,}$",
+                "username", "^(?=.*[a-z])(?=.*\\d)[a-z0-9]{8,}$",
                 "password", "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[~!@#$%^&*?])[A-Za-z\\d~!@#$%^&*?]{8,16}$",
                 "name", "^[가-힣]+$",
                 "email", "^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$",
                 "phoneNumber", "^010.{1,11}$"
         );
-        
         Map<String, String> fieldNameMap = Map.of(
                 "username", "사용자이름",
                 "name", "이름",
