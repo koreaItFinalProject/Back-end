@@ -44,7 +44,7 @@
         FROM
             cafe c
             LEFT JOIN review r ON c.id = r.cafe_id
-            LEFT JOIN cafe_like cl ON c.id = cl.cafe_id
+            LEFT JOIN cafe_like cl ON c.id = cl.cafe_idcafe
         WHERE
             (c.category = #{category} OR #{category} = '전체')
             AND cafeName LIKE CONCAT('%', #{search}, '%')
@@ -64,7 +64,7 @@
             id = #{cafeId}
     </select>
 
-    <select id="findByUserId" resultType="com.finalProject.Back.entity.Cafe.Cafe">
+    <select id="findByUserId"  resultType="com.finalProject.Back.entity.Cafe.Cafe">
         select
             id,
             cafeName
@@ -73,4 +73,12 @@
         where
             owner_id = #{id}
     </select>
+    <select id="getCafeList" resultType="com.finalProject.Back.dto.response.Cafe.RespAdminCafeListDto">
+        select
+            *
+        from
+            cafe
+    </select>
+
+
 </mapper>

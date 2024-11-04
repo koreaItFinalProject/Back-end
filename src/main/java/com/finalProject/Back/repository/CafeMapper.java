@@ -1,5 +1,7 @@
 package com.finalProject.Back.repository;
 
+import com.finalProject.Back.dto.response.Cafe.RespAdminCafeListDto;
+import com.finalProject.Back.dto.response.Review.RespReviewInfoDto;
 import com.finalProject.Back.entity.Cafe.Cafe;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -14,4 +16,6 @@ public interface CafeMapper{
     List<Cafe> findBySearchAndCategory(@Param("category") String category, @Param("search") String search);
     int modifyCafeInfo(Cafe cafe);
     int modifyBannerImg(Cafe cafe);
+    List<RespAdminCafeListDto> getCafeList();
+
 }
