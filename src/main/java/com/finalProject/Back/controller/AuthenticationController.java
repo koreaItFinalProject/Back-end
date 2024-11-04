@@ -1,8 +1,8 @@
 package com.finalProject.Back.controller;
 
 import com.finalProject.Back.aspect.annotation.ValidAop;
-import com.finalProject.Back.dto.request.User.ReqOAuth2MergeDto;
 import com.finalProject.Back.dto.request.User.ReqOAuth2SignupDto;
+import com.finalProject.Back.dto.request.User.ReqSigninDto;
 import com.finalProject.Back.exception.SignupException;
 import com.finalProject.Back.service.OAuth2Service;
 import com.finalProject.Back.service.TokenService;
@@ -31,7 +31,7 @@ public class AuthenticationController {
 
     @ValidAop
     @PostMapping("/user/oauth2/merge")
-    public ResponseEntity<?> oAuth2Merge(@Valid @RequestBody ReqOAuth2MergeDto dto, BindingResult bindingResult) {
+    public ResponseEntity<?> oAuth2Merge(@Valid @RequestBody ReqSigninDto dto, BindingResult bindingResult) {
         userService.mergeSignin(dto);
         if (bindingResult.hasErrors()) {
             // 유효성 검증 실패 시 에러 메시지 반환
