@@ -1,6 +1,8 @@
 package com.finalProject.Back.dto.response;
 
 import com.finalProject.Back.dto.response.Board.RespBoardInfoDto;
+import com.finalProject.Back.dto.response.Cafe.RespAdminCafeListDto;
+import com.finalProject.Back.dto.response.Cafe.RespCafeListDto;
 import com.finalProject.Back.dto.response.Comment.RespCommentInfoDto;
 import com.finalProject.Back.dto.response.Review.RespReviewInfoDto;
 import lombok.Builder;
@@ -17,4 +19,5 @@ public class RespInfoDto {
     private List<RespReviewInfoDto> review;
     private List<RespCommentInfoDto> comment;
     private List<RespBoardCommentInfoDto> boardComment;
+    private List<RespAdminCafeListDto> cafemanager;
 }
