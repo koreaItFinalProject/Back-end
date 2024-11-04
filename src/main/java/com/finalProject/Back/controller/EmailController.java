@@ -1,6 +1,9 @@
 package com.finalProject.Back.controller;
 
 import com.finalProject.Back.dto.request.email.ReqEmail;
+import com.finalProject.Back.dto.response.email.RespEmailCheckDto;
+import com.finalProject.Back.exception.EmailAlreadyExistsException;
+import com.finalProject.Back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,9 @@ public class EmailController {
 
     @Autowired
     private JavaMailSender javaMailSender;
+
+    @Autowired
+    private UserService userService;
 
     private Map<String, String> verificationCodes = new HashMap<>();
 
@@ -46,5 +52,23 @@ public class EmailController {
         message.setText("인증 코드는 다음과 같습니다: " + verificationCode);
 
         javaMailSender.send(message);
+    }
+
+    @GetMapping("/signup/check/{email}")
+    public ResponseEntity<RespEmailCheckDto> checkEmailDuplicate(@PathVariable String email) {
+        try {
+            userService.checkEmailExists(email);
+            System.out.println(email);
+            RespEmailCheckDto response = RespEmailCheckDto.builder()
+                    .email(email)
+                    .exists(false)
+                    .build();
+            return ResponseEntity.ok(response);
+        } catch (EmailAlreadyExistsException e) {
+            return ResponseEntity.badRequest().body(RespEmailCheckDto.builder()
+                    .email(email)
+                    .exists(true)
+                    .build());
+        }
     }
 }
