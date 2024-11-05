@@ -9,11 +9,7 @@
             useGeneratedKeys="true"
             keyProperty="id">
         insert into user
-        values (default, #{username} , #{password} , #{name} , #{email} , #{role} , #{nickname} , default , #{oauth} , default , #{phoneNumber}  )
-    </insert>
-    <insert id="oauth2Save">
-        insert into user
-        values (default, #{username} , #{password} , #{name} , #{email} , #{role} , #{nickname} , default , #{oauth} , 2 , #{phoneNumber} )
+        values (default, #{username} , #{password} , #{name} , #{email} , #{role} , #{nickname} , default , #{oauth}  , #{phoneNumber}  )
     </insert>
     <update id="update">
         update user
@@ -88,7 +84,6 @@
         u.password,
         u.name,
         u.email,
-        u.email_valid,
         u.role,
         u.nickname,
         u.phoneNumber,
@@ -111,7 +106,6 @@
         u.password,
         u.name,
         u.email,
-        u.email_valid,
         u.role,
         u.nickname,
         u.phoneNumber,

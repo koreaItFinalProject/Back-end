@@ -11,4 +11,12 @@
         values(default, #{reviewId}, #{categoryId})
     </insert>
 
+    <delete id="delete">
+        delete
+        from
+            review_category
+        where
+            review_id = #{reviewId}
+    </delete>
+
 </mapper>
