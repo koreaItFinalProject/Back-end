@@ -13,14 +13,17 @@ public class ReqCafeDto {
     @NotBlank(message = "카페 주소를 입력해주세요.")
     private String address;
     @NotBlank
+    private String category;
+    @NotBlank
     private String lat;
     @NotBlank
     private String lng;
 
     public Cafe toEntity() {
         return Cafe.builder()
-                .ownerId(ownerId)
+                .owner_id(ownerId)
                 .cafeName(cafename)
+                .category(category)
                 .address(address)
                 .lat(lat)
                 .lng(lng)

@@ -9,7 +9,6 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface UserMapper {
     int save(User user);
-    int oauth2Save(User user);
     User findByUsername(String username);
     User findByOAuth2Id(Long id);
     User findByOAuth2Name(String username);
