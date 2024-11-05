@@ -12,6 +12,5 @@ public class BoardList {
     private String nickname;
     private Integer likeCount;
     private Integer viewCount;
-    private Integer commentCount;
     private LocalDate writeDate;
 }
