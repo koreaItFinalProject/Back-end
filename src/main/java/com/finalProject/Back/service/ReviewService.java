@@ -30,10 +30,10 @@ public class ReviewService {
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
+
         Review review = dto.toEntity(principalUser.getId());
         reviewMapper.save(review);
         Long reviewId = review.getId();
-        System.out.println(reviewId);
 
         List<Long> categoryIds = dto.getCategoryIds();
         for(Long categoryId: categoryIds) {
@@ -46,9 +46,18 @@ public class ReviewService {
         return reviewMapper.findByCafeId(cafeId);
     }
 
+    @Transactional(rollbackFor = SQLException.class)
     public void modify(ReqReviewDto.ReqModifyDto dto) {
         authorityCheck(dto.getReviewId());
         reviewMapper.modify(dto.toEntity());
+        List<Long> categoryIds = dto.getCategoryIds();
+        Long reviewId = dto.getReviewId();
+
+        reviewCategoryMapper.delete(reviewId);
+        for(Long categoryId: categoryIds) {
+            ReviewCategory reviewCategory = new ReviewCategory(reviewId, categoryId);
+            reviewCategoryMapper.save(reviewCategory);
+        }
     }
 
     public void delete(Long reviewId) {

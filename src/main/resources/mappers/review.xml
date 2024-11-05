@@ -79,7 +79,6 @@
             review
         set
             rating = #{rating},
-            category = #{category},
             review = #{review},
             write_date = now()
         where

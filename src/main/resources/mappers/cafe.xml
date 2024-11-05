@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.finalProject.Back.repository.CafeMapper">
 
     <insert id="save">
@@ -19,6 +17,7 @@
         where
             id = #{id}
     </update>
+
     <update id="modifyCafeInfo">
         update
             cafe
@@ -44,7 +43,7 @@
         FROM
             cafe c
             LEFT JOIN review r ON c.id = r.cafe_id
-            LEFT JOIN cafe_like cl ON c.id = cl.cafe_idcafe
+            LEFT JOIN cafe_like cl ON c.id = cl.cafe_id
         WHERE
             (c.category = #{category} OR #{category} = '전체')
             AND cafeName LIKE CONCAT('%', #{search}, '%')
@@ -73,12 +72,12 @@
         where
             owner_id = #{id}
     </select>
+
     <select id="getCafeList" resultType="com.finalProject.Back.dto.response.Cafe.RespAdminCafeListDto">
         select
             *
         from
             cafe
     </select>
-
 
 </mapper>
