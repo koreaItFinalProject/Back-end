@@ -92,7 +92,7 @@ public class UserService {
                 .build();
 
         try {
-            userMapper.oauth2Save(user);
+            userMapper.save(user);
         } catch (Exception e) {
             throw new RuntimeException("회원가입 중 예기치 않은 오류가 발생했습니다: " + e.getMessage());
         }
