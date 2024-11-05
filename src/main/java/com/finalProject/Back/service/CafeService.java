@@ -29,6 +29,7 @@ public class CafeService {
     private CafeLikeMapper cafeLikeMapper;
 
     public int addCafe(ReqCafeDto dto) {
+        System.out.println("카페 정보" + dto);
         return cafeMapper.save(dto.toEntity());
     }
 

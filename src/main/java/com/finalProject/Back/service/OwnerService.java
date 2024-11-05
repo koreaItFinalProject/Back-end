@@ -59,7 +59,7 @@ public class OwnerService {
         return ownerMapper.deleteUser(id);
     }
 
-    public int deleteCafe(int id){
+    public Long deleteCafe(Long id){
         return ownerMapper.deleteCafe(id);
     }
 
@@ -99,4 +99,5 @@ public class OwnerService {
                 .totalCount(boardTotalCount)
                 .build();
     }
+
 }
