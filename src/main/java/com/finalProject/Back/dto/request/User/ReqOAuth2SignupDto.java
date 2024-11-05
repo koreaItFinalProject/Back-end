@@ -24,8 +24,8 @@ public class ReqOAuth2SignupDto {
     @NotBlank(message = "이메일은 공백일 수 없습니다.")
     @Email(message = "이메일 형식이어야 합니다")
     private String email;
-    @Pattern(regexp = "^.{1,11}$", message = "전화번호 형식을 맞춰주세요.")
-    @NotBlank(message = "전화번호 인증이 필요합니다.")
+    @Pattern(regexp = "^010.{1,11}$", message = "전화번호 형식을 맞춰주세요.")
+    @NotBlank(message = "전화번호 입력해주세요.")
     private String phoneNumber;
     @NotBlank(message = "닉네임을 입력해주세요.")
     private String nickname;
