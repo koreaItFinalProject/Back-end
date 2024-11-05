@@ -5,8 +5,8 @@
 <mapper namespace="com.finalProject.Back.repository.CafeMapper">
 
     <insert id="save">
-        insert into cafe (id , owner_id, cafeName, address, lat, lng, category)
-        values (default, #{owner_id}, #{cafeName} , #{address}, #{lat} , #{lng} , " ")
+        insert into cafe (id , owner_id, cafeName, address, lat, lng, category , img)
+        values (default, #{owner_id}, #{cafeName} , #{address}, #{lat} , #{lng} , #{category}, default)
     </insert>
 
     <update id="modifyBannerImg">

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Cafe {
     private Long id;
-    private Long ownerId;
+    private Long owner_id;
     private String cafeName;
     private String address;
     private String lat;

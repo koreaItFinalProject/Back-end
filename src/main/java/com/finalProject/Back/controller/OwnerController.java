@@ -41,7 +41,7 @@ public class OwnerController {
     }
 
     @DeleteMapping("/manager/cafe/{id}")
-    public ResponseEntity<?> deleteCafe(@PathVariable int id) {
+    public ResponseEntity<?> deleteCafe(@PathVariable Long id) {
         System.out.println(id);
         return ResponseEntity.ok().body(ownerService.deleteCafe(id));
     }
@@ -64,5 +64,11 @@ public class OwnerController {
     @GetMapping("/owner/notice")
     public ResponseEntity<?> getNoticeList(ReqBoardDto.BoardListDto dto) {
         return ResponseEntity.ok().body(ownerService.getNoticeList(dto));
+    }
+
+    @DeleteMapping("/user/owner/delete/{id}")
+    public ResponseEntity<?> DeleteUser(@PathVariable Long id){
+        System.out.println("삭제: "+id);
+        return ResponseEntity.ok().body(ownerService.deleteUser(id));
     }
 }
