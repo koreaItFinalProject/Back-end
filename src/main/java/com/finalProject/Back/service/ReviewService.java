@@ -42,10 +42,6 @@ public class ReviewService {
         }
     }
 
-    public CafeDetail getDetail(Long cafeId) {
-        return reviewMapper.findByCafeId(cafeId);
-    }
-
     @Transactional(rollbackFor = SQLException.class)
     public void modify(ReqReviewDto.ReqModifyDto dto) {
         authorityCheck(dto.getReviewId());
