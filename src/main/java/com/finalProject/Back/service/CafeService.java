@@ -6,6 +6,7 @@ import com.finalProject.Back.dto.request.Cafe.ReqCafeInfoModifyDto;
 import com.finalProject.Back.dto.request.Cafe.ReqGetCafeDto;
 import com.finalProject.Back.dto.response.Cafe.RespCafeDto;
 import com.finalProject.Back.entity.Cafe.Cafe;
+import com.finalProject.Back.entity.Cafe.CafeDetail;
 import com.finalProject.Back.entity.Cafe.CafeLike;
 import com.finalProject.Back.entity.board.Board;
 import com.finalProject.Back.repository.CafeLikeMapper;
@@ -37,8 +38,10 @@ public class CafeService {
         return cafeMapper.findBySearchAndCategory(dto.getCategory(), dto.getSearch());
     }
 
-    public Cafe getDetail(Long cafeId) {
-        return cafeMapper.findById(cafeId);
+    public CafeDetail getDetail(Long cafeId) {
+        CafeDetail cafeDetail = cafeMapper.findByCafeId(cafeId);
+        System.out.println(cafeDetail.getNoticeList());
+        return cafeMapper.findByCafeId(cafeId);
     }
 
     public RespCafeDto.RespCafeInfoDto getCafeInfo() {
@@ -82,7 +85,7 @@ public class CafeService {
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
-
+        System.out.println(principalUser);
         CafeLike cafeLike = CafeLike.builder()
                 .cafeId(cafeId)
                 .userId(principalUser.getId())

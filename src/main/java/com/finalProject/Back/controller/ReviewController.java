@@ -18,11 +18,6 @@ public class ReviewController {
         return ResponseEntity.ok().body(true);
     }
 
-    @GetMapping("/review/{cafeId}")
-    public ResponseEntity<?> getDetail(@PathVariable Long cafeId) {
-        return ResponseEntity.ok().body(reviewService.getDetail(cafeId));
-    }
-
     @PutMapping("/review/{reviewId}")
     public ResponseEntity<?> modify(@RequestBody ReqReviewDto.ReqModifyDto dto) {
         reviewService.modify(dto);
