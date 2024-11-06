@@ -132,4 +132,12 @@ public class UserController {
         userService.modifyProfileImg(user);
         return ResponseEntity.ok().body(true);
     }
+
+    @GetMapping("/user/find/duplicated/{fieldName}")
+    public ResponseEntity<?> FindByCheckField(@PathVariable String fieldName, @RequestParam String value) {
+        if (userService.isDuplicated(fieldName, value)) {
+            return ResponseEntity.badRequest().body("중복");
+        }
+        return ResponseEntity.ok().body("사용 가능");
+    }
 }
