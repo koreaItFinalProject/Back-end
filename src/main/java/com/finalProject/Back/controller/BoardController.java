@@ -43,8 +43,9 @@ public class BoardController {
         return ResponseEntity.ok().body(true);
     }
 
+    @ValidAop
     @PutMapping("/board/{boardId}")
-    public ResponseEntity<?> modify(@RequestBody ReqBoardDto.ModifyBoardDto dto) {
+    public ResponseEntity<?> modify(@RequestBody ReqBoardDto.ModifyBoardDto dto, BindingResult bindingResult) {
         return ResponseEntity.ok().body(boardService.modify(dto));
     }
 

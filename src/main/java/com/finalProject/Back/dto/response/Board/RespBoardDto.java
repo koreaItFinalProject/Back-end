@@ -24,6 +24,7 @@ public class RespBoardDto {
         private String content;
         private Long writerId;
         private String nickname;
+        private String img;
         private int viewCount;
         private LocalDate writeDate;
     }

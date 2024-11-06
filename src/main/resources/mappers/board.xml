@@ -59,6 +59,7 @@
             b.title,
             b.content,
             u.nickname,
+            u.img,
             ifnull(lc.like_cnt, 0) as likeCount,
             b.view_count as viewCount,
             b.write_date as writeDate
@@ -99,6 +100,7 @@
             b.content,
             b.writer_id as writerId,
             u.nickname,
+            u.img,
             b.view_count as viewCount,
             b.write_date as writeDate
         from

@@ -31,7 +31,9 @@ public class ReqBoardDto {
     @Builder
     public static class ModifyBoardDto {
         private Long boardId;
+        @NotBlank(message = "제목을 입력하세요.")
         private String title;
+        @NotBlank(message = "게시글 내용을 입력하세요.")
         private String content;
 
         public Board toEntity() {

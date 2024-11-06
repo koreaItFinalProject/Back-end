@@ -84,6 +84,7 @@ public class BoardService {
                 .content(board.getContent())
                 .writerId(board.getWriterId())
                 .nickname(board.getNickname())
+                .img(board.getImg())
                 .viewCount(board.getViewCount() + 1)
                 .writeDate(board.getWriteDate())
                 .build();
