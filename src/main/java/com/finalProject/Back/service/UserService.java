@@ -137,12 +137,21 @@ public class UserService {
                     .provider(dto.getProvider())
                     .build();
             oAuth2UserMapper.save(oAuth2User);
+            return RespSigninDto.builder()
+                    .expireDate(jwtProvider.getExpireDate().toString())
+                    .accessToken(jwtProvider.generateAccessToken(user))
+                    .build();
         }
-//        System.out.println("토큰 생성: " + user);
-    return RespSigninDto.builder()
-            .expireDate(jwtProvider.getExpireDate().toString())
-            .accessToken(jwtProvider.generateAccessToken(user))
-            .build();
+        if(dto.getOauth2Name().equals(existingOAuth2User.getOAuth2Name())){
+            System.out.println(dto.getOauth2Name());
+            System.out.println(existingOAuth2User.getOAuth2Name());
+            return RespSigninDto.builder()
+                    .expireDate(jwtProvider.getExpireDate().toString())
+                    .accessToken(jwtProvider.generateAccessToken(user))
+                    .build();
+        } else{
+            throw new Oauth2NameException("OAuth2 이름이 일치하지 않습니다.");
+        }
     }
 
     public RespUserInfoDto getUserInfo(Long id) {
@@ -199,24 +208,31 @@ public class UserService {
     }
 
     public RespUserIdDto FindByValue (String fieldName,String value){
-        if(fieldName == "email") {
+        System.out.println(fieldName + " " + value);
+        if(fieldName.equals("email")) {
             User user = userMapper.findByEmail(value);
+            System.out.println(user);
             if(user != null){
                 return RespUserIdDto.builder()
                         .username(user.getUsername())
-                        .value(value)
+                        .email(value)
                         .build();
             }
         }
-        if(fieldName == "username") {
+        if(fieldName.equals("username")) {
             User user = userMapper.findByUsername(value);
             if (user != null) {
                 return RespUserIdDto.builder()
                         .username(user.getUsername())
-                        .value(value)
+                        .email(value)
                         .build();
             }
         }
         return null;
     }
+
+//    public ReqOAuth2SigninDto getUserInfoByEmail(String email) {
+//        User user = userMapper.findByEmail(email);
+//        return
+//    }
 }

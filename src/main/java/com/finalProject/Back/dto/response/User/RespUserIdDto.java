@@ -7,5 +7,5 @@ import lombok.Data;
 @Builder
 public class RespUserIdDto {
     private String username;
-    private String value;
+    private String email;
 }

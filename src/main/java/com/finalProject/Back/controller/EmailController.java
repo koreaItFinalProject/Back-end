@@ -1,9 +1,8 @@
 package com.finalProject.Back.controller;
 
 import com.finalProject.Back.dto.request.email.ReqEmail;
-import com.finalProject.Back.dto.response.RespUserInfoDto;
+import com.finalProject.Back.dto.request.email.ReqSendEmailDto;
 import com.finalProject.Back.dto.response.email.RespEmailCheckDto;
-import com.finalProject.Back.entity.User;
 import com.finalProject.Back.exception.EmailAlreadyExistsException;
 import com.finalProject.Back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,30 +42,23 @@ public class EmailController {
         }
     }
 
-//    @PostMapping("/mail/find/send/{fieldName}")
-//    public ResponseEntity<String> sendVerificationCode(@PathVariable String fieldName, String value, String username) {
-//        User userInfo = userService.Find
-//        if(fieldName == "email"){
-//            sendUsername();
-//        }
-//        if(fieldName == "username"){
-//
-//        }
-//        System.out.println(fieldName);
-//        System.out.println(value);
-//         이메일 전송 로직
-//        try {
-//            sendEmail();
-//            return ResponseEntity.ok();
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메일 전송 실패");
-//        }
-//    }
+    @PostMapping("/mail/find/send/{email}")
+    public ResponseEntity<String> sendEmailCode(@PathVariable String email, @RequestBody ReqSendEmailDto reqSendEmailDto) {
+        System.out.println("이메일아디" + email);
+        System.out.println("이메일" + reqSendEmailDto.getUsername());
+        System.out.println("이메일" + reqSendEmailDto.getValue());
+        if(reqSendEmailDto.getValue().equals("email")){
+            try{
+                sendUsername(email, reqSendEmailDto.getUsername());
+                return ResponseEntity.ok("메일 전송 성공");
+            }catch (Exception e){
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메일 전송 실패");
+            }
+        }
 
-    private String generateVerificationCode() {
-        // 인증 코드 생성 로직 (예: 6자리 랜덤 숫자)
-        return String.valueOf(new Random().nextInt(999999));
+        return ResponseEntity.ok("ok");
     }
+
     private void sendEmail(String email, String verificationCode) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
@@ -76,11 +68,26 @@ public class EmailController {
         javaMailSender.send(message);
     }
 
-    private void sendUsername (String email) {
+    private String generateVerificationCode() {
+        // 인증 코드 생성 로직 (예: 6자리 랜덤 숫자)
+        return String.valueOf(new Random().nextInt(999999));
+    }
+
+    private void sendUsername (String email ,String username) {
+        System.out.println("아이디" +username);
+        System.out.println("이메일" +email);
+        System.out.println("메일 출발");
         SimpleMailMessage message =  new SimpleMailMessage();
         message.setTo(email);
         message.setSubject("아이디 찾기 결과");
-        message.setText("");
+        message.setText("아이디는 다음과 같습니다: " + username);
+
+        try{
+            javaMailSender.send(message);
+            System.out.println("메일 전송 성공");
+        }catch (Exception e){
+            System.out.println("메일 전송 실패");
+        }
     }
 
     @GetMapping("/signup/check/{email}")
