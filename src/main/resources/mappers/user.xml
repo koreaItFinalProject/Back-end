@@ -11,21 +11,7 @@
         insert into user
         values (default, #{username} , #{password} , #{name} , #{email} , #{role} , #{nickname} , default , #{oauth}  , #{phoneNumber}  )
     </insert>
-    <update id="update">
-        update user
-        set
-        username = #{username},
-        password = #{password},
-        name = #{name},
-        email = #{email},
-        role = #{role},
-        nickname = #{nickname},
-        oauth = #{oauth},
-        phoneNumber = #{phoneNumber},
-        img = #{img}
-        where
-        id = #{id}
-    </update>
+
     <update id="imgUpdate">
         update user
         set

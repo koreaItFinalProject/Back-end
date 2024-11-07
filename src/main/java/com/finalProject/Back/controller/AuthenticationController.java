@@ -1,6 +1,7 @@
 package com.finalProject.Back.controller;
 
 import com.finalProject.Back.aspect.annotation.ValidAop;
+import com.finalProject.Back.dto.request.ReqOAuth2CheckDto;
 import com.finalProject.Back.dto.request.User.ReqOAuth2SigninDto;
 import com.finalProject.Back.dto.request.User.ReqOAuth2SignupDto;
 import com.finalProject.Back.dto.request.User.ReqSigninDto;
@@ -33,7 +34,8 @@ public class AuthenticationController {
     @ValidAop
     @PostMapping("/user/oauth2/merge")
     public ResponseEntity<?> oAuth2Merge(@Valid @RequestBody ReqOAuth2SigninDto dto, BindingResult bindingResult) {
-        userService.mergeSignin(dto);
+//        userService.mergeSignin(dto);
+        System.out.println("컨트롤러" + dto);
         if (bindingResult.hasErrors()) {
             // 유효성 검증 실패 시 에러 메시지 반환
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
@@ -42,6 +44,11 @@ public class AuthenticationController {
         return ResponseEntity.ok().body(userService.mergeSignin(dto));
     }
 
+//    @GetMapping("/user/oauth2/check")
+//    public ResponseEntity<?> checkOAuth2(@RequestBody ReqOAuth2CheckDto dto) {
+//
+//        return ResponseEntity.ok().body(userService.checkOAuth2(dto));
+//    }
     @ValidAop
     @PostMapping("/user/oauth2/signup")
     public ResponseEntity<?> oAuth2Signup(@Valid @RequestBody ReqOAuth2SignupDto dto , BindingResult bindingResult) throws SignupException {

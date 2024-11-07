@@ -16,7 +16,6 @@ public interface UserMapper {
     RespUserInfoDto findUserInfoById(Long id);
     int findDuplicatedValue(@Param("fieldName") String fieldName, @Param("value") String value);
     int updateFieldValue(@Param("id") Long id, @Param("fieldName") String fieldName, @Param("value") String value);
-    int update(User user);
     int imgUpdate(User user);
     User findByEmail(String email);
 
