@@ -1,10 +1,7 @@
 package com.finalProject.Back.service;
 
 import com.finalProject.Back.dto.request.User.*;
-import com.finalProject.Back.dto.response.User.RespModifyProfile;
-import com.finalProject.Back.dto.response.User.RespSigninDto;
-import com.finalProject.Back.dto.response.User.RespSignupDto;
-import com.finalProject.Back.dto.response.User.RespUserInfoDto;
+import com.finalProject.Back.dto.response.User.*;
 import com.finalProject.Back.entity.OAuth2User;
 import com.finalProject.Back.entity.User;
 import com.finalProject.Back.exception.EmailAlreadyExistsException;
@@ -199,5 +196,27 @@ public class UserService {
         if (userMapper.findByEmail(email) != null) {
             throw new EmailAlreadyExistsException("이미 사용 중인 이메일입니다.");
         }
+    }
+
+    public RespUserIdDto FindByValue (String fieldName,String value){
+        if(fieldName == "email") {
+            User user = userMapper.findByEmail(value);
+            if(user != null){
+                return RespUserIdDto.builder()
+                        .username(user.getUsername())
+                        .value(value)
+                        .build();
+            }
+        }
+        if(fieldName == "username") {
+            User user = userMapper.findByUsername(value);
+            if (user != null) {
+                return RespUserIdDto.builder()
+                        .username(user.getUsername())
+                        .value(value)
+                        .build();
+            }
+        }
+        return null;
     }
 }
