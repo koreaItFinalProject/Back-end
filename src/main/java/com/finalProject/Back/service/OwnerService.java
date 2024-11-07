@@ -8,6 +8,7 @@ import com.finalProject.Back.dto.response.Cafe.RespAdminCafeListDto;
 import com.finalProject.Back.dto.response.Cafe.RespCafeListDto;
 import com.finalProject.Back.dto.response.Comment.RespCommentInfoDto;
 import com.finalProject.Back.dto.response.Review.RespReviewInfoDto;
+import com.finalProject.Back.entity.Message;
 import com.finalProject.Back.entity.board.BoardList;
 import com.finalProject.Back.repository.*;
 import com.finalProject.Back.security.principal.PrincipalUser;
@@ -43,6 +44,9 @@ public class OwnerService {
     @Autowired
     private CafeMapper cafeMapper;
 
+    @Autowired
+    private MessageMapper messageMapper;
+
     public List<RespGetUserDto> getUsers(){
         return ownerMapper.getUsers();
     }
@@ -70,6 +74,7 @@ public class OwnerService {
         List<RespReviewInfoDto> reviewInfoDto = reviewMapper.getReviewInfoById(id);
         List<RespBoardCommentInfoDto> boardCommentInfoDto = commentMapper.findBoardCommentById(id);
         List<RespAdminCafeListDto> cafeListDtos = cafeMapper.getCafeList();
+        List<Message> messages = messageMapper.findByUserId(id);
         return RespInfoDto.builder()
                 .user(userInfoDto)
                 .board(boardInfoDto)
@@ -77,6 +82,7 @@ public class OwnerService {
                 .comment(commentInfoDto)
                 .boardComment(boardCommentInfoDto)
                 .cafemanager(cafeListDtos)
+                .alarm(messages)
                 .build();
     }
 

@@ -48,7 +48,7 @@ public class MessageController {
     }
 
     @GetMapping("/user/getMessage/{userId}")
-    public ResponseEntity<?> getMessage(@PathVariable int userId) {
+    public ResponseEntity<?> getMessage(@PathVariable Long userId) {
         List<Message> messages = messageService.findByUserId(userId);
         return ResponseEntity.ok().body(messages);
     }

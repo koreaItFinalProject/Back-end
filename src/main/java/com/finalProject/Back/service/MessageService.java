@@ -29,7 +29,7 @@ public class MessageService {
         return messageId;  // Return the generated ID
     }
 
-    public List<Message> findByUserId(int UserId) {
+    public List<Message> findByUserId(Long UserId) {
         return messageMapper.findByUserId(UserId);
     }
 }

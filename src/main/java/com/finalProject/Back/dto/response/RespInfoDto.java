@@ -5,6 +5,7 @@ import com.finalProject.Back.dto.response.Cafe.RespAdminCafeListDto;
 import com.finalProject.Back.dto.response.Cafe.RespCafeListDto;
 import com.finalProject.Back.dto.response.Comment.RespCommentInfoDto;
 import com.finalProject.Back.dto.response.Review.RespReviewInfoDto;
+import com.finalProject.Back.entity.Message;
 import lombok.Builder;
 import lombok.Data;
 
@@ -20,4 +21,5 @@ public class RespInfoDto {
     private List<RespCommentInfoDto> comment;
     private List<RespBoardCommentInfoDto> boardComment;
     private List<RespAdminCafeListDto> cafemanager;
+    private List<Message> alarm;
 }
