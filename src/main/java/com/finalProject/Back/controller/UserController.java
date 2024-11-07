@@ -135,9 +135,8 @@ public class UserController {
 
     @GetMapping("/user/find/duplicated/{fieldName}")
     public ResponseEntity<?> FindByCheckField(@PathVariable String fieldName, @RequestParam String value) {
-        if (userService.isDuplicated(fieldName, value)) {
-            return ResponseEntity.badRequest().body("중복");
-        }
-        return ResponseEntity.ok().body("사용 가능");
+        System.out.println("필드" + fieldName);
+        System.out.println("필드" + value);
+        return ResponseEntity.ok().body(userService.FindByValue(fieldName , value));
     }
 }
