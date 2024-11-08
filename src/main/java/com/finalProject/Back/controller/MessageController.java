@@ -26,18 +26,23 @@ public class MessageController {
     @PostMapping("/message")
     public ResponseEntity<?> addNotice(@RequestBody ReqMessageDto dto) {
         // 알림 저장
+        System.out.println(dto);
         Long messageId = messageService.save(dto);
 
         // 알림 전송 대상 결정
-        emitters.forEach((emitter, lastId) -> {
+        emitters.forEach((emitter, userId) -> {
+            System.out.println("userId: " + userId);
+            System.out.println("emitter: " + emitter);
             System.out.println("messageId: " +messageId);
             try {
                     // 예시: emitter에 JSON 객체 형식으로 메시지 전송
+                if(dto.getUserId().equals(userId.toString()) || dto.getUserId().isEmpty()) {
                     emitter.send("{" +
                             "\"lastId\": " + messageId + ", " +
                             "\"type\": \"" + dto.getType() +
                             "\", \"content\": \"" + dto.getContent() +
                             "\"}\n\n");
+                }
             } catch (IOException e) {
                 emitter.complete(); // 오류 발생 시 emitter 종료
                 emitters.remove(emitter); // emitter 제거
@@ -54,10 +59,11 @@ public class MessageController {
     }
 
     @GetMapping(value = "/message/events", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public SseEmitter streamNotifications(@RequestParam(value = "lastId", required = false) Long lastId) {
+    public SseEmitter streamNotifications(@RequestParam(value = "lastId", required = false) Long lastId,
+                                          @RequestParam(value = "userId") Long userId) {
         SseEmitter emitter = new SseEmitter(0L);  // 무제한 대기
-
-        emitters.put(emitter, lastId);
+        System.out.println("userId2: " + userId);
+        emitters.put(emitter, userId);
 
         // 실시간 알림을 위해 주기적인 ping 전송
         Executors.newScheduledThreadPool(1).scheduleAtFixedRate(() -> {
@@ -74,6 +80,7 @@ public class MessageController {
         emitter.onTimeout(() -> emitters.remove(emitter));
         emitter.onError((e) -> emitters.remove(emitter));
 
+        System.out.println("emitter2: " + emitter);
         return emitter;
     }
 }
