@@ -25,6 +25,11 @@ public class TokenService {
             Long userId = ((Integer) claims.get("userId")).longValue();
             User user = userMapper.findById(userId);
 
+            System.out.println(accessToken);
+            System.out.println(claims);
+            System.out.println(userId);
+            System.out.println(user);
+
             if(user == null) {
                 throw new RuntimeException();
             }

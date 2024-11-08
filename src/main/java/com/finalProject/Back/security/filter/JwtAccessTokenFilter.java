@@ -40,6 +40,7 @@ public class JwtAccessTokenFilter extends GenericFilter {
         try {
             claims = jwtProvider.getClaims(accessToken);
             Long userId = ((Integer) claims.get("userId")).longValue();
+            System.out.println(userId);
             User user = userMapper.findById(userId);
             if(user == null) {
                 throw new JwtException("해당 ID(" + userId + ")의 사용자 정보를 찾지 못했습니다.");

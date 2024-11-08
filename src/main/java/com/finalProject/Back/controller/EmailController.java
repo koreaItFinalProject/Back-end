@@ -10,8 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -77,7 +79,10 @@ public class EmailController {
         System.out.println("아이디" +username);
         System.out.println("이메일" +email);
         System.out.println("메일 출발");
-        SimpleMailMessage message =  new SimpleMailMessage();
+//        MimeMessage message = javaMailSender.createMimeMessage();
+
+//        MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+        SimpleMailMessage message=  new SimpleMailMessage();
         message.setTo(email);
         message.setSubject("아이디 찾기 결과");
         message.setText("아이디는 다음과 같습니다: " + username);

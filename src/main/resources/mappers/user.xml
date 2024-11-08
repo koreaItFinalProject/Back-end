@@ -91,7 +91,7 @@
         user u
     LEFT OUTER JOIN oauth2_user ou ON(ou.user_id = u.id)
     WHERE
-        u.username = #{username}
+        ou.oauth2_name = #{oAuth2Name}
     </select>
     <select id="findByOAuth2Id" resultType="com.finalProject.Back.entity.User">
         SELECT
