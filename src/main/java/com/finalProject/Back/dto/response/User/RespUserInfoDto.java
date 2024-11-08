@@ -8,6 +8,7 @@ import lombok.Data;
 public class RespUserInfoDto {
     private Long userId;
     private String username;
+    private String password;
     private String name;
     private String email;
     private String img;

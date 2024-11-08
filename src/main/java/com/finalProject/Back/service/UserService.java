@@ -209,7 +209,7 @@ public class UserService {
 
     public RespUserIdDto FindByValue (String fieldName,String value){
         System.out.println(fieldName + " " + value);
-        if(fieldName.equals("email")) {
+        if(fieldName.equals("FindUser")) {
             User user = userMapper.findByEmail(value);
             System.out.println(user);
             if(user != null){
@@ -219,7 +219,7 @@ public class UserService {
                         .build();
             }
         }
-        if(fieldName.equals("username")) {
+        if(fieldName.equals("FindPassword")) {
             User user = userMapper.findByUsername(value);
             if (user != null) {
                 return RespUserIdDto.builder()
@@ -229,6 +229,27 @@ public class UserService {
             }
         }
         return null;
+    }
+
+    public int modifyChangeValue (ReqUserInfo info) {
+        User user = userMapper.findByEmail(info.getEmail());
+        System.out.println("유저의 정보" + user);
+        String encodePassword = passwordEncoder.encode(info.getValue());
+        if(user == null){
+            throw new EmailAlreadyExistsException("이메일 정보가 없습니다");
+        }
+        if (passwordEncoder.matches(info.getValue(), user.getPassword())){
+            System.out.println("입성");
+            throw new EmailAlreadyExistsException("기존 비밀번호는 바꿀수가 없습니다");
+        }
+
+        System.out.println(encodePassword);
+        User value = User.builder()
+                .email(user.getEmail())
+                .password(encodePassword)
+                .build();
+        
+        return userMapper.changeValue(value);
     }
 
 //    public ReqOAuth2SigninDto getUserInfoByEmail(String email) {
