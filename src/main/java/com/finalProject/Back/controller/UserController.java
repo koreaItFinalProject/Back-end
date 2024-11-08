@@ -139,4 +139,18 @@ public class UserController {
         System.out.println("필드" + value);
         return ResponseEntity.ok().body(userService.FindByValue(fieldName , value));
     }
+
+    @PutMapping("/user/change/{fieldName}")
+    public ResponseEntity<?> ChangePassword (@PathVariable String fieldName ,@RequestBody ReqUserInfo info){
+        System.out.println("필드"+ fieldName);
+        System.out.println("밸류"+ info);
+        System.out.println("아이디"+ fieldName);
+        Map<String, String> regexMap = Map.of(
+                "password", "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[~!@#$%^&*?])[A-Za-z\\d~!@#$%^&*?]{8,16}$"
+        );
+        if (regexMap.containsKey(fieldName) && !info.getValue().matches(regexMap.get(fieldName))) {
+            return ResponseEntity.badRequest().body("올바른 비밀번호 형식이 아닙니다");
+        }
+        return ResponseEntity.ok().body(userService.modifyChangeValue(info));
+    }
 }

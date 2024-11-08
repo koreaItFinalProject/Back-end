@@ -43,7 +43,7 @@ public class EmailController {
     }
 
     @PostMapping("/mail/find/send/{email}")
-    public ResponseEntity<String> sendEmailCode(@PathVariable String email, @RequestBody ReqSendEmailDto reqSendEmailDto) {
+        public ResponseEntity<String> sendEmailCode(@PathVariable String email, @RequestBody ReqSendEmailDto reqSendEmailDto) {
         System.out.println("이메일아디" + email);
         System.out.println("이메일" + reqSendEmailDto.getUsername());
         System.out.println("이메일" + reqSendEmailDto.getValue());
@@ -62,7 +62,7 @@ public class EmailController {
     private void sendEmail(String email, String verificationCode) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
-        message.setSubject("회원가입 인증 코드");
+        message.setSubject("회원 인증 코드");
         message.setText("인증 코드는 다음과 같습니다: " + verificationCode);
 
         javaMailSender.send(message);
@@ -92,6 +92,7 @@ public class EmailController {
 
     @GetMapping("/signup/check/{email}")
     public ResponseEntity<RespEmailCheckDto> checkEmailDuplicate(@PathVariable String email) {
+        System.out.println("이메일 인증" + email);
         try {
             userService.checkEmailExists(email);
             System.out.println(email);

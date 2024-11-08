@@ -46,6 +46,14 @@
             id = #{id}
 
     </update>
+    <update id="changeValue">
+        update
+            user
+        set
+            password = #{password}
+        where
+            email = #{email}
+    </update>
     <select id="findByUsername" resultType="com.finalProject.Back.entity.User">
         select
             *

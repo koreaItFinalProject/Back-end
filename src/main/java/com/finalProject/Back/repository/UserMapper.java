@@ -18,5 +18,6 @@ public interface UserMapper {
     int updateFieldValue(@Param("id") Long id, @Param("fieldName") String fieldName, @Param("value") String value);
     int imgUpdate(User user);
     User findByEmail(String email);
+    int changeValue(User value);
 
 }
