@@ -44,11 +44,6 @@ public class AuthenticationController {
         return ResponseEntity.ok().body(userService.mergeSignin(dto));
     }
 
-//    @GetMapping("/user/oauth2/check")
-//    public ResponseEntity<?> checkOAuth2(@RequestBody ReqOAuth2CheckDto dto) {
-//
-//        return ResponseEntity.ok().body(userService.checkOAuth2(dto));
-//    }
     @ValidAop
     @PostMapping("/user/oauth2/signup")
     public ResponseEntity<?> oAuth2Signup(@Valid @RequestBody ReqOAuth2SignupDto dto , BindingResult bindingResult) throws SignupException {

@@ -6,6 +6,9 @@ import com.finalProject.Back.dto.response.email.RespEmailCheckDto;
 import com.finalProject.Back.exception.EmailAlreadyExistsException;
 import com.finalProject.Back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -14,6 +17,11 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.internet.MimeMessage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -49,25 +57,41 @@ public class EmailController {
         System.out.println("이메일아디" + email);
         System.out.println("이메일" + reqSendEmailDto.getUsername());
         System.out.println("이메일" + reqSendEmailDto.getValue());
-        if(reqSendEmailDto.getValue().equals("email")){
+        if(reqSendEmailDto.getValue().equals("FindUser")|| reqSendEmailDto.getValue().equals("FindPassword")){
             try{
                 sendUsername(email, reqSendEmailDto.getUsername());
                 return ResponseEntity.ok("메일 전송 성공");
             }catch (Exception e){
+                System.out.println("메일 전송 실패");
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메일 전송 실패");
             }
+        }else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메일 전송 실패");
         }
-
-        return ResponseEntity.ok("ok");
     }
 
     private void sendEmail(String email, String verificationCode) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(email);
-        message.setSubject("회원 인증 코드");
-        message.setText("인증 코드는 다음과 같습니다: " + verificationCode);
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
 
-        javaMailSender.send(message);
+            helper.setTo(email);
+            helper.setSubject("요청 결과");
+
+            String emailTemplate = loadEmailTemplate(verificationCode);
+            helper.setText(emailTemplate, true);
+            System.out.println(verificationCode);
+
+            Resource resource = new ClassPathResource("templates/CoffeeShop/CAFEINBUSAN1.png");
+            FileSystemResource logoImage = new FileSystemResource(resource.getFile());
+
+            helper.addInline("logoImage", logoImage);
+
+            javaMailSender.send(message);
+            System.out.println("메일 전송 성공");
+        } catch (Exception e) {
+            System.out.println("메일 전송 실패! 오류: " + e.getMessage());
+        }
     }
 
     private String generateVerificationCode() {
@@ -75,24 +99,37 @@ public class EmailController {
         return String.valueOf(new Random().nextInt(999999));
     }
 
-    private void sendUsername (String email ,String username) {
-        System.out.println("아이디" +username);
-        System.out.println("이메일" +email);
+    private void sendUsername(String email, String username) throws IOException {
+        System.out.println("아이디: " + username);
+        System.out.println("이메일: " + email);
         System.out.println("메일 출발");
-//        MimeMessage message = javaMailSender.createMimeMessage();
 
-//        MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
-        SimpleMailMessage message=  new SimpleMailMessage();
-        message.setTo(email);
-        message.setSubject("아이디 찾기 결과");
-        message.setText("아이디는 다음과 같습니다: " + username);
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
 
-        try{
+            helper.setTo(email);
+            helper.setSubject("요청 결과");
+
+            String emailTemplate = loadEmailTemplate(username);
+            helper.setText(emailTemplate, true);
+
+            Resource resource = new ClassPathResource("templates/CoffeeShop/CAFEINBUSAN1.png");
+            FileSystemResource logoImage = new FileSystemResource(resource.getFile());
+
+            helper.addInline("logoImage", logoImage);
+
             javaMailSender.send(message);
             System.out.println("메일 전송 성공");
-        }catch (Exception e){
-            System.out.println("메일 전송 실패");
+        } catch (Exception e) {
+            System.out.println("메일 전송 실패! 오류: " + e.getMessage());
         }
+    }
+
+    private String loadEmailTemplate(String username) throws IOException {
+        Resource resource = new ClassPathResource("templates/emailTemplate.html");
+        String content = new String(Files.readAllBytes(resource.getFile().toPath()));
+        return content.replace("${value}", username);
     }
 
     @GetMapping("/signup/check/{email}")
