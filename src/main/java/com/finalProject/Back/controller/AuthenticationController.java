@@ -2,6 +2,7 @@ package com.finalProject.Back.controller;
 
 import com.finalProject.Back.aspect.annotation.ValidAop;
 import com.finalProject.Back.dto.request.ReqOAuth2CheckDto;
+import com.finalProject.Back.dto.request.Token.ReqAccessDto;
 import com.finalProject.Back.dto.request.User.ReqOAuth2SigninDto;
 import com.finalProject.Back.dto.request.User.ReqOAuth2SignupDto;
 import com.finalProject.Back.dto.request.User.ReqSigninDto;
@@ -50,6 +51,12 @@ public class AuthenticationController {
         System.out.println("컨트롤러" + dto);
         userService.oauthSignup(dto);
         return ResponseEntity.ok().body(true);
+    }
+
+    // 토큰 유효성 체크
+    @GetMapping("/auth/access")
+    public ResponseEntity<?> access(ReqAccessDto dto) {
+        return ResponseEntity.ok().body(tokenService.isValidAccessToken(dto.getAccessToken()));
     }
 
 }

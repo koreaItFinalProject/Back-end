@@ -4,7 +4,9 @@ import com.finalProject.Back.aspect.annotation.ValidAop;
 import com.finalProject.Back.dto.request.Token.ReqAccessDto;
 import com.finalProject.Back.dto.request.User.*;
 import com.finalProject.Back.dto.response.User.RespModifyProfile;
+import com.finalProject.Back.dto.response.email.RespEmailCheckDto;
 import com.finalProject.Back.entity.User;
+import com.finalProject.Back.exception.EmailAlreadyExistsException;
 import com.finalProject.Back.security.principal.PrincipalUser;
 import com.finalProject.Back.service.OAuth2Service;
 import com.finalProject.Back.service.TokenService;
@@ -35,12 +37,14 @@ public class UserController {
     @Autowired
     private OAuth2Service oAuth2Service;
 
+    // 유저 회원가입
     @ValidAop
     @PostMapping("/user/signup")
     public ResponseEntity<?> addSignup(@RequestBody @Valid ReqSignupDto dto , BindingResult bindingResult) {
         return ResponseEntity.ok().body(userService.userSignup(dto));
     }
 
+    // 유저 로그인
     @ValidAop
     @PostMapping("/user/signin")
     public ResponseEntity<?> userSignIn(@RequestBody @Valid ReqSigninDto dto , BindingResult bindingResult){
@@ -49,11 +53,8 @@ public class UserController {
         return ResponseEntity.ok().body(userService.generaterAccessToken(dto));
     }
 
-    @GetMapping("/auth/access")
-    public ResponseEntity<?> access(ReqAccessDto dto) {
-        return ResponseEntity.ok().body(tokenService.isValidAccessToken(dto.getAccessToken()));
-    }
 
+    // 해당 유저 정보
     @GetMapping("user/me")
     public ResponseEntity<?> getUserMe(){
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
@@ -64,7 +65,7 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUserInfo(principalUser.getId()));
     }
 
-    // 수정중
+    // 유저 프로필 수정 중복 체크
     @GetMapping("/user/duplicated/{fieldName}")
     public ResponseEntity<?> checkDuplicated(@PathVariable String fieldName, @RequestParam String value ){
         // 유효성 검사
@@ -109,7 +110,7 @@ public class UserController {
         ));
     }
 
-    // 수정중
+    // 유저 정보 수정
     @PutMapping("/user/info/{fieldName}")
     public ResponseEntity<?> modifyUser(@PathVariable String fieldName ,@RequestBody ReqModifyFieldDto dto) {
         if(!userService.modifyEachProfile(dto)) {
@@ -118,6 +119,7 @@ public class UserController {
         return ResponseEntity.ok().body("수정 성공");
     }
 
+    // 유저 프로필 변경
     @PutMapping("/mypage/profile/img")
     public ResponseEntity<?> modifyProfileImg (@RequestBody ReqImageDto dto) {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
@@ -133,6 +135,7 @@ public class UserController {
         return ResponseEntity.ok().body(true);
     }
 
+    // 회원가입 중복 체크
     @GetMapping("/user/find/duplicated/{fieldName}")
     public ResponseEntity<?> FindByCheckField(@PathVariable String fieldName, @RequestParam String value) {
         System.out.println("필드" + fieldName);
@@ -140,6 +143,7 @@ public class UserController {
         return ResponseEntity.ok().body(userService.FindByValue(fieldName , value));
     }
 
+    // 비밀번호 교체
     @PutMapping("/user/change/{fieldName}")
     public ResponseEntity<?> ChangePassword (@PathVariable String fieldName ,@RequestBody ReqUserInfo info){
         System.out.println("필드"+ fieldName);
@@ -152,5 +156,25 @@ public class UserController {
             return ResponseEntity.badRequest().body("올바른 비밀번호 형식이 아닙니다");
         }
         return ResponseEntity.ok().body(userService.modifyChangeValue(info));
+    }
+
+    // 이메일 중복 체크
+    @GetMapping("/signup/check/{email}")
+    public ResponseEntity<RespEmailCheckDto> checkEmailDuplicate(@PathVariable String email) {
+        System.out.println("이메일 인증" + email);
+        try {
+            userService.checkEmailExists(email);
+            System.out.println(email);
+            RespEmailCheckDto response = RespEmailCheckDto.builder()
+                    .email(email)
+                    .exists(false)
+                    .build();
+            return ResponseEntity.ok(response);
+        } catch (EmailAlreadyExistsException e) {
+            return ResponseEntity.badRequest().body(RespEmailCheckDto.builder()
+                    .email(email)
+                    .exists(true)
+                    .build());
+        }
     }
 }
