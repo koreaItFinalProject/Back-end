@@ -180,17 +180,17 @@ public class UserService {
         return Optional.ofNullable(userMapper.findByUsername(username)).isPresent();
     }
 
-    public Boolean modifyEachProfile(ReqModifyFieldDto dto){
+    public Boolean modifyEachProfile(String fieldName, String value){
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
-        if(dto.getFieldName().equals("password")){
-            String passwordValue =passwordEncoder.encode(dto.getValue());
+        if(fieldName.equals("password")){
+            String passwordValue =passwordEncoder.encode(value);
             System.out.println(passwordValue + " 2");
-            return userMapper.updateFieldValue(principalUser.getId(), dto.getFieldName(), passwordValue) > 0;
+            return userMapper.updateFieldValue(principalUser.getId(), fieldName, passwordValue) > 0;
         }
-        return userMapper.updateFieldValue(principalUser.getId(), dto.getFieldName(), dto.getValue()) > 0;
+        return userMapper.updateFieldValue(principalUser.getId(), fieldName, value) > 0;
     }
 
     public RespModifyProfile modifyProfileImg (User user) {

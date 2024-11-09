@@ -112,8 +112,8 @@ public class UserController {
 
     // 유저 정보 수정
     @PutMapping("/user/info/{fieldName}")
-    public ResponseEntity<?> modifyUser(@PathVariable String fieldName ,@RequestBody ReqModifyFieldDto dto) {
-        if(!userService.modifyEachProfile(dto)) {
+    public ResponseEntity<?> modifyUser(@PathVariable String fieldName ,@RequestParam String value) {
+        if(!userService.modifyEachProfile(fieldName,value)) {
             return ResponseEntity.badRequest().body("수정 실패");
         }
         return ResponseEntity.ok().body("수정 성공");

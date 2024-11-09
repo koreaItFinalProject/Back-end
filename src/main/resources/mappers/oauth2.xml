@@ -10,6 +10,10 @@
         insert into oauth2_user
         values(default , #{userId} , #{oAuth2Name} , #{provider} ,#{email} )
     </insert>
+    <delete id="deleteOauth2ByUserId">
+        delete from oauth2_user
+        where user_id = #{userId}
+    </delete>
     <select id="existsByOauth2Name" resultType="java.lang.Boolean">
         select
             COUNT(*) > 0
