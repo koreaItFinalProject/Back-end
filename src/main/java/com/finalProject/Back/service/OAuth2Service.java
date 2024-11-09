@@ -51,7 +51,7 @@ public class OAuth2Service implements OAuth2UserService {
                 System.out.println(attributes);
                 break;
 
-            case "kakao" :
+            case "Kakao" :
                 oAuth2Attributes.put("id" , attributes.get("id").toString());
                 System.out.println(attributes);
                 break;
