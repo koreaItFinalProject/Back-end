@@ -195,5 +195,13 @@
         order by
             b.write_date desc
     </select>
+    <select id="findByBoardId" resultType="java.lang.Long">
+        select
+            writer_id
+        from
+            board
+        where
+            id = #{boardId}
+    </select>
 
 </mapper>

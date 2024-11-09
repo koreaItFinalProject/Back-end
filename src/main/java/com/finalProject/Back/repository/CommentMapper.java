@@ -15,6 +15,7 @@ public interface CommentMapper {
     int deleteById(Long commentId);
     int deleteByUserId(Long userId);
     int deleteByBoardId(Long boardId);
+    Long findByCommentId(Long commentId);
     List<Comment> findAllByBoardId(Long boardId);
     Comment findById(Long commentId);
     List<RespCommentInfoDto> findCommentById(Long id);

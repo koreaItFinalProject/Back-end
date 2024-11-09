@@ -2,7 +2,7 @@ package com.finalProject.Back.service;
 
 import com.finalProject.Back.dto.request.ReqMessageDto;
 import com.finalProject.Back.entity.Message;
-import com.finalProject.Back.repository.MessageMapper;
+import com.finalProject.Back.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +14,18 @@ public class MessageService {
     @Autowired
     private MessageMapper messageMapper;
 
+    @Autowired
+    private BoardMapper boardMapper;
+
+    @Autowired
+    private CommentMapper commentMapper;
+
+    @Autowired
+    private ReviewMapper reviewMapper;
+
     public Long save(ReqMessageDto dto) {
-        // Convert DTO to Entity
         Message message = dto.toEntity();
 
-        // Save message and get the generated ID
         messageMapper.save(message);
 
         Long messageId = message.getId();
@@ -27,6 +34,17 @@ public class MessageService {
         System.out.println("Generated Message ID: " + messageId);
 
         return messageId;  // Return the generated ID
+    }
+
+    public Long findByTypeId(String type, Long contentId){
+        if(type.equals("게시글")){
+            return boardMapper.findByBoardId(contentId);
+        }else if(type.equals("댓글")){
+            return commentMapper.findByCommentId(contentId);
+        }else if(type.equals("리뷰")){
+            return reviewMapper.findById(contentId);
+        }
+        return null;
     }
 
     public List<Message> findByUserId(Long UserId) {
