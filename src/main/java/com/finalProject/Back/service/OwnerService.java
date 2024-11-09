@@ -47,6 +47,9 @@ public class OwnerService {
     @Autowired
     private MessageMapper messageMapper;
 
+    @Autowired
+    private OAuth2UserMapper OAuth2UserMapper;
+
     public List<RespGetUserDto> getUsers(){
         return ownerMapper.getUsers();
     }
@@ -57,6 +60,7 @@ public class OwnerService {
 
     @Transactional(rollbackFor = SQLException.class)
     public Long deleteUser(Long id){
+        OAuth2UserMapper.deleteOauth2ByUserId(id);
         commentMapper.deleteByUserId(id);
         reviewMapper.deleteByUserId(id);
         boardMapper.deleteByUserId(id);

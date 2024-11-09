@@ -16,4 +16,5 @@ public interface OAuth2UserMapper {
     boolean existsByEmail(String email);
     User findByOauth2Name(String oauth2Name);
     OAuth2User findByUserIdAndProvider(@Param("userId") Long userId, @Param("provider") String provider);
+    int deleteOauth2ByUserId(Long userId);
 }

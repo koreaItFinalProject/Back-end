@@ -52,7 +52,7 @@ public class OwnerController {
     }
 
     @GetMapping("/user/auth/info")
-    public ResponseEntity<?> getInfo2() {
+    public ResponseEntity<?> getInfoUser() {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
