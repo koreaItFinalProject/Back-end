@@ -27,6 +27,12 @@ public class MessageController {
     public ResponseEntity<?> addNotice(@RequestBody ReqMessageDto dto) {
         // 알림 저장
         System.out.println(dto);
+        if(!dto.getType().equals("공지사항")){
+            Long contentId = Long.valueOf(dto.getUserId());
+            Long id = messageService.findByTypeId(dto.getType(), Long.valueOf(dto.getUserId()));
+            dto.setUserId(id.toString());
+            dto.setType("수정 요청");
+        }
         Long messageId = messageService.save(dto);
 
         // 알림 전송 대상 결정
@@ -37,11 +43,20 @@ public class MessageController {
             try {
                     // 예시: emitter에 JSON 객체 형식으로 메시지 전송
                 if(dto.getUserId().equals(userId.toString()) || dto.getUserId().isEmpty()) {
-                    emitter.send("{" +
-                            "\"lastId\": " + messageId + ", " +
-                            "\"type\": \"" + dto.getType() +
-                            "\", \"content\": \"" + dto.getContent() +
-                            "\"}\n\n");
+                    if(!dto.getType().equals("공지사항")){
+                        emitter.send("{" +
+                                "\"lastId\": " + messageId + ", " +
+                                "\"type\": \"" + "수정요청" +
+                                "\", \"content\": \"" + dto.getContent() +
+                                "\"}\n\n");
+                    }
+                    else {
+                        emitter.send("{" +
+                                "\"lastId\": " + messageId + ", " +
+                                "\"type\": \"" + dto.getType() +
+                                "\", \"content\": \"" + dto.getContent() +
+                                "\"}\n\n");
+                    }
                 }
             } catch (IOException e) {
                 emitter.complete(); // 오류 발생 시 emitter 종료

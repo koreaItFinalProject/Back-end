@@ -198,5 +198,13 @@
         where
             c.writer_id = #{id}
     </select>
+    <select id="findByCommentId" resultType="java.lang.Long">
+        select
+            writer_id
+        from
+            comment
+        where
+            id = #{commentId}
+    </select>
 
 </mapper>
