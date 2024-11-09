@@ -132,22 +132,5 @@ public class EmailController {
         return content.replace("${value}", username);
     }
 
-    @GetMapping("/signup/check/{email}")
-    public ResponseEntity<RespEmailCheckDto> checkEmailDuplicate(@PathVariable String email) {
-        System.out.println("이메일 인증" + email);
-        try {
-            userService.checkEmailExists(email);
-            System.out.println(email);
-            RespEmailCheckDto response = RespEmailCheckDto.builder()
-                    .email(email)
-                    .exists(false)
-                    .build();
-            return ResponseEntity.ok(response);
-        } catch (EmailAlreadyExistsException e) {
-            return ResponseEntity.badRequest().body(RespEmailCheckDto.builder()
-                    .email(email)
-                    .exists(true)
-                    .build());
-        }
-    }
+
 }

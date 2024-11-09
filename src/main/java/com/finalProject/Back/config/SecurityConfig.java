@@ -30,7 +30,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.cors();
         http.authorizeRequests()
-                .antMatchers("/board/**" , "/user/**" , "/owner/**", "/cafe/**", "/comment/**" , "/oauth/**", "/auth/**", "/mail/**" , "/manager/**", "/review/**", "/mypage/**" ,"/signup/**", "/message/**", "/report/**")
+                .antMatchers("/board/**"
+                        , "/user/**" , "/owner/**",
+                        "/cafe/**", "/comment/**" ,
+                        "/oauth/**", "/auth/**",
+                        "/mail/**" , "/manager/**",
+                        "/review/**", "/mypage/**" ,
+                        "/signup/**", "/message/**",
+                        "/report/**","/swagger-ui/**",
+                        "/v2/api-docs",
+                        "/swagger-resources/**",
+                        "/webjars/**")
                 .permitAll()
                 .antMatchers(
                         HttpMethod.GET,
