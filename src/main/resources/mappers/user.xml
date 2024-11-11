@@ -73,7 +73,7 @@
     </select>
     <select id="findByOAuth2Name" resultType="com.finalProject.Back.entity.User">
     SELECT
-        u.id as user_id,
+        u.id,
         u.username,
         u.password,
         u.name,

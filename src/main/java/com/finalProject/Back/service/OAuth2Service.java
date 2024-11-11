@@ -35,6 +35,7 @@ public class OAuth2Service implements OAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = defaultOAuth2UserService.loadUser(userRequest);
         Map<String, Object> attributes = oAuth2User.getAttributes();
+        System.out.println("체킹" + attributes);
 
         Map<String , Object> oAuth2Attributes = new HashMap<>();
         oAuth2Attributes.put("provider" , userRequest.getClientRegistration().getClientName().toString());
