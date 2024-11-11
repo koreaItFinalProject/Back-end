@@ -19,11 +19,16 @@ public class TokenService {
 
     // accessToken에 대한 로그인 검사
     public Boolean isValidAccessToken(String bearerAccessToken) {
+        System.out.println(bearerAccessToken);
         try{
             String accessToken = jwtProvider.removeBearer(bearerAccessToken);
             Claims claims = jwtProvider.getClaims(accessToken);
             Long userId = ((Integer) claims.get("userId")).longValue();
             User user = userMapper.findById(userId);
+            System.out.println("유저 아이디" +userId);
+            System.out.println("유저 아이디" +claims);
+            System.out.println("유저 아이디" +accessToken);
+            System.out.println("유저 아이디" +user);
 
             System.out.println(accessToken);
             System.out.println(claims);
