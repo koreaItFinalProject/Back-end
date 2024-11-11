@@ -23,4 +23,5 @@ public interface BoardMapper {
     List<RespBoardInfoDto> getBoardInfoById(Long id);
     List<BoardList> getNoticeListByOwnerId(Map<String, Object> params);
     List<BoardList> getNoticeList(Long ownerId);
+    List<Board> getRecent();
 }
