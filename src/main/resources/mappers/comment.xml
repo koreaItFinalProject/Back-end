@@ -171,6 +171,7 @@
         where
             id = #{commentId}
     </select>
+
     <select id="findCommentById" resultType="com.finalProject.Back.dto.response.Comment.RespCommentInfoDto">
         select
             id,
@@ -182,6 +183,7 @@
         where
             writer_id = #{id}
     </select>
+
     <select id="findBoardCommentById" resultType="com.finalProject.Back.dto.response.RespBoardCommentInfoDto">
         select
             b.id as boardId,
@@ -198,6 +200,7 @@
         where
             c.writer_id = #{id}
     </select>
+
     <select id="findByCommentId" resultType="java.lang.Long">
         select
             writer_id
@@ -205,6 +208,17 @@
             comment
         where
             id = #{commentId}
+    </select>
+
+    <select id="getRecent" resultType="com.finalProject.Back.entity.Comment">
+        select
+            *
+        from
+            comment
+        order by
+            write_date desc
+        limit
+            10
     </select>
 
 </mapper>

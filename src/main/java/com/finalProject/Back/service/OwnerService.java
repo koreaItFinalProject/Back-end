@@ -9,6 +9,7 @@ import com.finalProject.Back.dto.response.Cafe.RespCafeListDto;
 import com.finalProject.Back.dto.response.Comment.RespCommentInfoDto;
 import com.finalProject.Back.dto.response.Review.RespReviewInfoDto;
 import com.finalProject.Back.entity.Message;
+import com.finalProject.Back.entity.Review.Review;
 import com.finalProject.Back.entity.board.BoardList;
 import com.finalProject.Back.repository.*;
 import com.finalProject.Back.security.principal.PrincipalUser;
@@ -111,7 +112,12 @@ public class OwnerService {
     }
 
     public RespRecentDto getRecent() {
-        List<Review>
+        return RespRecentDto.builder()
+                .reviewList(reviewMapper.getRecent())
+                .boardList(boardMapper.getRecent())
+                .commentList(commentMapper.getRecent())
+                .userList(userMapper.getRecent())
+                .build();
     }
 
 }

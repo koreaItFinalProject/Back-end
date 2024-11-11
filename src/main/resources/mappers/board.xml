@@ -195,6 +195,7 @@
         order by
             b.write_date desc
     </select>
+
     <select id="findByBoardId" resultType="java.lang.Long">
         select
             writer_id
@@ -202,6 +203,17 @@
             board
         where
             id = #{boardId}
+    </select>
+
+    <select id="getRecent" resultType="com.finalProject.Back.entity.board.Board">
+        select
+            *
+        from
+            board
+        order by
+            write_date desc
+        limit
+            10
     </select>
 
 </mapper>
