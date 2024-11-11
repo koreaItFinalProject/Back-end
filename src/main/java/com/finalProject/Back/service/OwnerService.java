@@ -111,6 +111,7 @@ public class OwnerService {
                 .build();
     }
 
+    @Transactional(rollbackFor = SQLException.class)
     public RespRecentDto getRecent() {
         return RespRecentDto.builder()
                 .reviewList(reviewMapper.getRecent())

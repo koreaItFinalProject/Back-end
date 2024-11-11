@@ -207,9 +207,15 @@
 
     <select id="getRecent" resultType="com.finalProject.Back.entity.board.Board">
         select
-            *
+            b.id,
+            b.title,
+            b.content,
+            u.name,
+            u.nickname,
+            b.write_date
         from
-            board
+            board b
+            left outer join user u on(b.writer_id = u.id)
         order by
             write_date desc
         limit

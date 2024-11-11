@@ -22,4 +22,6 @@ public class Comment {
     private String nickname;
     private String img;
     private String path;
+    private String name;
+    private String title;
 }

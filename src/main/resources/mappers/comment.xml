@@ -212,9 +212,16 @@
 
     <select id="getRecent" resultType="com.finalProject.Back.entity.Comment">
         select
-            *
+            c.id,
+            c.content,
+            c.write_date as writeDate,
+            u.name,
+            u.nickname,
+            b.title
         from
-            comment
+            comment c
+            left outer join user u on(c.writer_id = u.id)
+            left outer join board b on(c.board_id = b.id)
         order by
             write_date desc
         limit

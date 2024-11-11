@@ -19,6 +19,9 @@ public class Review {
     private Double rating;
     private String review;
     private LocalDate writeDate;
+    private String name;
+    private String nickname;
+    private String cafeName;
 
     private User user;
 }
