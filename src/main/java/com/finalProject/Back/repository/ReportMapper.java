@@ -11,4 +11,5 @@ public interface ReportMapper {
     int save(Report report);
     boolean findByReport(Long contentId, String reportType, Long reportId);
     List<RespReportDto> getReport();
+    boolean deleteReport(String type, String content);
 }

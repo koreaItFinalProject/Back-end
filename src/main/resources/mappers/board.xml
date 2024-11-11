@@ -204,6 +204,14 @@
         where
             id = #{boardId}
     </select>
+    <select id="getContent" resultType="java.lang.String">
+        select
+            content
+        from
+            board
+        where
+            id = #{boardId}
+    </select>
 
     <select id="getRecent" resultType="com.finalProject.Back.entity.board.Board">
         select

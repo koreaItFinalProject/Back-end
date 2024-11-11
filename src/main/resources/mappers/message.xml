@@ -10,13 +10,24 @@
             useGeneratedKeys="true"
             keyProperty="id">
         insert into message
-        values(default, #{type}, "Noread", #{content}, #{userId})
+        values(default, #{type}, "Noread", #{content}, #{userId}, now(), #{contentId})
     </insert>
+    <delete id="deleteById">
+        delete
+        from
+            message
+        where
+            id = #{id}
+    </delete>
     <select id="findByUserId" resultType="com.finalProject.Back.entity.Message">
         select
             id,
             type,
-            content
+            status,
+            content,
+            user_id as userId,
+            message_date as messageDate,
+            content_id as contentId
         from
             message
         where

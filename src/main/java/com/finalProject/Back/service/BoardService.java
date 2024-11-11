@@ -71,6 +71,10 @@ public class BoardService {
                 .build();
     }
 
+    public String getContent(Long boardId) {
+        return boardMapper.getContent(boardId);
+    }
+
 
     public RespBoardDto.RespBoardDetailDto getDetail(Long boardId) {
         Board board = boardMapper.getDetail(boardId);

@@ -4,10 +4,7 @@ import com.finalProject.Back.dto.request.ReqReportDto;
 import com.finalProject.Back.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ReportController {
@@ -24,5 +21,10 @@ public class ReportController {
     @GetMapping("/report/get")
     public ResponseEntity<?> getReport(){
         return ResponseEntity.ok().body(reportService.getReport());
+    }
+
+    @DeleteMapping("/report/{type}/{content}")
+    public ResponseEntity<?> deleteReport(@PathVariable String type, @PathVariable String content){
+        return ResponseEntity.ok().body(reportService.deleteReport(type, content));
     }
 }
