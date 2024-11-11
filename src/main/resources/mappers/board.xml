@@ -212,12 +212,12 @@
             b.content,
             u.name,
             u.nickname,
-            b.write_date
+            b.write_date as writeDate
         from
             board b
             left outer join user u on(b.writer_id = u.id)
         order by
-            write_date desc
+            b.write_date desc
         limit
             10
     </select>

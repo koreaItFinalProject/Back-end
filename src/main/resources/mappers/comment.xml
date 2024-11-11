@@ -223,7 +223,7 @@
             left outer join user u on(c.writer_id = u.id)
             left outer join board b on(c.board_id = b.id)
         order by
-            write_date desc
+            c.write_date desc
         limit
             10
     </select>
