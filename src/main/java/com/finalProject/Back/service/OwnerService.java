@@ -110,4 +110,8 @@ public class OwnerService {
                 .build();
     }
 
+    public RespRecentDto getRecent() {
+        List<Review>
+    }
+
 }
