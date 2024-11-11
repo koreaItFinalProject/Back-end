@@ -71,4 +71,9 @@ public class OwnerController {
         System.out.println("삭제: "+id);
         return ResponseEntity.ok().body(ownerService.deleteUser(id));
     }
+
+    @GetMapping("/owner/recent")
+    public ResponseEntity<?> getRecent() {
+        return ResponseEntity.ok().body(null);
+    }
 }
