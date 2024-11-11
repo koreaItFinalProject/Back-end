@@ -74,6 +74,7 @@ public class OwnerController {
 
     @GetMapping("/owner/recent")
     public ResponseEntity<?> getRecent() {
+        System.out.println("1");
         return ResponseEntity.ok().body(ownerService.getRecent());
     }
 }
