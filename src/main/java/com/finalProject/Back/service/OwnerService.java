@@ -9,6 +9,7 @@ import com.finalProject.Back.dto.response.Cafe.RespCafeListDto;
 import com.finalProject.Back.dto.response.Comment.RespCommentInfoDto;
 import com.finalProject.Back.dto.response.Review.RespReviewInfoDto;
 import com.finalProject.Back.entity.Message;
+import com.finalProject.Back.entity.Review.Review;
 import com.finalProject.Back.entity.board.BoardList;
 import com.finalProject.Back.repository.*;
 import com.finalProject.Back.security.principal.PrincipalUser;
@@ -107,6 +108,25 @@ public class OwnerService {
         return RespBoardDto.RespBoardListDto.builder()
                 .boards(boardLists)
                 .totalCount(boardTotalCount)
+                .build();
+    }
+
+    @Transactional(rollbackFor = SQLException.class)
+    public RespRecentDto getRecent() {
+        RespRecentDto dto = RespRecentDto.builder()
+                .reviewList(reviewMapper.getRecent())
+                .boardList(boardMapper.getRecent())
+                .commentList(commentMapper.getRecent())
+                .userList(userMapper.getRecent())
+                .build();
+
+        System.out.println(boardMapper.getRecent());
+        System.out.println(dto);
+        return RespRecentDto.builder()
+                .reviewList(reviewMapper.getRecent())
+                .boardList(boardMapper.getRecent())
+                .commentList(commentMapper.getRecent())
+                .userList(userMapper.getRecent())
                 .build();
     }
 

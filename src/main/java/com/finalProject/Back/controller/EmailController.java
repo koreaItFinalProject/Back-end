@@ -78,7 +78,7 @@ public class EmailController {
             helper.setTo(email);
             helper.setSubject("요청 결과");
 
-            String emailTemplate = loadEmailTemplate(verificationCode);
+            String emailTemplate = loadEmailTemplate(email , verificationCode);
             helper.setText(emailTemplate, true);
             System.out.println(verificationCode);
 
@@ -111,7 +111,7 @@ public class EmailController {
             helper.setTo(email);
             helper.setSubject("요청 결과");
 
-            String emailTemplate = loadEmailTemplate(username);
+            String emailTemplate = loadEmailTemplate(email ,username);
             helper.setText(emailTemplate, true);
 
             Resource resource = new ClassPathResource("templates/CoffeeShop/CAFEINBUSAN1.png");
@@ -126,7 +126,12 @@ public class EmailController {
         }
     }
 
-    private String loadEmailTemplate(String username) throws IOException {
+    private String loadEmailTemplate(String email ,String username) throws IOException {
+        if(email.contains("@gmail.com")){
+            Resource resource = new ClassPathResource("templates/emailTemplateGoogle.html");
+            String content = new String(Files.readAllBytes(resource.getFile().toPath()));
+            return content.replace("${value}", username);
+        }
         Resource resource = new ClassPathResource("templates/emailTemplate.html");
         String content = new String(Files.readAllBytes(resource.getFile().toPath()));
         return content.replace("${value}", username);

@@ -73,7 +73,7 @@
     </select>
     <select id="findByOAuth2Name" resultType="com.finalProject.Back.entity.User">
     SELECT
-        u.id as user_id,
+        u.id,
         u.username,
         u.password,
         u.name,
@@ -160,4 +160,16 @@
         where
             email = #{email}
     </select>
+
+    <select id="getRecent" resultType="com.finalProject.Back.entity.User">
+        select
+            *
+        from
+            user
+        order by
+            id desc
+        limit
+            10
+    </select>
+
 </mapper>

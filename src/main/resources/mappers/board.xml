@@ -195,6 +195,7 @@
         order by
             b.write_date desc
     </select>
+
     <select id="findByBoardId" resultType="java.lang.Long">
         select
             writer_id
@@ -210,6 +211,23 @@
             board
         where
             id = #{boardId}
+    </select>
+
+    <select id="getRecent" resultType="com.finalProject.Back.entity.board.Board">
+        select
+            b.id,
+            b.title,
+            b.content,
+            u.name,
+            u.nickname,
+            b.write_date as writeDate
+        from
+            board b
+            left outer join user u on(b.writer_id = u.id)
+        order by
+            b.write_date desc
+        limit
+            10
     </select>
 
 </mapper>

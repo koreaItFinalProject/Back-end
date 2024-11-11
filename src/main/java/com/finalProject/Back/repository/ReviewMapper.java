@@ -16,4 +16,5 @@ public interface ReviewMapper {
     int deleteByUserId(Long userId);
     List<RespReviewInfoDto> getReviewInfoById(Long id);
     Double reviewRating(Long id);
+    List<Review> getRecent();
 }

@@ -24,6 +24,8 @@ public class CafeDetail {
     private String img;
     private int reviewCount;
     private Double totalRating;
+    private String menu1;
+    private String menu2;
     private List<ReviewCategoryCount> reviewCategoryCounts;
     private List<Review> reviews;
     private List<ReviewCategoryList> reviewCategories;

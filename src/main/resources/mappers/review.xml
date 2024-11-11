@@ -81,4 +81,23 @@
             id = #{id}
     </select>
 
+    <select id="getRecent" resultType="com.finalProject.Back.entity.Review.Review">
+        select
+            r.id,
+            r.rating,
+            r.review,
+            r.write_date as writeDate,
+            u.name,
+            u.nickname,
+            c.cafeName
+        from
+            review r
+            left outer join user u on(r.writer_id = u.id)
+            left outer join cafe c on(r.cafe_id = c.id)
+        order by
+            r.write_date desc
+        limit
+            10
+    </select>
+
 </mapper>
