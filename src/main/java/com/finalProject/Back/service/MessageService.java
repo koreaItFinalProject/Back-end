@@ -50,4 +50,8 @@ public class MessageService {
     public List<Message> findByUserId(Long UserId) {
         return messageMapper.findByUserId(UserId);
     }
+
+    public int deleteMessage(Long id){
+        return messageMapper.deleteById(id);
+    }
 }

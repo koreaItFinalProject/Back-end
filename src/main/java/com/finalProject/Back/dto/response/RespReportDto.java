@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 @Data
 public class RespReportDto {
+    private Long id;
     private Long contentId;
     private String content;
     private String reportType;

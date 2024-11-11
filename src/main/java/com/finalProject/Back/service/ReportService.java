@@ -25,4 +25,8 @@ public class ReportService {
     public List<RespReportDto> getReport(){
         return reportMapper.getReport();
     }
+
+    public boolean  deleteReport(String type, String content){
+        return reportMapper.deleteReport(type, content);
+    }
 }

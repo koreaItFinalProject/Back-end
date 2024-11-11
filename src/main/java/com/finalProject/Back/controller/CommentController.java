@@ -31,6 +31,7 @@ public class CommentController {
 
     @PutMapping("/comment/{commentId}")
     public ResponseEntity<?> modify(@RequestBody ReqCommentDto.ModifyDto dto) {
+        System.out.println(dto);
         commentService.modify(dto);
         return ResponseEntity.ok().body(true);
     }

@@ -14,6 +14,7 @@ public interface BoardMapper {
     int modify(Board board);
     int delete(Long boardId);
     int deleteByUserId(Long userId);
+    String getContent(Long boardId);
     Long findByBoardId(Long boardId);
     List<BoardList> getList(Map<String, Object> params);
     Board getDetail(Long boardId);

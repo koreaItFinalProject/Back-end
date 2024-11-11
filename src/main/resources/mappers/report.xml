@@ -12,6 +12,14 @@
         insert into report
         values(default, #{contentId}, #{content}, now(), #{reportType}, #{reportId})
     </insert>
+    <delete id="deleteReport">
+        delete
+        from
+            report
+        where
+            report_type = #{type} and
+            content = #{content}
+    </delete>
     <select id="findByReport" resultType="boolean">
         SELECT COUNT(DISTINCT content_id) > 0
         FROM
@@ -23,6 +31,7 @@
     </select>
     <select id="getReport" resultType="com.finalProject.Back.dto.response.RespReportDto">
         SELECT
+            id,
             content_id AS contentId,                    -- 신고된 콘텐츠 ID
             content,                       -- 신고된 내용
             report_type AS reportType,                   -- 신고 유형
