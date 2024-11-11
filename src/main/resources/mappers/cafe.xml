@@ -15,6 +15,8 @@
         <result property="img" column="banner_img" />
         <result property="reviewCount" column="review_count" />
         <result property="totalRating" column="total_rating" />
+        <result property="menu1" column="menu1" />
+        <result property="menu2" column="menu2" />
         <collection property="reviewCategoryCounts" javaType="java.util.ArrayList" resultMap="ReviewCategoryCountResultMap" />
         <collection property="reviews" javaType="java.util.ArrayList" resultMap="ReviewResultMap" />
         <collection property="reviewCategories" javaType="java.util.ArrayList" resultMap="ReviewCategoryListResultMap" />
@@ -64,9 +66,14 @@
         <result property="img" column="user_img" />
     </resultMap>
 
-    <insert id="save">
+    <insert id="save" keyProperty="id" useGeneratedKeys="true">
         insert into cafe (id , owner_id, cafeName, address, lat, lng, category , img)
         values (default, #{owner_id}, #{cafeName} , #{address}, #{lat} , #{lng} , #{category}, default)
+    </insert>
+
+    <insert id="saveDefaultCafeMenu">
+        insert into cafe_menu
+        values (default, #{cafeId}, null, null)
     </insert>
 
     <update id="modifyBannerImg">
@@ -87,6 +94,16 @@
             category = #{category}
         where
             id = #{id}
+    </update>
+
+    <update id="modifyCafeMenuImg">
+        update
+            cafe_menu
+        set
+            menu_1 = CASE WHEN #{index} = 0 THEN #{menu} ELSE menu_1 END,
+            menu_2 = CASE WHEN #{index} = 1 THEN #{menu} ELSE menu_2 END
+        where
+            cafe_id = #{cafeId}
     </update>
 
     <select id="findBySearchAndCategory" resultType="com.finalProject.Back.entity.Cafe.Cafe">
@@ -203,7 +220,9 @@
                 b.write_date as board_write_date,
                 us.nickname as writer_nickname,
                 b.view_count,
-                blc.like_count
+                blc.like_count,
+                cm.menu_1 as menu1,
+                cm.menu_2 as menu2
             from
                 cafe c
                 left outer join cafe_review_category_count rcc on (rcc.cafe_id = c.id)
@@ -215,6 +234,7 @@
                 left outer join board b on(b.writer_id = c.owner_id) and (b.board_category = '공지사항')
                 left outer join board_like_count blc on(b.id = blc.board_id)
                 left outer join user us on (us.id = b.writer_id)
+                left outer join cafe_menu cm on (cm.cafe_id = c.id)
             where
                 c.id = #{cafeId}
     </select>

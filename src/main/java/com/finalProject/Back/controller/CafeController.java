@@ -1,9 +1,6 @@
 package com.finalProject.Back.controller;
 
-import com.finalProject.Back.dto.request.Cafe.ReqCafeBannerDto;
-import com.finalProject.Back.dto.request.Cafe.ReqCafeDto;
-import com.finalProject.Back.dto.request.Cafe.ReqCafeInfoModifyDto;
-import com.finalProject.Back.dto.request.Cafe.ReqGetCafeDto;
+import com.finalProject.Back.dto.request.Cafe.*;
 import com.finalProject.Back.service.CafeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +43,13 @@ public class CafeController {
     @PutMapping("/cafe/banner/{cafeId}")
     public ResponseEntity<?> modifyBannerImg(@RequestBody ReqCafeBannerDto dto) {
         cafeService.modifyBannerImg(dto);
+        return ResponseEntity.ok().body(true);
+    }
+
+    @PutMapping("/cafe/menu/{cafeId}")
+    public ResponseEntity<?> modifyCafeMenuImg(@RequestBody ReqCafeImgDto dto) {
+        System.out.println("ReqCafeImgDto" + dto);
+        cafeService.modifyCafeMenuImg(dto);
         return ResponseEntity.ok().body(true);
     }
 

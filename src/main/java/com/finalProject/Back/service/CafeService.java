@@ -1,9 +1,6 @@
 package com.finalProject.Back.service;
 
-import com.finalProject.Back.dto.request.Cafe.ReqCafeBannerDto;
-import com.finalProject.Back.dto.request.Cafe.ReqCafeDto;
-import com.finalProject.Back.dto.request.Cafe.ReqCafeInfoModifyDto;
-import com.finalProject.Back.dto.request.Cafe.ReqGetCafeDto;
+import com.finalProject.Back.dto.request.Cafe.*;
 import com.finalProject.Back.dto.response.Cafe.RespCafeDto;
 import com.finalProject.Back.entity.Cafe.Cafe;
 import com.finalProject.Back.entity.Cafe.CafeDetail;
@@ -31,7 +28,8 @@ public class CafeService {
 
     public int addCafe(ReqCafeDto dto) {
         System.out.println("카페 정보" + dto);
-        return cafeMapper.save(dto.toEntity());
+        int cafeId = cafeMapper.save(dto.toEntity());
+        return cafeMapper.saveDefaultCafeMenu(cafeId);
     }
 
     public List<Cafe> getList(ReqGetCafeDto dto) {
@@ -39,8 +37,6 @@ public class CafeService {
     }
 
     public CafeDetail getDetail(Long cafeId) {
-        CafeDetail cafeDetail = cafeMapper.findByCafeId(cafeId);
-        System.out.println(cafeDetail.getNoticeList());
         return cafeMapper.findByCafeId(cafeId);
     }
 
@@ -63,6 +59,10 @@ public class CafeService {
 
     public void modifyBannerImg(ReqCafeBannerDto dto) {
         cafeMapper.modifyBannerImg(dto.toEntity());
+    }
+
+    public void modifyCafeMenuImg(ReqCafeImgDto dto) {
+        cafeMapper.modifyCafeMenuImg(dto.toEntity());
     }
 
     public RespCafeDto.RespCafeLikeDto getLike(Long cafeId) {
