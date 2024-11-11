@@ -9,4 +9,5 @@ import java.util.List;
 public interface MessageMapper {
     int save(Message message);
     List<Message> findByUserId(Long userId);
+    int deleteById(Long Id);
 }

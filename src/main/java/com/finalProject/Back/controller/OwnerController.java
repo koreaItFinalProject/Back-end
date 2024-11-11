@@ -66,9 +66,15 @@ public class OwnerController {
         return ResponseEntity.ok().body(ownerService.getNoticeList(dto));
     }
 
-    @DeleteMapping("/user/owner/delete/{id}")
+    @DeleteMapping("/user/delete/{id}")
     public ResponseEntity<?> DeleteUser(@PathVariable Long id){
         System.out.println("삭제: "+id);
         return ResponseEntity.ok().body(ownerService.deleteUser(id));
+    }
+
+    @GetMapping("/owner/recent")
+    public ResponseEntity<?> getRecent() {
+        System.out.println("1");
+        return ResponseEntity.ok().body(ownerService.getRecent());
     }
 }

@@ -20,4 +20,5 @@ public interface CommentMapper {
     Comment findById(Long commentId);
     List<RespCommentInfoDto> findCommentById(Long id);
     List<RespBoardCommentInfoDto> findBoardCommentById(Long id);
+    List<Comment> getRecent();
 }

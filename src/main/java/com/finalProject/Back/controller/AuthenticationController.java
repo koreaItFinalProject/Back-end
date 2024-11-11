@@ -56,6 +56,7 @@ public class AuthenticationController {
     // 토큰 유효성 체크
     @GetMapping("/auth/access")
     public ResponseEntity<?> access(ReqAccessDto dto) {
+        System.out.println("dto :" + dto );
         return ResponseEntity.ok().body(tokenService.isValidAccessToken(dto.getAccessToken()));
     }
 

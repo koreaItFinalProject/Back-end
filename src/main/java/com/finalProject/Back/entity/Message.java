@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -15,4 +18,6 @@ public class Message {
     private String content;
     private String status;
     private String userId;
+    private LocalDate messageDate;
+    private Long contentId;
 }

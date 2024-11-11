@@ -45,6 +45,10 @@ public class ReviewService {
     @Transactional(rollbackFor = SQLException.class)
     public void modify(ReqReviewDto.ReqModifyDto dto) {
         authorityCheck(dto.getReviewId());
+        if(dto.getRating() == null && dto.getCategoryIds() == null) {
+            dto.setRating(reviewMapper.reviewRating(dto.getReviewId()));
+            dto.setCategoryIds(reviewCategoryMapper.findCategory(dto.getReviewId()));
+        }
         reviewMapper.modify(dto.toEntity());
         List<Long> categoryIds = dto.getCategoryIds();
         Long reviewId = dto.getReviewId();

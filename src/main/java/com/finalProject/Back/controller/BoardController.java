@@ -31,6 +31,10 @@ public class BoardController {
     public ResponseEntity<?> getCafeNoticeList(@PathVariable Long ownerId) {
         return ResponseEntity.ok().body(boardService.getNoticeList(ownerId));
     }
+    @GetMapping("/board/{boardId}/content")
+    public ResponseEntity<?> getBoard(@PathVariable Long boardId) {
+        return ResponseEntity.ok().body(boardService.getContent(boardId));
+    }
 
     @GetMapping("/board/{boardId}")
     public ResponseEntity<?> getDetail(@PathVariable Long boardId) {

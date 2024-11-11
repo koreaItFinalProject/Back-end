@@ -20,6 +20,7 @@ public class ReviewController {
 
     @PutMapping("/review/{reviewId}")
     public ResponseEntity<?> modify(@RequestBody ReqReviewDto.ReqModifyDto dto) {
+        System.out.println(dto);
         reviewService.modify(dto);
         return ResponseEntity.ok().body(true);
     }

@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class RespReviewInfoDto {
+    private Long id;
     private Long cafeId;
     private String cafeName;
     private String category;

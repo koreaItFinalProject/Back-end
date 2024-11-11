@@ -22,4 +22,5 @@ public class Board {
     private Integer commentCount;
     private int viewCount;
     private LocalDate writeDate;
+    private String name;
 }
