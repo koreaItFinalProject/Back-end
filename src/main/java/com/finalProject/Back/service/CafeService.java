@@ -29,8 +29,9 @@ public class CafeService {
 
     public Long addCafe(ReqCafeDto dto) {
         System.out.println("카페 정보" + dto);
-        Long cafeId = cafeMapper.save(dto.toEntity());
-        // cafe 추가성공 건수를 누가넣어놨냐?
+        Cafe cafe = dto.toEntity();
+        cafeMapper.save(cafe);
+        Long cafeId = cafe.getId();
         return cafeMapper.saveDefaultCafeMenu(cafeId);
     }
 
