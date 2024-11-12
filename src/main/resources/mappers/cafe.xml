@@ -73,7 +73,7 @@
 
     <insert id="saveDefaultCafeMenu">
         insert into cafe_menu
-        values (default, #{cafeId}, null, null)
+        values (default, #{cafeId}, default, default)
     </insert>
 
     <update id="modifyBannerImg">
