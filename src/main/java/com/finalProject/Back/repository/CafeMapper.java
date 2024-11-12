@@ -12,8 +12,8 @@ import java.util.List;
 
 @Mapper
 public interface CafeMapper{
-    int save(Cafe cafe);
-    int saveDefaultCafeMenu(int cafeId);
+    Long save(Cafe cafe);
+    Long saveDefaultCafeMenu(Long cafeId);
     Cafe findByUserId(Long id);
     CafeDetail findByCafeId(Long cafeId);
     List<Cafe> findBySearchAndCategory(@Param("category") String category, @Param("search") String search);
