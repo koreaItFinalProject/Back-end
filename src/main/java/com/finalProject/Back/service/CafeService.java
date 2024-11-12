@@ -5,6 +5,7 @@ import com.finalProject.Back.dto.response.Cafe.RespCafeDto;
 import com.finalProject.Back.entity.Cafe.Cafe;
 import com.finalProject.Back.entity.Cafe.CafeDetail;
 import com.finalProject.Back.entity.Cafe.CafeLike;
+import com.finalProject.Back.entity.User;
 import com.finalProject.Back.entity.board.Board;
 import com.finalProject.Back.repository.CafeLikeMapper;
 import com.finalProject.Back.repository.CafeMapper;
@@ -26,7 +27,7 @@ public class CafeService {
     @Autowired
     private CafeLikeMapper cafeLikeMapper;
 
-    public int addCafe(ReqCafeDto dto) {
+    public Long addCafe(ReqCafeDto dto) {
         System.out.println("카페 정보" + dto);
         Cafe cafe = dto.toEntity();
         cafeMapper.save(cafe);
