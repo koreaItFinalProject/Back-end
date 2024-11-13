@@ -67,7 +67,7 @@
     </resultMap>
 
     <insert id="save" keyProperty="id" useGeneratedKeys="true">
-        insert into cafe (id , owner_id, cafeName, address, lat, lng, category , img)
+        insert into cafe (id, owner_id, cafeName, address, lat, lng, category , img)
         values (default, #{owner_id}, #{cafeName} , #{address}, #{lat} , #{lng} , #{category}, default)
     </insert>
 

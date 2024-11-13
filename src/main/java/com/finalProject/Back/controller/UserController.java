@@ -69,6 +69,8 @@ public class UserController {
     @GetMapping("/user/duplicated/{fieldName}")
     public ResponseEntity<?> checkDuplicated(@PathVariable String fieldName, @RequestParam String value ){
         // 유효성 검사
+        System.out.println("1"+value);
+        System.out.println("2"+fieldName);
         Map<String, String> regexMap = Map.of(
                 "username", "^(?=.*[a-z])(?=.*\\d)[a-z0-9]{8,}$",
                 "password", "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[~!@#$%^&*?])[A-Za-z\\d~!@#$%^&*?]{8,16}$",
@@ -112,8 +114,8 @@ public class UserController {
 
     // 유저 정보 수정
     @PutMapping("/user/info/{fieldName}")
-    public ResponseEntity<?> modifyUser(@PathVariable String fieldName ,@RequestParam String value) {
-        if(!userService.modifyEachProfile(fieldName,value)) {
+    public ResponseEntity<?> modifyUser(@PathVariable String fieldName ,@RequestBody ReqModifyFieldDto dto) {
+        if(!userService.modifyEachProfile(fieldName, dto.getValue())) {
             return ResponseEntity.badRequest().body("수정 실패");
         }
         return ResponseEntity.ok().body("수정 성공");
