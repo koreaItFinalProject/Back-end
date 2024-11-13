@@ -27,7 +27,7 @@ public class CafeService {
     @Autowired
     private CafeLikeMapper cafeLikeMapper;
 
-    public Long addCafe(ReqCafeDto dto) {
+    public int addCafe(ReqCafeDto dto) {
         System.out.println("카페 정보" + dto);
         Cafe cafe = dto.toEntity();
         cafeMapper.save(cafe);
