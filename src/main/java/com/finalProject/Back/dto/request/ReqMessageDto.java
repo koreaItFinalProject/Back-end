@@ -7,7 +7,7 @@ import lombok.Data;
 public class ReqMessageDto {
     private String type;
     private String content;
-    private String userId = "";
+    private Long userId = 0L;
     private Long ContentId;
 
     public Message toEntity() {

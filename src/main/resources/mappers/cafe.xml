@@ -128,7 +128,7 @@
             c.id
     </select>
 
-    <select id="findByUserId"  resultType="com.finalProject.Back.entity.Cafe.Cafe">
+    <select id="findByUserId" resultType="com.finalProject.Back.entity.Cafe.Cafe">
         select
             id,
             cafeName
@@ -218,7 +218,7 @@
                 b.title,
                 b.content,
                 b.write_date as board_write_date,
-                us.nickname as writer_nickname,
+                u.nickname as writer_nickname,
                 b.view_count,
                 blc.like_count,
                 cm.menu_1 as menu1,
@@ -229,23 +229,22 @@
                 left outer join cafe_review_total_rating rtr on (rtr.cafe_id = c.id)
                 left outer join category ctg on(ctg.id = rcc.category_id)
                 left outer join review rev on(rev.cafe_id = c.id)
-                left outer join user u on(u.id = rev.writer_id)
                 left outer join cafe_review_categories crc on(crc.review_id = rev.id)
                 left outer join board b on(b.writer_id = c.owner_id) and (b.board_category = '공지사항')
                 left outer join board_like_count blc on(b.id = blc.board_id)
-                left outer join user us on (us.id = b.writer_id)
                 left outer join cafe_menu cm on (cm.cafe_id = c.id)
+                left outer join user u on(u.id = rev.writer_id or u.id = b.writer_id)
             where
                 c.id = #{cafeId}
     </select>
 
     <select id="selectCategoriesByReviewId" resultType="java.lang.Long">
         select
-        category_id
+            category_id
         from
-        review_category
+            review_category
         where
-        review_id = #{reviewId}
+            review_id = #{reviewId}
     </select>
 
 </mapper>
