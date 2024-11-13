@@ -2,9 +2,11 @@ package com.finalProject.Back.controller;
 
 import com.finalProject.Back.aspect.annotation.ValidAop;
 import com.finalProject.Back.dto.request.ReqBoardDto;
+import com.finalProject.Back.security.principal.PrincipalUser;
 import com.finalProject.Back.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,9 +29,13 @@ public class BoardController {
         return ResponseEntity.ok().body(boardService.getList(dto));
     }
 
-    @GetMapping("/board/notice/{ownerId}")
-    public ResponseEntity<?> getCafeNoticeList(@PathVariable Long ownerId) {
-        return ResponseEntity.ok().body(boardService.getNoticeList(ownerId));
+    @GetMapping("/board/notice")
+    public ResponseEntity<?> getCafeNoticeList() {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        return ResponseEntity.ok().body(boardService.getNoticeList(principalUser.getId()));
     }
     @GetMapping("/board/{boardId}/content")
     public ResponseEntity<?> getBoard(@PathVariable Long boardId) {
