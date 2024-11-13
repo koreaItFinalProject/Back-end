@@ -28,9 +28,9 @@ public class MessageController {
         // 알림 저장
         System.out.println(dto);
         if(!dto.getType().equals("공지사항")){
-            Long contentId = Long.valueOf(dto.getUserId());
-            Long id = messageService.findByTypeId(dto.getType(), Long.valueOf(dto.getUserId()));
-            dto.setUserId(id.toString());
+            Long contentId = dto.getUserId();
+            Long id = messageService.findByTypeId(dto.getType(), dto.getUserId());
+            dto.setUserId(id);
             dto.setType((dto.getType() + "수정 요청"));
             dto.setContentId(contentId);
         } else{
@@ -45,21 +45,12 @@ public class MessageController {
             System.out.println("emitter: " + emitter);
             System.out.println("messageId: " +messageId);
             try {
-                if(dto.getUserId().equals(userId.toString()) || dto.getUserId().isEmpty()) {
-                    if(!dto.getType().equals("공지사항")){
-                        emitter.send("{" +
-                                "\"lastId\": " + messageId + ", " +
-                                "\"type\": \"" + "수정요청" +
-                                "\", \"content\": \"" + dto.getContent() +
-                                "\"}\n\n");
-                    }
-                    else {
+                if(dto.getUserId().equals(userId) || dto.getUserId() == 0) {
                         emitter.send("{" +
                                 "\"lastId\": " + messageId + ", " +
                                 "\"type\": \"" + dto.getType() +
                                 "\", \"content\": \"" + dto.getContent() +
                                 "\"}\n\n");
-                    }
                 }
             } catch (IOException e) {
                 emitter.complete(); // 오류 발생 시 emitter 종료

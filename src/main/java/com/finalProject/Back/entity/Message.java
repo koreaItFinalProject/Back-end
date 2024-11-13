@@ -16,8 +16,7 @@ public class Message {
     private Long id;
     private String type;
     private String content;
-    private String status;
-    private String userId;
+    private Long userId;
     private LocalDate messageDate;
     private Long contentId;
 }

@@ -10,7 +10,7 @@
             useGeneratedKeys="true"
             keyProperty="id">
         insert into message
-        values(default, #{type}, "Noread", #{content}, #{userId}, now(), #{contentId})
+        values(default, #{type}, #{content}, #{userId}, now(), #{contentId})
     </insert>
     <delete id="deleteById">
         delete
@@ -23,7 +23,6 @@
         select
             id,
             type,
-            status,
             content,
             user_id as userId,
             message_date as messageDate,
@@ -31,6 +30,6 @@
         from
             message
         where
-            user_id = #{userId} or user_id = ""
+            user_id = #{userId} or user_id = 0
     </select>
 </mapper>
